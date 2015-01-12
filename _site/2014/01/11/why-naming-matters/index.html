@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="UTF-8">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Why Naming Matters &middot; Vance Faulkner
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="Vance Faulkner" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <div class="container content">
+      <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="/" title="Home">Vance Faulkner</a>
+
+          
+             &nbsp;&nbsp;&nbsp;
+             <small><a href="/about_me">About Me</a></small>
+          
+             &nbsp;&nbsp;&nbsp;
+             <small><a href="/archive">Archive</a></small>
+          
+
+        </h3>
+      </header>
+
+      <main>
+        <article class="post">
+  <h1 class="post-title">Why Naming Matters</h1>
+  <time datetime="2014-01-11T00:00:00-05:00" class="page-date">11 Jan 2014</time>
+  <p>One of the more subtle lessons I’ve learned since I started developing was how
+much object names both guide and reveal your thought process as you are building
+an application. Consider a few rules of thumb:</p>
+
+<h3 id="stick-with-real-world-objects-as-much-as-possible-dont-be-cute">Stick with real world objects as much as possible. Don’t be cute</h3>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>instead of:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SongMaker</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<h3 id="use-isattribute-for-booleans">Use is_attribute? for Booleans</h3>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_connected?</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
+
+<p>instead of:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="ss">connected</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
+
+<h3 id="dont-include-object-type">Don’t include object type</h3>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">split</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>instead of:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">split_method</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>If you haven’t also checked out the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style
+Guide</a> you should do so. </p>
+
+</article>
+
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="//2014/01/12/sensitive-passwords-in-rails/">
+            What to do with Sensitive Information in Rails?
+            <small><time datetime="2014-01-12T00:00:00-05:00">12 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="//2014/01/11/when-to-use-modules-in-ruby/">
+            When to use modules in Ruby
+            <small><time datetime="2014-01-11T00:00:00-05:00">11 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="//2014/01/02/introducing-poole/">
+            Introducing Poole
+            <small><time datetime="2014-01-02T00:00:00-05:00">02 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
+
+        
+  <!-- Add Disqus comments. -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
+    var disqus_identifier = "/2014/01/11/why-naming-matters/";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2015-01-12T08:20:14-05:00">2015</time>. All rights reserved.
+        </small>
+      </footer>
+    </div>
+
+  </body>
+</html>
