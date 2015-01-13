@@ -4,13 +4,78 @@
  <title>Vance Faulkner</title>
  <link href="http://vpfaulkner@github.io.com/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.com/"/>
- <updated>2015-01-12T08:20:14-05:00</updated>
+ <updated>2015-01-13T09:05:49-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Instance Variables in Rails</title>
+   <link href="http://vpfaulkner@github.io.com//2014/01/13/instance-variables-in-rails/"/>
+   <updated>2014-01-13T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2014/01/13/instance-variables-in-rails</id>
+   <content type="html">&lt;p&gt;Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
+there a whole new structure for you to learn, existing syntax starts to take on
+new meaning.&lt;/p&gt;
+
+&lt;p&gt;One of the more fundamental shifts is the role of instance variables in Rails.
+As you remember from Ruby, instance variables begin with @ and are scoped to the
+instance of the class in which they reside. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Game&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@score&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Rails, this is still true but the underlying structure that is providing in
+essence cheats this distinction. As you have or (will) learn, Rails is an MVC
+framework meaning that the three core components of a Rails application is a
+model, view and controller. For every incoming http request you can think of the
+controller as acting as the central hub in which all of the necessary ingridients
+for the response are put together. These ingridients are then passed on to the
+view (assuming there is one) to be presented to the user.&lt;/p&gt;
+
+&lt;p&gt;Rails preforms this magic by passing on the instance variables from the
+controller and passing them to the controller. This is what allows a Rails app,
+for instance, to insert logic and state into the view portion of an app without
+actually preforming that logic in the view. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;GamesController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;index&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@games&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Game&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;app/views/games/index.html&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erb&quot; data-lang=&quot;erb&quot;&gt;&lt;span class=&quot;x&quot;&gt;&amp;lt;h1&amp;gt;All Games&amp;lt;/h1&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;&amp;lt;table&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  &amp;lt;tr&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;    &amp;lt;th&amp;gt;Game&amp;lt;/th&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  &amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@games&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;      &amp;lt;td&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  &amp;lt;/tr&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;x&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The last piece of the puzzle is that these instance variables live and die
+in a single http request. Think of each time the user navigates to a new page as
+an encapsulated new state for your application. This state ends once the
+request is done, including the state of these instance variables. Now of course
+there have been techniques to emulate state on web apps of course such as
+storing session variables etc; however, by thinking of these requests as
+isolated states of your app then the role that instance variables play in Rails
+will begin to make sense.
+thinking in these &lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>What to do with Sensitive Information in Rails?</title>
