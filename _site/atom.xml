@@ -4,13 +4,48 @@
  <title>Vance Faulkner</title>
  <link href="http://vpfaulkner@github.io.com/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.com/"/>
- <updated>2015-01-13T09:05:49-05:00</updated>
+ <updated>2015-01-14T08:27:40-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Write Code worth Reading</title>
+   <link href="http://vpfaulkner@github.io.com//2014/01/14/write-code-worth-reading/"/>
+   <updated>2014-01-14T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2014/01/14/write-code-worth-reading</id>
+   <content type="html">&lt;p&gt;Coding is full of a lot of gray decisions. There is a ambiguous spectrum between
+design choices and stylistic choices and no easy sense of where one ends and
+the other begins.&lt;/p&gt;
+
+&lt;p&gt;For more stylistic choices that tend to be more syntactically focused I  rely on
+the &lt;a href=&quot;https://github.com/bbatsov/ruby-style-guide&quot;&gt;Ruby Style Guide&lt;/a&gt; and try to
+always rely on the same question for ultimately making my decision: Which choice
+is easiest for me to read?&lt;/p&gt;
+
+&lt;p&gt;For example, the following choices achieve the same functionality in your code:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# Choice A&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Choice B&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;even?&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Every design choice involves tradeoffs and so your first instinct should always
+be to look for the tradeoffs of different options. Yet, this syntactic choice is
+less about tradeoffs and more about what stylistic choice you prefer. I defer to
+the question of readability here simply because most of my (and your) time will
+be spent reading code rather than writing it. For me, I consider Choice B to be
+vastly more readable and so it is the one I would go with. &lt;/p&gt;
+
+&lt;p&gt;Comprehensible code makes an incredible difference in productivity, much more so I would argue than what editor you use, what flavor of agile you subscribe to, or even how efficient your code is, and it should be your top priority in writing code when it comes to stylistic questions. &lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Instance Variables in Rails</title>

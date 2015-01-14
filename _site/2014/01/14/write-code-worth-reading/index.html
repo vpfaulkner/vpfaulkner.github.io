@@ -10,7 +10,7 @@
 
   <title>
     
-      What's Jekyll? &middot; Vance Faulkner
+      Write Code worth Reading &middot; Vance Faulkner
     
   </title>
 
@@ -47,30 +47,41 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">What's Jekyll?</h1>
-  <time datetime="2013-12-31T00:00:00-05:00" class="page-date">31 Dec 2013</time>
-  <p><a href="http://jekyllrb.com">Jekyll</a> is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From <a href="https://github.com/jekyll/jekyll/blob/master/README.markdown">the project’s readme</a>:</p>
+  <h1 class="post-title">Write Code worth Reading</h1>
+  <time datetime="2014-01-14T00:00:00-05:00" class="page-date">14 Jan 2014</time>
+  <p>Coding is full of a lot of gray decisions. There is a ambiguous spectrum between
+design choices and stylistic choices and no easy sense of where one ends and
+the other begins.</p>
 
-<blockquote>
-  <p>Jekyll is a simple, blog aware, static site generator. It takes a template directory […] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.</p>
-</blockquote>
+<p>For more stylistic choices that tend to be more syntactically focused I  rely on
+the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style Guide</a> and try to
+always rely on the same question for ultimately making my decision: Which choice
+is easiest for me to read?</p>
 
-<p>It’s an immensely useful tool. Find out more by <a href="https://github.com/jekyll/jekyll">visiting the project on GitHub</a>.</p>
+<p>For example, the following choices achieve the same functionality in your code:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Choice A</span>
+<span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">end</span>
+
+<span class="c1"># Choice B</span>
+<span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">even?</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Every design choice involves tradeoffs and so your first instinct should always
+be to look for the tradeoffs of different options. Yet, this syntactic choice is
+less about tradeoffs and more about what stylistic choice you prefer. I defer to
+the question of readability here simply because most of my (and your) time will
+be spent reading code rather than writing it. For me, I consider Choice B to be
+vastly more readable and so it is the one I would go with. </p>
+
+<p>Comprehensible code makes an incredible difference in productivity, much more so I would argue than what editor you use, what flavor of agile you subscribe to, or even how efficient your code is, and it should be your top priority in writing code when it comes to stylistic questions. </p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="//2014/01/14/write-code-worth-reading/">
-            Write Code worth Reading
-            <small><time datetime="2014-01-14T00:00:00-05:00">14 Jan 2014</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -90,6 +101,15 @@
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="//2014/01/11/why-naming-matters/">
+            Why Naming Matters
+            <small><time datetime="2014-01-11T00:00:00-05:00">11 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -98,7 +118,7 @@
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2013/12/31/whats-jekyll/";
+    var disqus_identifier = "/2014/01/14/write-code-worth-reading/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {
