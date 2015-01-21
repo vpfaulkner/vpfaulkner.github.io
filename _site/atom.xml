@@ -4,13 +4,101 @@
  <title>Vance Faulkner</title>
  <link href="http://vpfaulkner@github.io.com/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.com/"/>
- <updated>2015-01-19T07:41:59-05:00</updated>
+ <updated>2015-01-21T08:40:51-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Private Methods in Ruby</title>
+   <link href="http://vpfaulkner@github.io.com//2014/01/21/private-methods-in-ruby/"/>
+   <updated>2014-01-21T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2014/01/21/private-methods-in-ruby</id>
+   <content type="html">&lt;p&gt;“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
+some ways the question makes sense: you are only hiding this method from
+yourself or someone else whom you trust enough already to be working along the
+project with you. So what gives?&lt;/p&gt;
+
+&lt;p&gt;Let’s start with an example:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Concert&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;band&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_of_attendees&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@band&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;band&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@time&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@number_of_attendees&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_of_attendees&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepare&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;open_venue&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# other preperations&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Every method below this is private&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;open_venue&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# open venue logic&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prepare&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open_venue&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#NoMethodError: private method &amp;#39;open_venue&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here you can see that we are able to see that open_venue is defined under
+private in the class, that open_venue can be called within the class, but it cannot
+be called outside of the class. This is because in Ruby private methods cannot have an explicit receiver. When we call concert.open_venue our explicit receiver is concert, but when it is called in the prepare method it is called implicitly within the calling object.&lt;/p&gt;
+
+&lt;p&gt;Knowing how it works, however, doesn’t get back to the original question of “Why
+ever use it?”&lt;/p&gt;
+
+&lt;p&gt;I advocate private methods as a means of clearly defining the public interface
+for a class. Public interfaces are a very important concept and allow you the
+signal to other developers that some of these things are publicly available to you and
+will remain relatively stable while other things are not and may be subject to
+change. This is particularly relevant in Rails controllers where I suggest
+keeping only the methods associated with controller actions public while making 
+any others private. This separation of concerns frees you up to continually rework the
+“how” methods that contain must of the logic without fear of breaking external
+code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>How Big Should Methods Be?</title>
+   <link href="http://vpfaulkner@github.io.com//2014/01/20/how-big-should-methods-be/"/>
+   <updated>2014-01-20T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2014/01/20/how-big-should-methods-be</id>
+   <content type="html">&lt;p&gt;I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see &lt;a href=&quot;http://robots.thoughtbot.com/sandi-metz-rules-for-developers&quot;&gt;Sandi Metz’s blogpost&lt;/a&gt; on the Thoughtbot blog). &lt;/p&gt;
+
+&lt;p&gt;Now to be honest, I take this as more of a rule of thumb than an unbreakable law
+but perhaps that is because I bend more towards pragmatism than purist although
+I (like you) try to walk that in that in-between. This means I’m not going
+through my code or my coworkers code hellbent on conforming it to meet this
+standard, but I am usually advocating for smaller methods, particular if the
+method is 10 lines or more. The reasons I like this are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;/2014/01/14/write-code-worth-reading/&quot;&gt;Readability of
+code&lt;/a&gt; is the ultimate test of good code for me and I think
+small methods with good names make a huge difference in readability. &lt;/li&gt;
+  &lt;li&gt;I am forced to make large public methods much smaller which in turn
+forces me to make a lot of these methods private to &lt;a href=&quot;/2014/01/21/private-methods-in-ruby/&quot;&gt;limit that class’ public
+interface&lt;/a&gt;. The result is more readable public interface and me having to spend more
+time actually thinking about what kind of public interface I want to have.&lt;/li&gt;
+  &lt;li&gt;Small things are simply easier to work with and more accommodating to change. &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Again, this is a rule of thumb that should push you in the right direction but
+not at the expense of more important things (such as just getting started).
+Using it to your discretion, you should be on your way to much more readable,
+flexible code.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Debugging Ruby with Pry</title>

@@ -52,52 +52,79 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/02/introducing-poole/">
-        Introducing Poole
+      <a href="/2014/01/11/why-naming-matters/">
+        Why Naming Matters
       </a>
     </h1>
 
-    <time datetime="2014-01-02T00:00:00-05:00" class="post-date">02 Jan 2014</time>
+    <time datetime="2014-01-11T00:00:00-05:00" class="post-date">11 Jan 2014</time>
 
-    <p><em>The Strange Case of Dr. Jekyll and Mr. Hyde</em> tells the story of a lawyer investigating the connection of two persons, Dr. Henry Jekyll and Mr. Edward Hyde. Chief among the novel’s supporting cast is a man by the name of Mr. Poole, Dr. Jekyll’s loyal butler.</p>
+    <p>One of the more subtle lessons I’ve learned since I started developing was how
+much object names both guide and reveal your thought process as you are building
+an application. Consider a few rules of thumb:</p>
 
-<hr />
+<h3 id="stick-with-real-world-objects-as-much-as-possible-dont-be-cute">Stick with real world objects as much as possible. Don’t be cute</h3>
 
-<p>Poole is the butler for <a href="http://jekyllrb.com">Jekyll</a>, the static site generator. It’s designed and developed by <a href="https://twitter.com/mdo">@mdo</a> to provide a clear and concise foundational setup for any Jekyll site. It does so by furnishing a full vanilla Jekyll install with example templates, pages, posts, and styles.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<p>There are currently two themes built on Poole:</p>
+<p>instead of:</p>
 
-<ul>
-  <li><a href="http://hyde.getpoole.com">Hyde</a></li>
-  <li><a href="http://lanyon.getpoole.com">Lanyon</a></li>
-</ul>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SongMaker</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<p>Learn more and contribute on <a href="https://github.com/poole">GitHub</a>.</p>
+<h3 id="use-isattribute-for-booleans">Use is_attribute? for Booleans</h3>
 
-<h3 id="whats-included">What’s included</h3>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_connected?</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
 
-<p>Poole is a streamlined Jekyll site designed and built as a foundation for building more meaningful themes. Poole, and every theme built on it, includes the following:</p>
+<p>instead of:</p>
 
-<ul>
-  <li>Complete Jekyll setup included (layouts, config, <a href="/404.html">404</a>, <a href="/atom.xml">RSS feed</a>, posts, and <a href="/about">example page</a>)</li>
-  <li>Mobile friendly design and development</li>
-  <li>Easily scalable text and component sizing with <code>rem</code> units in the CSS</li>
-  <li>Support for a wide gamut of HTML elements</li>
-  <li>Related posts (time-based, because Jekyll) below each post</li>
-  <li>Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)</li>
-</ul>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="ss">connected</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
 
-<p>Additional features are available in individual themes.</p>
+<h3 id="dont-include-object-type">Don’t include object type</h3>
 
-<h3 id="browser-support">Browser support</h3>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
 
-<p>Poole and it’s themes are by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.</p>
+  <span class="k">def</span> <span class="nf">split</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<h3 id="download">Download</h3>
+<p>instead of:</p>
 
-<p>Poole is developed on and hosted with GitHub. Head to the <a href="https://github.com/poole/poole">GitHub repository</a> for downloads, bug reports, and features requests.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
 
-<p>Thanks!</p>
+  <span class="k">def</span> <span class="nf">split_method</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>If you haven’t also checked out the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style
+Guide</a> you should do so. </p>
 
   </article>
   
@@ -120,7 +147,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-01-19T07:41:59-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-01-21T08:40:51-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

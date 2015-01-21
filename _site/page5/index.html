@@ -52,79 +52,70 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/11/why-naming-matters/">
-        Why Naming Matters
+      <a href="/2014/01/13/instance-variables-in-rails/">
+        Instance Variables in Rails
       </a>
     </h1>
 
-    <time datetime="2014-01-11T00:00:00-05:00" class="post-date">11 Jan 2014</time>
+    <time datetime="2014-01-13T00:00:00-05:00" class="post-date">13 Jan 2014</time>
 
-    <p>One of the more subtle lessons I’ve learned since I started developing was how
-much object names both guide and reveal your thought process as you are building
-an application. Consider a few rules of thumb:</p>
+    <p>Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
+there a whole new structure for you to learn, existing syntax starts to take on
+new meaning.</p>
 
-<h3 id="stick-with-real-world-objects-as-much-as-possible-dont-be-cute">Stick with real world objects as much as possible. Don’t be cute</h3>
+<p>One of the more fundamental shifts is the role of instance variables in Rails.
+As you remember from Ruby, instance variables begin with @ and are scoped to the
+instance of the class in which they reside. </p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Game</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span>
+
+<span class="k">end</span></code></pre></div>
+
+<p>In Rails, this is still true but the underlying structure that is providing in
+essence cheats this distinction. As you have or (will) learn, Rails is an MVC
+framework meaning that the three core components of a Rails application is a
+model, view and controller. For every incoming http request you can think of the
+controller as acting as the central hub in which all of the necessary ingridients
+for the response are put together. These ingridients are then passed on to the
+view (assuming there is one) to be presented to the user.</p>
+
+<p>Rails preforms this magic by passing on the instance variables from the
+controller and passing them to the controller. This is what allows a Rails app,
+for instance, to insert logic and state into the view portion of an app without
+actually preforming that logic in the view. </p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">GamesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@games</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">all</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<p>instead of:</p>
+<p>app/views/games/index.html</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SongMaker</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="x">&lt;h1&gt;All Games&lt;/h1&gt;</span>
+<span class="x">&lt;table&gt;</span>
+<span class="x">  &lt;tr&gt;</span>
+<span class="x">    &lt;th&gt;Game&lt;/th&gt;</span>
+<span class="x">  &lt;/tr&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@games</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">game</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">game</span><span class="o">.</span><span class="n">now</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">  &lt;/tr&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span></code></pre></div>
 
-<h3 id="use-isattribute-for-booleans">Use is_attribute? for Booleans</h3>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_connected?</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
-
-<p>instead of:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="ss">connected</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
-
-<h3 id="dont-include-object-type">Don’t include object type</h3>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">split</span>
-    <span class="c1"># split logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>instead of:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">split_method</span>
-    <span class="c1"># split logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>If you haven’t also checked out the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style
-Guide</a> you should do so. </p>
+<p>The last piece of the puzzle is that these instance variables live and die
+in a single http request. Think of each time the user navigates to a new page as
+an encapsulated new state for your application. This state ends once the
+request is done, including the state of these instance variables. Now of course
+there have been techniques to emulate state on web apps of course such as
+storing session variables etc; however, by thinking of these requests as
+isolated states of your app then the role that instance variables play in Rails
+will begin to make sense.
+thinking in these </p>
 
   </article>
   
@@ -147,7 +138,7 @@ Guide</a> you should do so. </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-01-19T07:41:59-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-01-21T08:40:51-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

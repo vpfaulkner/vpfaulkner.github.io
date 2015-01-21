@@ -10,7 +10,7 @@
 
   <title>
     
-      Vance Faulkner &middot; Ruby Developer
+      Private Methods in Ruby &middot; Vance Faulkner
     
   </title>
 
@@ -48,18 +48,10 @@
       </header>
 
       <main>
-        <div class="posts">
-  
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/2014/01/21/private-methods-in-ruby/">
-        Private Methods in Ruby
-      </a>
-    </h1>
-
-    <time datetime="2014-01-21T00:00:00-05:00" class="post-date">21 Jan 2014</time>
-
-    <p>“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
+        <article class="post">
+  <h1 class="post-title">Private Methods in Ruby</h1>
+  <time datetime="2014-01-21T00:00:00-05:00" class="page-date">21 Jan 2014</time>
+  <p>“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
 some ways the question makes sense: you are only hiding this method from
 yourself or someone else whom you trust enough already to be working along the
 project with you. So what gives?</p>
@@ -108,20 +100,59 @@ any others private. This separation of concerns frees you up to continually rewo
 “how” methods that contain must of the logic without fear of breaking external
 code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.</p>
 
-  </article>
-  
-</div>
+</article>
 
-<div class="pagination">
-  
-    <a class="pagination-item older" href="/page2">Older</a>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="//2014/01/20/how-big-should-methods-be/">
+            How Big Should Methods Be?
+            <small><time datetime="2014-01-20T00:00:00-05:00">20 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="//2014/01/17/debugging-ruby-with-pry/">
+            Debugging Ruby with Pry
+            <small><time datetime="2014-01-17T00:00:00-05:00">17 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="//2014/01/14/write-code-worth-reading/">
+            Write Code worth Reading
+            <small><time datetime="2014-01-14T00:00:00-05:00">14 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
 
         
+  <!-- Add Disqus comments. -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
+    var disqus_identifier = "/2014/01/21/private-methods-in-ruby/";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
       </main>
 
