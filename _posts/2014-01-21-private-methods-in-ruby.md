@@ -51,6 +51,6 @@ signal to other developers that some of these things are publicly available to y
 will remain relatively stable while other things are not and may be subject to
 change. This is particularly relevant in Rails controllers where I suggest
 keeping only the methods associated with controller actions public while making 
-any others private. This separation of concerns frees you up to continually rework the
+any others private. This [separation of concerns](/2014/01/22/make-your-ruby-objects-single-minded/) frees you up to continually rework the
 "how" methods that contain must of the logic without fear of breaking external
 code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.

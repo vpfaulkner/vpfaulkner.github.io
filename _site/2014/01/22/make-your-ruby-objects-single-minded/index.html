@@ -18,7 +18,7 @@
 
   <title>
     
-      What to do with Sensitive Information in Rails? &middot; Vance Faulkner
+      Make your Ruby Objects Single-Minded &middot; Vance Faulkner
     
   </title>
 
@@ -61,58 +61,49 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">What to do with Sensitive Information in Rails?</h1>
-  <time datetime="2014-01-12T00:00:00-05:00" class="page-date">12 Jan 2014</time>
-  <p>If you are just starting with Rails you will probably run into a moment where
-you need to incorporate some sensitive information that you don’t want to expose
-to the world via Github.</p>
+  <h1 class="post-title">Make your Ruby Objects Single-Minded</h1>
+  <time datetime="2014-01-22T00:00:00-05:00" class="page-date">22 Jan 2014</time>
+  <p>The easiest way I have found to ensure I am writing good object-oriented (OO)
+code is to ask, “What should this object know and not know?” It makes the
+objects a little more real and concrete for me, and forces me to write clean
+and simple code because it is such an honest and simple question. </p>
 
-<p>There are multiple approaches but the easiest I’ve run into is with the <a href="https://github.com/bkeepers/dotenv">dotenv
-gem</a>. Per the instructions:</p>
+<p>The <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility
+Principle</a> is a
+fundamental idea in OO programming and should always be your first question when
+you feel your code is starting to get out of hand. Take the following example:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span><span class="p">,</span> <span class="ss">:groups</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Checkout</span>
 
-<p>Execute:</p>
+  <span class="k">def</span> <span class="nf">purchase</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">item_price</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">price</span>
+    <span class="n">tax</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">*</span> <span class="o">.</span><span class="mo">07</span>
+    <span class="n">grand_total</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">+</span> <span class="n">tax</span> 
+  <span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle</code></pre></div>
+<span class="k">end</span></code></pre></div>
 
-<p>This will allow you to have consistent syntax in your Rails code with a
-centralized place to keep your sensitive information in. Add a .env
-<a href="http://en.wikipedia.org/wiki/Dot-file">dot-file</a> to the root of your project
-(directly under the project folder) formatted like the following:</p>
+<p>Here I’ve tried to isolate that moment when your gut is starting to feel a
+little so-so about the code because you are introducing something into the
+Checkout logic that feels a little out of its domain: knowledge of how to
+appropriate tax to the checkout. </p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SECRET_KEY</span><span class="o">=</span><span class="no">SECRETKEYHERE</span></code></pre></div>
+<p>Now this is a simple example where you might only care about local state tax, but
+it is suddenly a leak in your airtight encapsulation of responsibility. What if
+this logic suddenly has to accommodate multi-state purchases and know more than
+one state tax rate? What if certain items are taxed at different rates? You can
+see that trying to keep this logic in Checkout becomes a losing battle.</p>
 
-<p>This will allow you to access these keys through the following syntax:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_key</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span></code></pre></div>
-
-<p>Finally, you probably want to ensure this document does not get included in
-source control so add it to your
-<a href="https://help.github.com/articles/ignoring-files">.gitignore</a>, also to be stored
-in the root of your project.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">env</span></code></pre></div>
-
-<p>If you are working in a group, you should then document that this .env file is
-necessary (along with any other dependencies) and securely deliver it to them
-along with any other necessary but sensitive files such as a
-<a href="http://railscasts.com/episodes/179-seed-data?view=asciicast">seeds</a> file.</p>
+<p>But the early signs of responsibility shift are not the difficult to see if you
+are asking the right question. Should Checkout need to know about the taxing
+rules for different states and different items? In any but the most
+rudimentary, time-sensitive context, the answer should be no.</p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="//2014/01/22/make-your-ruby-objects-single-minded/">
-            Make your Ruby Objects Single-Minded
-            <small><time datetime="2014-01-22T00:00:00-05:00">22 Jan 2014</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -132,6 +123,15 @@ along with any other necessary but sensitive files such as a
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="//2014/01/17/debugging-ruby-with-pry/">
+            Debugging Ruby with Pry
+            <small><time datetime="2014-01-17T00:00:00-05:00">17 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -140,7 +140,7 @@ along with any other necessary but sensitive files such as a
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2014/01/12/sensitive-passwords-in-rails/";
+    var disqus_identifier = "/2014/01/22/make-your-ruby-objects-single-minded/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

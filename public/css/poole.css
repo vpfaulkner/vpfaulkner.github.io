@@ -293,6 +293,28 @@ tbody tr:nth-child(odd) th {
   margin-right: auto;
 }
 
+.sidebar {
+  top: 0;
+  bottom: 0;
+  left: -14rem;
+  width: 14rem;
+  float: left;
+}
+
+
+.about_me {
+  position: fixed; 
+  width: 14rem;
+  top: 0;
+  margin-top: 100px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.about_me_description {
+  font-style: italic;
+  font-size: .75rem;
+}
 
 /*
  * Masthead
