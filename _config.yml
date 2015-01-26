@@ -3,7 +3,7 @@ permalink:        pretty
 relative_permalinks: true
 
 # Setup
-title:            Vance Faulkner
+title:            Wrong Abstraction
 tagline:          Ruby Developer 
 url:              http://vpfaulkner@github.io.com
 paginate:         1

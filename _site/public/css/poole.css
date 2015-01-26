@@ -60,7 +60,7 @@ html {
 
 body {
   color: #515151;
-  background-color: #ffffff;
+  background-color: white; 
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
@@ -88,7 +88,7 @@ h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeLegibility;
 }
 h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 h2 {
   margin-top: 1rem;
@@ -306,15 +306,34 @@ tbody tr:nth-child(odd) th {
   position: fixed; 
   width: 14rem;
   top: 0;
-  margin-top: 100px;
+  margin-top: 50px;
   padding-right: 30px;
   padding-left: 30px;
+  font-size: .90rem;
 }
 
-.about_me_description {
+.about_me p {
   font-style: italic;
-  font-size: .75rem;
 }
+
+.about_me i {
+   font-size: 1.00rem;
+   padding-right: .2rem;
+}
+
+.headshot {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+  background-size: cover;
+  background-position: center center;
+  background-image: url(/public/headshot.jpg);
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+}
+
+
+
 
 /*
  * Masthead

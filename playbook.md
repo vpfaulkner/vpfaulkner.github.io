@@ -2,8 +2,9 @@
 layout: page
 title: Playbook
 ---
+----
 
-# Guiding Philosophy
+## Guiding Philosophy
 
 1. Simplicity
 
@@ -12,7 +13,8 @@ title: Playbook
 3. Modularity
 
 
-#Dev Environment
+
+##Dev Environment
 
 * Trello for task management with projects divided into verb-oriented tasks and tasks divided into three simple categories: "Not Started", "In Progress", and "Complete"
 
@@ -33,7 +35,8 @@ title: Playbook
 * You will spend much more time reading code than you will spend writing it.
   Optimize to readability 99% of the time
 
-#Preferred Languages and Frameworks
+
+##Preferred Languages and Frameworks
 
 * Ruby for its readability 
 
@@ -45,7 +48,8 @@ title: Playbook
 
 * PostgreSQL
 
-#Dev Ops
+
+##Dev Ops
 
 * Test driven development with RSpec
 

@@ -3,9 +3,27 @@
 
     <div class="sidebar" id="sidebar">
   <div class="about_me">
-    <h3>Vance Faulkner</h3>
+    <h3>Recent Posts</h3>
+      
+        <a href=" /2015/01/26/control-flow-in-ruby/ "> Control Flow in Ruby Pt. I </a><br>
+      
+        <a href=" /2014/01/22/make-your-ruby-objects-single-minded/ "> Make your Ruby Objects Single-Minded </a><br>
+      
+        <a href=" /2014/01/21/private-methods-in-ruby/ "> Private Methods in Ruby </a><br>
+      
+        <a href=" /2014/01/20/how-big-should-methods-be/ "> How Big Should Methods Be? </a><br>
+      
+        <a href=" /2014/01/17/debugging-ruby-with-pry/ "> Debugging Ruby with Pry </a><br>
+      
 
-    <p class="about_me_description">Vance is a Ruby on Rails developer from Durham, NC</p>
+    <br>
+    <br>
+    <br>
+    <p><span style="font-weight: bolder">Vance Faulkner</span> is a Ruby on
+    Rails developer from Durham, NC</p>
+    <a href="https://github.com/vpfaulkner"><i class="fa fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/vancefaulkner"><i class="fa fa-linkedin-square"></i></a>
+    <a href="mailto:vpfaulkner@gmail.com"><i class="fa fa-envelope-o"></i></a>
   </div>
 </div>
 
@@ -18,7 +36,7 @@
 
   <title>
     
-      Vance Faulkner &middot; Ruby Developer
+      Wrong Abstraction &middot; Ruby Developer
     
   </title>
 
@@ -31,9 +49,10 @@
   <!-- Icons -->
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
   <link rel="shortcut icon" href="/public/favicon.ico">
+  <link rel="stylesheet" href="public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Vance Faulkner" href="/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="/atom.xml">
 </head>
 
 
@@ -43,7 +62,8 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="/" title="Home">Vance Faulkner</a>
+          <a href="/" title="Home"><i class="fa
+          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -64,40 +84,56 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/14/write-code-worth-reading/">
-        Write Code worth Reading
+      <a href="/2014/01/17/debugging-ruby-with-pry/">
+        Debugging Ruby with Pry
       </a>
     </h1>
 
-    <time datetime="2014-01-14T00:00:00-05:00" class="post-date">14 Jan 2014</time>
+    <time datetime="2014-01-17T00:00:00-05:00" class="post-date">17 Jan 2014</time>
 
-    <p>Coding is full of a lot of gray decisions. There is a ambiguous spectrum between
-design choices and stylistic choices and no easy sense of where one ends and
-the other begins.</p>
+    <p>There is nothing worse than trying to fix code without a debugger. Since
+starting with Ruby, Pry has become perhaps the most essential tool for me to
+be productive and happy. <a href="http://pryrepl.org/">Pry</a> is the de facto standard for
+Ruby and acts as a debugger and alternative to IRB.</p>
 
-<p>For more stylistic choices that tend to be more syntactically focused I  rely on
-the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style Guide</a> and try to
-always rely on the same question for ultimately making my decision: Which choice
-is easiest for me to read?</p>
+<p>Install the Gem:</p>
 
-<p>For example, the following choices achieve the same functionality in your code:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">gem install pry</code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Choice A</span>
-<span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<p>Ensure pry is available in your Ruby file and drop binding.pry in:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># test.rb</span>
+<span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+
+<span class="k">class</span> <span class="nc">A</span>
+  <span class="k">def</span> <span class="nf">hello</span><span class="p">()</span> <span class="nb">puts</span> <span class="s2">&quot;hello world!&quot;</span> <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="c1"># Choice B</span>
-<span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">even?</span>
-<span class="k">end</span></code></pre></div>
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">new</span>
 
-<p>Every design choice involves tradeoffs and so your first instinct should always
-be to look for the tradeoffs of different options. Yet, this syntactic choice is
-less about tradeoffs and more about what stylistic choice you prefer. I defer to
-the question of readability here simply because most of my (and your) time will
-be spent reading code rather than writing it. For me, I consider Choice B to be
-vastly more readable and so it is the one I would go with. </p>
+<span class="c1"># start a REPL session</span>
+<span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
 
-<p>Comprehensible code makes an incredible difference in productivity, much more so I would argue than what editor you use, what flavor of agile you subscribe to, or even how efficient your code is, and it should be your top priority in writing code when it comes to stylistic questions. </p>
+<span class="c1"># program resumes here (after pry session)</span>
+<span class="nb">puts</span> <span class="s2">&quot;program resumes here.</span></code></pre></div>
+
+<p>This will open up a Pry session where you can investigate the program state at
+that point and begin debugging. </p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">pry<span class="o">(</span>main<span class="o">)</span>&gt; a.hello
+hello world!
+<span class="o">=</span>&gt; nil
+pry<span class="o">(</span>main<span class="o">)</span>&gt; puts x
+<span class="nv">10</span>
+<span class="o">=</span>&gt; nil</code></pre></div>
+
+<p>The closer you get to your code the smaller your feedback loops, the more
+quickly you’ll be productive. Instead of trying to guess what a variable is at
+that point in the program, just drop a pry in and find out for sure. </p>
+
+<p>I prefer to use this approach most with a test driven development workflow where
+I am constantly invoking the debugging session by running the particular
+test I am working on. </p>
 
   </article>
   
@@ -120,7 +156,7 @@ vastly more readable and so it is the one I would go with. </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-01-24T12:53:08-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-01-26T07:41:50-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
