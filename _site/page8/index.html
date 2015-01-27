@@ -7,13 +7,13 @@
       
         <a href=" /2015/01/26/control-flow-in-ruby/ "> Control Flow in Ruby Pt. I </a><br>
       
+        <a href=" /2015/01/17/control-flow-in-ruby-ii/ "> Control Flow in Ruby Pt. II </a><br>
+      
         <a href=" /2014/01/22/make-your-ruby-objects-single-minded/ "> Make your Ruby Objects Single-Minded </a><br>
       
         <a href=" /2014/01/21/private-methods-in-ruby/ "> Private Methods in Ruby </a><br>
       
         <a href=" /2014/01/20/how-big-should-methods-be/ "> How Big Should Methods Be? </a><br>
-      
-        <a href=" /2014/01/17/debugging-ruby-with-pry/ "> Debugging Ruby with Pry </a><br>
       
 
     <br>
@@ -84,48 +84,70 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/12/sensitive-passwords-in-rails/">
-        What to do with Sensitive Information in Rails?
+      <a href="/2014/01/13/instance-variables-in-rails/">
+        Instance Variables in Rails
       </a>
     </h1>
 
-    <time datetime="2014-01-12T00:00:00-05:00" class="post-date">12 Jan 2014</time>
+    <time datetime="2014-01-13T00:00:00-05:00" class="post-date">13 Jan 2014</time>
 
-    <p>If you are just starting with Rails you will probably run into a moment where
-you need to incorporate some sensitive information that you don’t want to expose
-to the world via Github.</p>
+    <p>Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
+there a whole new structure for you to learn, existing syntax starts to take on
+new meaning.</p>
 
-<p>There are multiple approaches but the easiest I’ve run into is with the <a href="https://github.com/bkeepers/dotenv">dotenv
-gem</a>. Per the instructions:</p>
+<p>One of the more fundamental shifts is the role of instance variables in Rails.
+As you remember from Ruby, instance variables begin with @ and are scoped to the
+instance of the class in which they reside. </p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span><span class="p">,</span> <span class="ss">:groups</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Game</span>
 
-<p>Execute:</p>
+  <span class="k">def</span> <span class="nf">initialize</span>
+    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle</code></pre></div>
+<span class="k">end</span></code></pre></div>
 
-<p>This will allow you to have consistent syntax in your Rails code with a
-centralized place to keep your sensitive information in. Add a .env
-<a href="http://en.wikipedia.org/wiki/Dot-file">dot-file</a> to the root of your project
-(directly under the project folder) formatted like the following:</p>
+<p>In Rails, this is still true but the underlying structure that is providing in
+essence cheats this distinction. As you have or (will) learn, Rails is an MVC
+framework meaning that the three core components of a Rails application is a
+model, view and controller. For every incoming http request you can think of the
+controller as acting as the central hub in which all of the necessary ingridients
+for the response are put together. These ingridients are then passed on to the
+view (assuming there is one) to be presented to the user.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SECRET_KEY</span><span class="o">=</span><span class="no">SECRETKEYHERE</span></code></pre></div>
+<p>Rails preforms this magic by passing on the instance variables from the
+controller and passing them to the controller. This is what allows a Rails app,
+for instance, to insert logic and state into the view portion of an app without
+actually preforming that logic in the view. </p>
 
-<p>This will allow you to access these keys through the following syntax:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">GamesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">index</span>
+    <span class="vi">@games</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">all</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_key</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span></code></pre></div>
+<p>app/views/games/index.html</p>
 
-<p>Finally, you probably want to ensure this document does not get included in
-source control so add it to your
-<a href="https://help.github.com/articles/ignoring-files">.gitignore</a>, also to be stored
-in the root of your project.</p>
+<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="x">&lt;h1&gt;All Games&lt;/h1&gt;</span>
+<span class="x">&lt;table&gt;</span>
+<span class="x">  &lt;tr&gt;</span>
+<span class="x">    &lt;th&gt;Game&lt;/th&gt;</span>
+<span class="x">  &lt;/tr&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@games</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">game</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">game</span><span class="o">.</span><span class="n">now</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+<span class="x">  &lt;/tr&gt;</span>
+<span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+<span class="x">&lt;/table&gt;</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">env</span></code></pre></div>
-
-<p>If you are working in a group, you should then document that this .env file is
-necessary (along with any other dependencies) and securely deliver it to them
-along with any other necessary but sensitive files such as a
-<a href="http://railscasts.com/episodes/179-seed-data?view=asciicast">seeds</a> file.</p>
+<p>The last piece of the puzzle is that these instance variables live and die
+in a single http request. Think of each time the user navigates to a new page as
+an encapsulated new state for your application. This state ends once the
+request is done, including the state of these instance variables. Now of course
+there have been techniques to emulate state on web apps of course such as
+storing session variables etc; however, by thinking of these requests as
+isolated states of your app then the role that instance variables play in Rails
+will begin to make sense.
+thinking in these </p>
 
   </article>
   
@@ -148,7 +170,7 @@ along with any other necessary but sensitive files such as a
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-01-26T07:41:50-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-01-27T08:19:36-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
