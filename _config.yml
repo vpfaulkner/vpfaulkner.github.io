@@ -12,6 +12,7 @@ author:
   name:           Vance Faulkner
   url:            vpfaulkner@github.io.com 
   email:          vpfaulkner@gmail.com
+encoding: UTF-8
 
 # Custom vars
 version:          1.0.0
