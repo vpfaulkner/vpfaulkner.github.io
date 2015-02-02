@@ -5,6 +5,8 @@
   <div class="about_me">
     <h3>Recent Posts</h3>
       
+        <a href=" /2015/02/01/conways-law/ "> Conway's Law </a><br>
+      
         <a href=" /2015/01/26/control-flow-in-ruby/ "> Control Flow in Ruby Pt. I </a><br>
       
         <a href=" /2015/01/17/control-flow-in-ruby-ii/ "> Control Flow in Ruby Pt. II </a><br>
@@ -12,8 +14,6 @@
         <a href=" /2014/01/22/make-your-ruby-objects-single-minded/ "> Make your Ruby Objects Single-Minded </a><br>
       
         <a href=" /2014/01/21/private-methods-in-ruby/ "> Private Methods in Ruby </a><br>
-      
-        <a href=" /2014/01/20/how-big-should-methods-be/ "> How Big Should Methods Be? </a><br>
       
 
     <br>
@@ -88,76 +88,79 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/11/when-to-use-modules-in-ruby/">
-        When to use modules in Ruby
+      <a href="/2014/01/11/why-naming-matters/">
+        Why Naming Matters
       </a>
     </h1>
 
     <time datetime="2014-01-11T00:00:00-05:00" class="post-date">11 Jan 2014</time>
 
-    <p>When should you use modules in Ruby? </p>
+    <p>One of the more subtle lessons I’ve learned since I started developing was how
+much object names both guide and reveal your thought process as you are building
+an application. Consider a few rules of thumb:</p>
 
-<h3 id="question-1-do-you-need-to-it-to-carry-state">Question 1: Do you need to it to carry state?</h3>
+<h3 id="stick-with-real-world-objects-as-much-as-possible-dont-be-cute">Stick with real world objects as much as possible. Don’t be cute</h3>
 
-<p>If so, then you should probably use a class. In fact, for most use-cases,
-particularly if you are new to object-oriented programming, if what you are
-trying to do should be done with a class.</p>
-
-<p>When thinking of your program, think first in terms of what objects are
-necessary for you to create the interactions required. Methods that for whatever
-reason do not form an object that should be instantiated can be contained within
-a class.</p>
-
-<h3 id="question-2-could-this-be-done-with-a-few-singleton-class-methods-on-an-existing-class">Question 2: Could this be done with a few singleton class methods on an existing class?</h3>
-
-<p>While oftentimes overused, class methods can be a better alternative.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Document</span>
-
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_pdf</span>
-    <span class="c1">#...</span>
-  <span class="k">end</span>
-
-<span class="k">end</span></code></pre></div>
-
-<h3 id="question-3-will-this-be-helpful-in-multiple-classes">Question 3: Will this be helpful in multiple classes?</h3>
-
-<p>Modules provide mixin functionality and allow you to extend the same logic to
-multiple classes.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Converter</span> 
-
-  <span class="k">def</span> <span class="nf">convert_to_pdf</span>
-    <span class="c1">#...</span>
-  <span class="k">end</span>
-
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">class</span> <span class="no">Document</span>
-  <span class="kp">include</span> <span class="no">Converter</span>
-
-  <span class="c1">#...</span>
-<span class="k">end</span>
-
-<span class="n">document</span> <span class="o">=</span> <span class="no">Document</span><span class="o">.</span><span class="n">new</span>
-<span class="n">document</span><span class="o">.</span><span class="n">convert_to_pdf</span></code></pre></div>
-
-<h3 id="question-4-do-i-need-it-for-namespacing">Question 4: Do I need it for namespacing?</h3>
-
-<p>I generally don’t think namespacing is the best reason to create a module but
-there are certain use-cases (such as with building APIs that might need
-namespacing for versioning) when it becomes appropriate.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Math</span>
-  <span class="no">PI</span> <span class="o">=</span> <span class="mi">3</span><span class="o">.</span><span class="mi">14</span>
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">circle</span>
-  <span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
-    <span class="mi">2</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="n">radius</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
   <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
+<p>instead of:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SongMaker</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<h3 id="use-isattribute-for-booleans">Use is_attribute? for Booleans</h3>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_connected?</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
+
+<p>instead of:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="ss">connected</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
+
+<h3 id="dont-include-object-type">Don’t include object type</h3>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">split</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>instead of:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">split_method</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>If you haven’t also checked out the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style
+Guide</a> you should do so. </p>
 
   </article>
   
@@ -180,7 +183,7 @@ namespacing for versioning) when it becomes appropriate.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-01-30T08:51:51-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-02-02T07:47:04-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

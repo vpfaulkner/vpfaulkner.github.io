@@ -4,13 +4,32 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.com/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.com/"/>
- <updated>2015-01-30T08:51:51-05:00</updated>
+ <updated>2015-02-02T07:47:04-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Conway's Law</title>
+   <link href="http://vpfaulkner@github.io.com//2015/02/01/conways-law/"/>
+   <updated>2015-02-01T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/02/01/conways-law</id>
+   <content type="html">&lt;p&gt;“Why was it setup this way?”&lt;/p&gt;
+
+&lt;p&gt;I hear this question all of the time in reference to legacy systems. I think the practice of asking “Why?” is an excellent one and suggest such systems as the &lt;a href=&quot;http://venturehacks.com/articles/five-whys&quot;&gt;Five Whys&lt;/a&gt; to help you do so. But unfortunately I don’t think people take their whys far enough.&lt;/p&gt;
+
+&lt;p&gt;What I mean is that we often realize that one design decision might have been, in retrospect, a bad one, but we do not oftentimes really ask why such a decision was made. &lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations - Conway’s Law&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Particularly as programmers, I think it is easy to underestimate the role that communication and corporate culture play into these things. Thinking how your team is not only laid out but is also communicating will be a critical exercise to prevent and diagnose poor design decisions. In other words, if you want to know how your software’s interface design will lean, look at how the team works together.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Control Flow in Ruby Pt. I</title>

@@ -40,7 +40,7 @@
 
   <title>
     
-      How Big Should Methods Be? &middot; Wrong Abstraction
+      Conway's Law &middot; Wrong Abstraction
     
   </title>
 
@@ -85,47 +85,25 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">How Big Should Methods Be?</h1>
-  <time datetime="2014-01-20T00:00:00-05:00" class="page-date">20 Jan 2014</time>
-  <p>I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see <a href="http://robots.thoughtbot.com/sandi-metz-rules-for-developers">Sandi Metz’s blogpost</a> on the Thoughtbot blog). </p>
+  <h1 class="post-title">Conway's Law</h1>
+  <time datetime="2015-02-01T00:00:00-05:00" class="page-date">01 Feb 2015</time>
+  <p>“Why was it setup this way?”</p>
 
-<p>Now to be honest, I take this as more of a rule of thumb than an unbreakable law
-but perhaps that is because I bend more towards pragmatism than purist although
-I (like you) try to walk that in that in-between. This means I’m not going
-through my code or my coworkers code hellbent on conforming it to meet this
-standard, but I am usually advocating for smaller methods, particular if the
-method is 10 lines or more. The reasons I like this are:</p>
+<p>I hear this question all of the time in reference to legacy systems. I think the practice of asking “Why?” is an excellent one and suggest such systems as the <a href="http://venturehacks.com/articles/five-whys">Five Whys</a> to help you do so. But unfortunately I don’t think people take their whys far enough.</p>
 
-<ol>
-  <li><a href="/2014/01/14/write-code-worth-reading/">Readability of
-code</a> is the ultimate test of good code for me and I think
-small methods with good names make a huge difference in readability. </li>
-  <li>I am forced to make large public methods much smaller which in turn
-forces me to make a lot of these methods private to <a href="/2014/01/21/private-methods-in-ruby/">limit that class’ public
-interface</a>. The result is more readable public interface and me having to spend more
-time actually thinking about what kind of public interface I want to have.</li>
-  <li>Small things are simply easier to work with and more accommodating to change. </li>
-</ol>
+<p>What I mean is that we often realize that one design decision might have been, in retrospect, a bad one, but we do not oftentimes really ask why such a decision was made. </p>
 
-<p>Again, this is a rule of thumb that should push you in the right direction but
-not at the expense of more important things (such as just getting started).
-Using it to your discretion, you should be on your way to much more readable,
-flexible code.</p>
+<blockquote>
+  <p>Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations - Conway’s Law</p>
+</blockquote>
+
+<p>Particularly as programmers, I think it is easy to underestimate the role that communication and corporate culture play into these things. Thinking how your team is not only laid out but is also communicating will be a critical exercise to prevent and diagnose poor design decisions. In other words, if you want to know how your software’s interface design will lean, look at how the team works together.</p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="//2015/02/01/conways-law/">
-            Conway's Law
-            <small><time datetime="2015-02-01T00:00:00-05:00">01 Feb 2015</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -145,6 +123,15 @@ flexible code.</p>
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="//2014/01/22/make-your-ruby-objects-single-minded/">
+            Make your Ruby Objects Single-Minded
+            <small><time datetime="2014-01-22T00:00:00-05:00">22 Jan 2014</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -153,7 +140,7 @@ flexible code.</p>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2014/01/20/how-big-should-methods-be/";
+    var disqus_identifier = "/2015/02/01/conways-law/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

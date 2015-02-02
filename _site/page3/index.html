@@ -5,6 +5,8 @@
   <div class="about_me">
     <h3>Recent Posts</h3>
       
+        <a href=" /2015/02/01/conways-law/ "> Conway's Law </a><br>
+      
         <a href=" /2015/01/26/control-flow-in-ruby/ "> Control Flow in Ruby Pt. I </a><br>
       
         <a href=" /2015/01/17/control-flow-in-ruby-ii/ "> Control Flow in Ruby Pt. II </a><br>
@@ -12,8 +14,6 @@
         <a href=" /2014/01/22/make-your-ruby-objects-single-minded/ "> Make your Ruby Objects Single-Minded </a><br>
       
         <a href=" /2014/01/21/private-methods-in-ruby/ "> Private Methods in Ruby </a><br>
-      
-        <a href=" /2014/01/20/how-big-should-methods-be/ "> How Big Should Methods Be? </a><br>
       
 
     <br>
@@ -88,48 +88,75 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/22/make-your-ruby-objects-single-minded/">
-        Make your Ruby Objects Single-Minded
+      <a href="/2015/01/17/control-flow-in-ruby-ii/">
+        Control Flow in Ruby Pt. II
       </a>
     </h1>
 
-    <time datetime="2014-01-22T00:00:00-05:00" class="post-date">22 Jan 2014</time>
+    <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
 
-    <p>The easiest way I have found to ensure I am writing good object-oriented (OO)
-code is to ask, “What should this object know and not know?” It makes the
-objects a little more real and concrete for me, and forces me to write clean
-and simple code because it is such an honest and simple question. </p>
+    <p>This is a follow up on an <a href="/2015/01/26/control-flow-in-ruby/">earlier post</a> on
+control flow in Ruby.</p>
 
-<p>The <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility
-Principle</a> is a
-fundamental idea in OO programming and should always be your first question when
-you feel your code is starting to get out of hand. Take the following example:</p>
+<h2 id="if-you-must-repeatedly-loop-over-code-use-while-or-until">If you must repeatedly loop over code, use While or Until</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Checkout</span>
+<p>Introducing with the condition for a code loop upfront is much more readable
+than having a break statement buried in a loop statement.</p>
 
-  <span class="k">def</span> <span class="nf">purchase</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-    <span class="n">item_price</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">price</span>
-    <span class="n">tax</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">*</span> <span class="o">.</span><span class="mo">07</span>
-    <span class="n">grand_total</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">+</span> <span class="n">tax</span> 
-  <span class="k">end</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="kp">loop</span> <span class="k">do</span>
+  <span class="n">number</span> <span class="o">+=</span><span class="mi">1</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
+  <span class="k">break</span> <span class="k">if</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="mi">100</span>
+<span class="k">end</span>
 
+<span class="c1"># Good</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
 <span class="k">end</span></code></pre></div>
 
-<p>Here I’ve tried to isolate that moment when your gut is starting to feel a
-little so-so about the code because you are introducing something into the
-Checkout logic that feels a little out of its domain: knowledge of how to
-appropriate tax to the checkout. </p>
+<p>Avoid the for method which is even less readable</p>
 
-<p>Now this is a simple example where you might only care about local state tax, but
-it is suddenly a leak in your airtight encapsulation of responsibility. What if
-this logic suddenly has to accommodate multi-state purchases and know more than
-one state tax rate? What if certain items are taxed at different rates? You can
-see that trying to keep this logic in Checkout becomes a losing battle.</p>
+<h2 id="use-collect-for-building-a-new-array-from-a-collection">Use collect for building a new array from a collection</h2>
 
-<p>But the early signs of responsibility shift are not the difficult to see if you
-are asking the right question. Should Checkout need to know about the taxing
-rules for different states and different items? In any but the most
-rudimentary, time-sensitive context, the answer should be no.</p>
+<p>I used to create a blank array and then fill it with the each method. Now I
+prefer the collect method:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
+<span class="n">standardized_scores</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">percentage_scores</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">standardized_score</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
+  <span class="n">scores</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">standardize_score</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Good</span>
+<span class="n">standardized_scores</span> <span class="o">=</span> <span class="n">students</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="k">end</span></code></pre></div>
+
+<h2 id="use-each-or-select-for-iterating-through-a-hash">Use each or select for iterating through a hash</h2>
+
+<p>The each method is very readable and gets the job done most of the time for
+iterating over a hash. </p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_birthdays</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;July 12&quot;</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;November 1&quot;</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;March 12&quot;</span> <span class="p">}</span>
+<span class="n">students_birthdays</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">student</span><span class="p">,</span> <span class="n">birthday</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">&#39;s birthday is </span><span class="si">#{</span><span class="n">birthday</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>For more complex cases, feel free to use select. This returns a hash consisting
+of entries for which the block returns true.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_ages</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">}</span>
+<span class="n">older_students</span> <span class="o">=</span> <span class="n">students_ages</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span>
+  <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">11</span>
+<span class="k">end</span></code></pre></div>
+
 
   </article>
   
@@ -152,7 +179,7 @@ rudimentary, time-sensitive context, the answer should be no.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-01-30T08:51:51-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-02-02T07:47:04-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
