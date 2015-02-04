@@ -5,6 +5,8 @@
   <div class="about_me">
     <h3>Recent Posts</h3>
       
+        <a href=" /2015/02/04/sidekiq-in-rails/ "> Sidekiq in Rails </a><br>
+      
         <a href=" /2015/02/01/conways-law/ "> Conway's Law </a><br>
       
         <a href=" /2015/01/26/control-flow-in-ruby/ "> Control Flow in Ruby Pt. I </a><br>
@@ -12,8 +14,6 @@
         <a href=" /2015/01/17/control-flow-in-ruby-ii/ "> Control Flow in Ruby Pt. II </a><br>
       
         <a href=" /2014/01/22/make-your-ruby-objects-single-minded/ "> Make your Ruby Objects Single-Minded </a><br>
-      
-        <a href=" /2014/01/21/private-methods-in-ruby/ "> Private Methods in Ruby </a><br>
       
 
     <br>
@@ -88,61 +88,48 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2014/01/21/private-methods-in-ruby/">
-        Private Methods in Ruby
+      <a href="/2014/01/22/make-your-ruby-objects-single-minded/">
+        Make your Ruby Objects Single-Minded
       </a>
     </h1>
 
-    <time datetime="2014-01-21T00:00:00-05:00" class="post-date">21 Jan 2014</time>
+    <time datetime="2014-01-22T00:00:00-05:00" class="post-date">22 Jan 2014</time>
 
-    <p>“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
-some ways the question makes sense: you are only hiding this method from
-yourself or someone else whom you trust enough already to be working along the
-project with you. So what gives?</p>
+    <p>The easiest way I have found to ensure I am writing good object-oriented (OO)
+code is to ask, “What should this object know and not know?” It makes the
+objects a little more real and concrete for me, and forces me to write clean
+and simple code because it is such an honest and simple question. </p>
 
-<p>Let’s start with an example:</p>
+<p>The <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility
+Principle</a> is a
+fundamental idea in OO programming and should always be your first question when
+you feel your code is starting to get out of hand. Take the following example:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Concert</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Checkout</span>
 
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">number_of_attendees</span><span class="p">)</span>
-    <span class="vi">@band</span> <span class="o">=</span> <span class="n">band</span>
-    <span class="vi">@time</span> <span class="o">=</span> <span class="n">time</span>
-    <span class="vi">@number_of_attendees</span> <span class="o">=</span> <span class="n">number_of_attendees</span>
+  <span class="k">def</span> <span class="nf">purchase</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">item_price</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">price</span>
+    <span class="n">tax</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">*</span> <span class="o">.</span><span class="mo">07</span>
+    <span class="n">grand_total</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">+</span> <span class="n">tax</span> 
   <span class="k">end</span>
 
-  <span class="k">def</span> <span class="nf">prepare</span>
-    <span class="n">open_venue</span>
-    <span class="c1"># other preperations</span>
-  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-  <span class="kp">private</span> <span class="c1"># Every method below this is private</span>
+<p>Here I’ve tried to isolate that moment when your gut is starting to feel a
+little so-so about the code because you are introducing something into the
+Checkout logic that feels a little out of its domain: knowledge of how to
+appropriate tax to the checkout. </p>
 
-  <span class="k">def</span> <span class="nf">open_venue</span>
-    <span class="c1"># open venue logic</span>
-  <span class="k">end</span>
+<p>Now this is a simple example where you might only care about local state tax, but
+it is suddenly a leak in your airtight encapsulation of responsibility. What if
+this logic suddenly has to accommodate multi-state purchases and know more than
+one state tax rate? What if certain items are taxed at different rates? You can
+see that trying to keep this logic in Checkout becomes a losing battle.</p>
 
-<span class="k">end</span>
-
-<span class="n">concert</span> <span class="o">=</span> <span class="no">Concert</span><span class="o">.</span><span class="n">new</span>
-<span class="n">concert</span><span class="o">.</span><span class="n">prepare</span>
-<span class="n">concert</span><span class="o">.</span><span class="n">open_venue</span> <span class="c1">#NoMethodError: private method &#39;open_venue&#39;</span></code></pre></div>
-
-<p>Here you can see that we are able to see that open_venue is defined under
-private in the class, that open_venue can be called within the class, but it cannot
-be called outside of the class. This is because in Ruby private methods cannot have an explicit receiver. When we call concert.open_venue our explicit receiver is concert, but when it is called in the prepare method it is called implicitly within the calling object.</p>
-
-<p>Knowing how it works, however, doesn’t get back to the original question of “Why
-ever use it?”</p>
-
-<p>I advocate private methods as a means of clearly defining the public interface
-for a class. Public interfaces are a very important concept and allow you the
-signal to other developers that some of these things are publicly available to you and
-will remain relatively stable while other things are not and may be subject to
-change. This is particularly relevant in Rails controllers where I suggest
-keeping only the methods associated with controller actions public while making 
-any others private. This <a href="/2014/01/22/make-your-ruby-objects-single-minded/">separation of concerns</a> frees you up to continually rework the
-“how” methods that contain must of the logic without fear of breaking external
-code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.</p>
+<p>But the early signs of responsibility shift are not the difficult to see if you
+are asking the right question. Should Checkout need to know about the taxing
+rules for different states and different items? In any but the most
+rudimentary, time-sensitive context, the answer should be no.</p>
 
   </article>
   
@@ -165,7 +152,7 @@ code and gives developers working with your class from the outside an ease of mi
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-02T07:47:04-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-02-04T08:04:00-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
