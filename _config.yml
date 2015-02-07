@@ -7,7 +7,7 @@ title:            Wrong Abstraction
 tagline:          Ruby Developer 
 url:              http://vpfaulkner@github.io.com
 paginate:         1
-baseurl:          /
+baseurl:          http://vpfaulkner.github.io/
 author:
   name:           Vance Faulkner
   url:            vpfaulkner@github.io.com 
