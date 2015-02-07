@@ -15,52 +15,56 @@ title: Playbook
 
 ##Task Management
 
-Task management should prioritize productivity above all else. For me, simple systems are easy to get started and easy to maintain.
+Task management should prioritize productivity above all else. This couples well with simplicity as simple systems are easy to get started and easy to maintain.
 
-* I like Trello for task management. Projects should be divided into verb-oriented tasks and those tasks divided into three simple categories: "Not Started", "In Progress", and "Complete".
+* Use Trello because it makes task management simple.
 
-* Every morning, I look at my Trello board and write a simple daily to-do list on a white notepad. I find this helps emphasize the tasks I actually need to get done that day against all of the tasks available in the Trello board.
+* The mental model for task management: everything should be divided into verb-oriented tasks and those tasks divided into three simple categories: "Not Started", "In Progress", and "Complete".
 
-* I rely heavily on whiteboards or "back of the napkin" drawings. Their cheap, quick, and lend themselves to continually reworking.
+* Partition out your day's tasks using a simple to-do list on a white notepad. Don't be afraid to re-write it multiple times.
 
-##Dev Environment
-
-* I live in iTerm and Zsh because I like the productivity of using an command line
-  editor. I prefer Vim paired with tmux.
-
-* You will spend much more time reading code than you will spend writing it. Optimize to readability 99% of the time
+* Use whiteboards or "back of the napkin" drawings constantly. They're cheap, quick, and quickly get the point across.
 
 ##Preferred Languages and Frameworks
 
-* Ruby for its readability 
+Approach technologies as a craftsman approaches a tool: he hopes to be familiar with broad range of them but then deeply invests in a few.
 
-* Rails for its productivity
+* Life's too short to work with a language you don't love. I prefer Ruby for its readability
 
-* JQuery
+* Don't overkill an app with too much framework. For Ruby projects I prefer Rack for very simple applications and Rails for more complex ones.
 
-* Ember.js
+* Invest in learning JQuery and Javascript because of their ubiquity.
 
-* PostgreSQL
+* PostgreSQL almost always gets the job done and there are a ton of resources on it.
 
+* Modularity is appropriate at all levels. For web applications, prefer building a [static app](http://www.staticapps.org/) if possible.
 
-##Dev Ops
+##Dev Environment
 
-* Test driven development with RSpec
+Invest in your dev environment but not at the expense of productivity or simplicity. Try and instill a rhythm to your work through TDD and continuous deployment.
 
-* [Sandi Metz approach to testing](https://www.youtube.com/watch?v=URSWYvyc42M)
+* You will spend much more time reading code than you will spend writing it. Optimize to readability 99% of the time
 
-* Continuous deployment with Travis and Heroku
+* Embrace test driven development. I prefer RSpec but there are a variety of choices that work.
 
-* [Thoughtbot's Git protocol](https://github.com/thoughtbot/guides/tree/master/protocol/git)
+* Follow [Sandi Metz approach to testing](https://www.youtube.com/watch?v=URSWYvyc42M). It will make sticking to TDD much easier.
+
+* Also embrace continuous deployment. I prefer Travis and Heroku because of their ubiquity.
+
+* Ensure everyone is on the same Git workflow. If you are looking for one start with [Thoughtbot's Git protocol](https://github.com/thoughtbot/guides/tree/master/protocol/git)
+
+* They matter less than the hype they garner but do find an editor you can invest in. I prefer doing everything from the command line so I use Vim paired with tmux. I recommend iTerm and Zsh.
 
 * When in doubt, follow the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide)
 
 
 ##Personal
 
-* [Moleskine Folio Ruled A4
-   Book](http://www.moleskine.com/us/collections/model/product/folio-ruled-book-a4) for daily reflection
+Above all, invest in yourself.
 
-* [Lamy Safari Fountain
+* Write daily for reflection. I prefer a [Moleskine Folio Ruled A4
+   Book](http://www.moleskine.com/us/collections/model/product/folio-ruled-book-a4) because it provides lots of room for thinking
+
+* If you write daily invest in a pen you like using. I use the [Lamy Safari Fountain
    Pen](http://www.amazon.com/Lamy-Safari-Fountain-Pen-Charcoal/dp/B0002T401Y)
 
