@@ -12,19 +12,19 @@ development. As a developer I work primarily in Ruby on Rails and frontend
 
 Some of my favorite tools:
 
-* Languages: Ruby, Javascript, HTML, CSS
+* **Languages**: Ruby, Javascript, HTML, CSS
 
-* Web Frameworks: Ruby on Rails
+* **Web Frameworks**: Ruby on Rails
 
-* Frontend Frameworks: jQuery, Middleman, Bourbon, Foundation
+* **Frontend Frameworks**: jQuery, Middleman, Bourbon, Foundation
 
-* Version Control: Git
+* **Version Control**: Git
 
-* Database: PostgreSQL, MongoDB
+* **Database**: PostgreSQL, MongoDB
 
-* Testing: RSpec
+* **Testing**: RSpec
 
-* Other: AJAX, Sidekiq, VIM
+* **Other**: AJAX, Sidekiq, VIM
 
-* Education: University of North Carolina - BA in Economics
+* **Education**: University of North Carolina - BA in Economics
 
