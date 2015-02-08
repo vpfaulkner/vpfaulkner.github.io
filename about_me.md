@@ -18,13 +18,13 @@ Some of my favorite tools and background:
 
 * **Frontend Frameworks & Libraries**: jQuery, Middleman, Jekyll, Bourbon, Foundation
 
-* **Dev Ops & Version Control**: Git, Github, Bitbucket
+* **Dev Ops & Version Control**: Git, Github, Bitbucket, Heroku, UNIX
 
 * **Database**: PostgreSQL, MongoDB
 
-* **Testing**: RSpec
+* **Testing**: RSpec, Capybara
 
-* **Other**: Sidekiq, Heroku, VIM, UNIX, Haml, Sass, Markdown, JSON, rbenv
+* **Other**: Sidekiq, VIM, Haml, Sass, Markdown, JSON, rbenv
 
 * **Education**: University of North Carolina - BA in Economics
 
