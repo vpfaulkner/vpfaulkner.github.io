@@ -39,7 +39,7 @@
 
   <title>
     
-      Control Flow in Ruby Pt. I &middot; Wrong Abstraction
+      When to use modules in Ruby &middot; Wrong Abstraction
     
   </title>
 
@@ -84,71 +84,71 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">Control Flow in Ruby Pt. I</h1>
-  <time datetime="2015-01-26T00:00:00-05:00" class="page-date">26 Jan 2015</time>
-  <p>Control flow is an important beginner concept in Ruby that you’ll need to master
-early on. Understanding the concepts can be difficult to someone new to
-programming but, once the idea starts to sink in, you find yourself no longer
-struggling with the syntax but instead with the overwhelming number of options
-you could use to several your particular problem. In fact, many beginners
-overuse the first control flow concept they really understood well and never
-branch out to understand the others.</p>
+  <h1 class="post-title">When to use modules in Ruby</h1>
+  <time datetime="2015-01-11T00:00:00-05:00" class="page-date">11 Jan 2015</time>
+  <p>When should you use modules in Ruby? </p>
 
-<p>In light of this, I’m going to provide some general guidelines for how to think
-through the various options you have when needing control flow.</p>
+<h3 id="question-1-do-you-need-to-it-to-carry-state">Question 1: Do you need to it to carry state?</h3>
 
-<h2 id="use-the-if-statement-for-two-branches-of-logic-or-less">Use the if statement for two branches of logic or less</h2>
+<p>If so, then you should probably use a class. In fact, for most use-cases,
+particularly if you are new to object-oriented programming, if what you are
+trying to do should be done with a class.</p>
 
-<p>The if keyword verifies whether an expression is true. If it is, the next line
-is executed. </p>
+<p>When thinking of your program, think first in terms of what objects are
+necessary for you to create the interactions required. Methods that for whatever
+reason do not form an object that should be instantiated can be contained within
+a class.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
+<h3 id="question-2-could-this-be-done-with-a-few-singleton-class-methods-on-an-existing-class">Question 2: Could this be done with a few singleton class methods on an existing class?</h3>
+
+<p>While oftentimes overused, class methods can be a better alternative.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Document</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_pdf</span>
+    <span class="c1">#...</span>
+  <span class="k">end</span>
+
 <span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;y&quot;</span>
+<h3 id="question-3-will-this-be-helpful-in-multiple-classes">Question 3: Will this be helpful in multiple classes?</h3>
+
+<p>Modules provide mixin functionality and allow you to extend the same logic to
+multiple classes.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Converter</span> 
+
+  <span class="k">def</span> <span class="nf">convert_to_pdf</span>
+    <span class="c1">#...</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">class</span> <span class="no">Document</span>
+  <span class="kp">include</span> <span class="no">Converter</span>
+
+  <span class="c1">#...</span>
+<span class="k">end</span>
+
+<span class="n">document</span> <span class="o">=</span> <span class="no">Document</span><span class="o">.</span><span class="n">new</span>
+<span class="n">document</span><span class="o">.</span><span class="n">convert_to_pdf</span></code></pre></div>
+
+<h3 id="question-4-do-i-need-it-for-namespacing">Question 4: Do I need it for namespacing?</h3>
+
+<p>I generally don’t think namespacing is the best reason to create a module but
+there are certain use-cases (such as with building APIs that might need
+namespacing for versioning) when it becomes appropriate.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Math</span>
+  <span class="no">PI</span> <span class="o">=</span> <span class="mi">3</span><span class="o">.</span><span class="mi">14</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">circle</span>
+  <span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+    <span class="mi">2</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="n">radius</span>
+  <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">&quot;x&quot;</span> <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span></code></pre></div>
-
-<p>These are generally the scenarios I use if statements for. Each one has a
-maximum of two branches of logic, and I prefer the third single line syntax if
-it feels more readable and can fit in an 80 character line.</p>
-
-<h2 id="use-unless-over-if-condition">Use Unless over if !condition</h2>
-
-<p>I like the unless statement over awkward if !condition because I think it is
-more readable.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">unless</span> <span class="n">decimal</span>
-  <span class="nb">puts</span> <span class="s2">&quot;whole number&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>As with if, I also prefer single-line syntax when possible</p>
-
-<h2 id="use-the-case-statement-for-multiple-branches">Use the case statement for multiple branches</h2>
-
-<p>One could use a whole nest of elsif statements but it makes your code messier
-and difficult to read. Prefer the case statement:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">case</span> <span class="n">song</span>
-<span class="k">when</span> <span class="s2">&quot;I Will&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;White Album&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Tomorrow Never Knows&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Revolver&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Hello, Goodbye&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Magical Mystery Tour&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t know&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Sometimes you have multiple branches of logic but the conditions are a little
-more complicated so you feel forced into a lot of complicated elsif statements.
-This is a sign that you need to refactor the logic into separate methods.
-Usually you can then create a new variable and use this in a case statement.</p>
 
 </article>
 
@@ -191,7 +191,7 @@ Usually you can then create a new variable and use this in a case statement.</p>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2015/01/26/control-flow-in-ruby/";
+    var disqus_identifier = "/2015/01/11/when-to-use-modules-in-ruby/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

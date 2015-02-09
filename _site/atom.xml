@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Wrong Abstraction</title>
- <link href="http://vpfaulkner@github.io.com/atom.xml" rel="self"/>
- <link href="http://vpfaulkner@github.io.com/"/>
- <updated>2015-02-07T10:24:41-05:00</updated>
+ <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
+ <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
+ <updated>2015-02-09T08:13:01-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
@@ -13,8 +13,30 @@
 
  
  <entry>
+   <title>What are Key Value Stores?</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/02/09/what-are-key-value-stores/"/>
+   <updated>2015-02-09T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/02/09/what-are-key-value-stores</id>
+   <content type="html">&lt;p&gt;Perhaps you’ve heard about “key value stores” or even one of the more popular forms of key value stores such as Redis, but are still a little unsure of what they are and their place.&lt;/p&gt;
+
+&lt;p&gt;To begin, let’s start with simply key value pairs:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;no&quot;&gt;Name&lt;/span&gt;         &lt;span class=&quot;no&quot;&gt;George&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Hair&lt;/span&gt;         &lt;span class=&quot;no&quot;&gt;White&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;Occupation&lt;/span&gt;   &lt;span class=&quot;no&quot;&gt;President&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You get the picture: data is stored as part of a key (Name) and a value (George). You’re probably familiar with this concept but as a way to store data temporarily in memory, such as a hash in Ruby. However, when it comes to persisting data you think of storing it as part of a relational database with structured data, similar to how you would imagine it appearing on an Excel spreadsheet. &lt;/p&gt;
+
+&lt;p&gt;We won’t get into the full topic here but the reality is that persisting data in a database doesn’t have to look this way. There is another type of database called NoSQL that is preferred for data with inconsistent structure or data that can be very large. NoSQL DBs can come in variety of flavors and be useful for a variety of reasons but the type we are interested in here, key value stores, tend to lend themselves to situations in which accommodating speed and scalability is more important than accommodating complexity.&lt;/p&gt;
+
+&lt;p&gt;The most popular key value store is Redis and some advantages that it provides is storing the data in-memory and allows for data types beyond just strings. Use Redis when you are dealing with frequently updated data that you want to retrieve quickly and don’t need to a more complex document-based NoSQL or SQL database. Think caching, queues, online shopping carts, etc. Moreover, many popular tools such as &lt;a href=&quot;/2015/02/04/sidekiq-in-rails/&quot;&gt;Sidekiq&lt;/a&gt; use Redis so you are bound to run into it at one point.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>Sidekiq in Rails</title>
-   <link href="http://vpfaulkner@github.io.com//2015/02/04/sidekiq-in-rails/"/>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/02/04/sidekiq-in-rails/"/>
    <updated>2015-02-04T00:00:00-05:00</updated>
    <id>http://vpfaulkner@github.io.com/2015/02/04/sidekiq-in-rails</id>
    <content type="html">&lt;p&gt;If you’re looking to run a background job in Ruby, one tool that I have found very easy to work with is Sidekiq. First off, how to use it:&lt;/p&gt;
@@ -62,7 +84,7 @@
  
  <entry>
    <title>Conway's Law</title>
-   <link href="http://vpfaulkner@github.io.com//2015/02/01/conways-law/"/>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/02/01/conways-law/"/>
    <updated>2015-02-01T00:00:00-05:00</updated>
    <id>http://vpfaulkner@github.io.com/2015/02/01/conways-law</id>
    <content type="html">&lt;p&gt;“Why was it setup this way?”&lt;/p&gt;
@@ -81,7 +103,7 @@
  
  <entry>
    <title>Control Flow in Ruby Pt. I</title>
-   <link href="http://vpfaulkner@github.io.com//2015/01/26/control-flow-in-ruby/"/>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/26/control-flow-in-ruby/"/>
    <updated>2015-01-26T00:00:00-05:00</updated>
    <id>http://vpfaulkner@github.io.com/2015/01/26/control-flow-in-ruby</id>
    <content type="html">&lt;p&gt;Control flow is an important beginner concept in Ruby that you’ll need to master
@@ -151,8 +173,190 @@ Usually you can then create a new variable and use this in a case statement.&lt;
  </entry>
  
  <entry>
+   <title>Make your Ruby Objects Single-Minded</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/22/make-your-ruby-objects-single-minded/"/>
+   <updated>2015-01-22T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/22/make-your-ruby-objects-single-minded</id>
+   <content type="html">&lt;p&gt;The easiest way I have found to ensure I am writing good object-oriented (OO)
+code is to ask, “What should this object know and not know?” It makes the
+objects a little more real and concrete for me, and forces me to write clean
+and simple code because it is such an honest and simple question. &lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;http://en.wikipedia.org/wiki/Single_responsibility_principle&quot;&gt;Single Responsibility
+Principle&lt;/a&gt; is a
+fundamental idea in OO programming and should always be your first question when
+you feel your code is starting to get out of hand. Take the following example:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Checkout&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;purchase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;item_price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;price&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item_price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;07&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;grand_total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item_price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tax&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here I’ve tried to isolate that moment when your gut is starting to feel a
+little so-so about the code because you are introducing something into the
+Checkout logic that feels a little out of its domain: knowledge of how to
+appropriate tax to the checkout. &lt;/p&gt;
+
+&lt;p&gt;Now this is a simple example where you might only care about local state tax, but
+it is suddenly a leak in your airtight encapsulation of responsibility. What if
+this logic suddenly has to accommodate multi-state purchases and know more than
+one state tax rate? What if certain items are taxed at different rates? You can
+see that trying to keep this logic in Checkout becomes a losing battle.&lt;/p&gt;
+
+&lt;p&gt;But the early signs of responsibility shift are not the difficult to see if you
+are asking the right question. Should Checkout need to know about the taxing
+rules for different states and different items? In any but the most
+rudimentary, time-sensitive context, the answer should be no.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Private Methods in Ruby</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/21/private-methods-in-ruby/"/>
+   <updated>2015-01-21T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/21/private-methods-in-ruby</id>
+   <content type="html">&lt;p&gt;“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
+some ways the question makes sense: you are only hiding this method from
+yourself or someone else whom you trust enough already to be working along the
+project with you. So what gives?&lt;/p&gt;
+
+&lt;p&gt;Let’s start with an example:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Concert&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;band&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_of_attendees&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@band&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;band&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@time&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@number_of_attendees&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_of_attendees&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepare&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;open_venue&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# other preperations&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Every method below this is private&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;open_venue&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# open venue logic&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prepare&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open_venue&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#NoMethodError: private method &amp;#39;open_venue&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here you can see that we are able to see that open_venue is defined under
+private in the class, that open_venue can be called within the class, but it cannot
+be called outside of the class. This is because in Ruby private methods cannot have an explicit receiver. When we call concert.open_venue our explicit receiver is concert, but when it is called in the prepare method it is called implicitly within the calling object.&lt;/p&gt;
+
+&lt;p&gt;Knowing how it works, however, doesn’t get back to the original question of “Why
+ever use it?”&lt;/p&gt;
+
+&lt;p&gt;I advocate private methods as a means of clearly defining the public interface
+for a class. Public interfaces are a very important concept and allow you the
+signal to other developers that some of these things are publicly available to you and
+will remain relatively stable while other things are not and may be subject to
+change. This is particularly relevant in Rails controllers where I suggest
+keeping only the methods associated with controller actions public while making 
+any others private. This &lt;a href=&quot;/2014/01/22/make-your-ruby-objects-single-minded/&quot;&gt;separation of concerns&lt;/a&gt; frees you up to continually rework the
+“how” methods that contain must of the logic without fear of breaking external
+code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>How Big Should Methods Be?</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/20/how-big-should-methods-be/"/>
+   <updated>2015-01-20T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/20/how-big-should-methods-be</id>
+   <content type="html">&lt;p&gt;I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see &lt;a href=&quot;http://robots.thoughtbot.com/sandi-metz-rules-for-developers&quot;&gt;Sandi Metz’s blogpost&lt;/a&gt; on the Thoughtbot blog). &lt;/p&gt;
+
+&lt;p&gt;Now to be honest, I take this as more of a rule of thumb than an unbreakable law
+but perhaps that is because I bend more towards pragmatism than purist although
+I (like you) try to walk that in that in-between. This means I’m not going
+through my code or my coworkers code hellbent on conforming it to meet this
+standard, but I am usually advocating for smaller methods, particular if the
+method is 10 lines or more. The reasons I like this are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;/2014/01/14/write-code-worth-reading/&quot;&gt;Readability of
+code&lt;/a&gt; is the ultimate test of good code for me and I think
+small methods with good names make a huge difference in readability. &lt;/li&gt;
+  &lt;li&gt;I am forced to make large public methods much smaller which in turn
+forces me to make a lot of these methods private to &lt;a href=&quot;/2014/01/21/private-methods-in-ruby/&quot;&gt;limit that class’ public
+interface&lt;/a&gt;. The result is more readable public interface and me having to spend more
+time actually thinking about what kind of public interface I want to have.&lt;/li&gt;
+  &lt;li&gt;Small things are simply easier to work with and more accommodating to change. &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Again, this is a rule of thumb that should push you in the right direction but
+not at the expense of more important things (such as just getting started).
+Using it to your discretion, you should be on your way to much more readable,
+flexible code.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Debugging Ruby with Pry</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/17/debugging-ruby-with-pry/"/>
+   <updated>2015-01-17T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/17/debugging-ruby-with-pry</id>
+   <content type="html">&lt;p&gt;There is nothing worse than trying to fix code without a debugger. Since
+starting with Ruby, Pry has become perhaps the most essential tool for me to
+be productive and happy. &lt;a href=&quot;http://pryrepl.org/&quot;&gt;Pry&lt;/a&gt; is the de facto standard for
+Ruby and acts as a debugger and alternative to IRB.&lt;/p&gt;
+
+&lt;p&gt;Install the Gem:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;gem install pry&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ensure pry is available in your Ruby file and drop binding.pry in:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# test.rb&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;pry&amp;#39;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;A&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;hello world!&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# start a REPL session&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pry&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# program resumes here (after pry session)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;program resumes here.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will open up a Pry session where you can investigate the program state at
+that point and begin debugging. &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;pry&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;main&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&amp;gt; a.hello
+hello world!
+&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;gt; nil
+pry&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;main&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&amp;gt; puts x
+&lt;span class=&quot;nv&quot;&gt;10&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;gt; nil&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The closer you get to your code the smaller your feedback loops, the more
+quickly you’ll be productive. Instead of trying to guess what a variable is at
+that point in the program, just drop a pry in and find out for sure. &lt;/p&gt;
+
+&lt;p&gt;I prefer to use this approach most with a test driven development workflow where
+I am constantly invoking the debugging session by running the particular
+test I am working on. &lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Control Flow in Ruby Pt. II</title>
-   <link href="http://vpfaulkner@github.io.com//2015/01/17/control-flow-in-ruby-ii/"/>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/17/control-flow-in-ruby-ii/"/>
    <updated>2015-01-17T00:00:00-05:00</updated>
    <id>http://vpfaulkner@github.io.com/2015/01/17/control-flow-in-ruby-ii</id>
    <content type="html">&lt;p&gt;This is a follow up on an &lt;a href=&quot;/2015/01/26/control-flow-in-ruby/&quot;&gt;earlier post&lt;/a&gt; on
@@ -221,192 +425,10 @@ of entries for which the block returns true.&lt;/p&gt;
  </entry>
  
  <entry>
-   <title>Make your Ruby Objects Single-Minded</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/22/make-your-ruby-objects-single-minded/"/>
-   <updated>2014-01-22T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/22/make-your-ruby-objects-single-minded</id>
-   <content type="html">&lt;p&gt;The easiest way I have found to ensure I am writing good object-oriented (OO)
-code is to ask, “What should this object know and not know?” It makes the
-objects a little more real and concrete for me, and forces me to write clean
-and simple code because it is such an honest and simple question. &lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;http://en.wikipedia.org/wiki/Single_responsibility_principle&quot;&gt;Single Responsibility
-Principle&lt;/a&gt; is a
-fundamental idea in OO programming and should always be your first question when
-you feel your code is starting to get out of hand. Take the following example:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Checkout&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;purchase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;item_price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;price&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tax&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item_price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mo&quot;&gt;07&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;grand_total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item_price&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tax&lt;/span&gt; 
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here I’ve tried to isolate that moment when your gut is starting to feel a
-little so-so about the code because you are introducing something into the
-Checkout logic that feels a little out of its domain: knowledge of how to
-appropriate tax to the checkout. &lt;/p&gt;
-
-&lt;p&gt;Now this is a simple example where you might only care about local state tax, but
-it is suddenly a leak in your airtight encapsulation of responsibility. What if
-this logic suddenly has to accommodate multi-state purchases and know more than
-one state tax rate? What if certain items are taxed at different rates? You can
-see that trying to keep this logic in Checkout becomes a losing battle.&lt;/p&gt;
-
-&lt;p&gt;But the early signs of responsibility shift are not the difficult to see if you
-are asking the right question. Should Checkout need to know about the taxing
-rules for different states and different items? In any but the most
-rudimentary, time-sensitive context, the answer should be no.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Private Methods in Ruby</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/21/private-methods-in-ruby/"/>
-   <updated>2014-01-21T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/21/private-methods-in-ruby</id>
-   <content type="html">&lt;p&gt;“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
-some ways the question makes sense: you are only hiding this method from
-yourself or someone else whom you trust enough already to be working along the
-project with you. So what gives?&lt;/p&gt;
-
-&lt;p&gt;Let’s start with an example:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Concert&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;band&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_of_attendees&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@band&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;band&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@time&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@number_of_attendees&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number_of_attendees&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepare&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;open_venue&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# other preperations&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Every method below this is private&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;open_venue&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# open venue logic&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prepare&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;concert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open_venue&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#NoMethodError: private method &amp;#39;open_venue&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here you can see that we are able to see that open_venue is defined under
-private in the class, that open_venue can be called within the class, but it cannot
-be called outside of the class. This is because in Ruby private methods cannot have an explicit receiver. When we call concert.open_venue our explicit receiver is concert, but when it is called in the prepare method it is called implicitly within the calling object.&lt;/p&gt;
-
-&lt;p&gt;Knowing how it works, however, doesn’t get back to the original question of “Why
-ever use it?”&lt;/p&gt;
-
-&lt;p&gt;I advocate private methods as a means of clearly defining the public interface
-for a class. Public interfaces are a very important concept and allow you the
-signal to other developers that some of these things are publicly available to you and
-will remain relatively stable while other things are not and may be subject to
-change. This is particularly relevant in Rails controllers where I suggest
-keeping only the methods associated with controller actions public while making 
-any others private. This &lt;a href=&quot;/2014/01/22/make-your-ruby-objects-single-minded/&quot;&gt;separation of concerns&lt;/a&gt; frees you up to continually rework the
-“how” methods that contain must of the logic without fear of breaking external
-code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>How Big Should Methods Be?</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/20/how-big-should-methods-be/"/>
-   <updated>2014-01-20T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/20/how-big-should-methods-be</id>
-   <content type="html">&lt;p&gt;I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see &lt;a href=&quot;http://robots.thoughtbot.com/sandi-metz-rules-for-developers&quot;&gt;Sandi Metz’s blogpost&lt;/a&gt; on the Thoughtbot blog). &lt;/p&gt;
-
-&lt;p&gt;Now to be honest, I take this as more of a rule of thumb than an unbreakable law
-but perhaps that is because I bend more towards pragmatism than purist although
-I (like you) try to walk that in that in-between. This means I’m not going
-through my code or my coworkers code hellbent on conforming it to meet this
-standard, but I am usually advocating for smaller methods, particular if the
-method is 10 lines or more. The reasons I like this are:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;/2014/01/14/write-code-worth-reading/&quot;&gt;Readability of
-code&lt;/a&gt; is the ultimate test of good code for me and I think
-small methods with good names make a huge difference in readability. &lt;/li&gt;
-  &lt;li&gt;I am forced to make large public methods much smaller which in turn
-forces me to make a lot of these methods private to &lt;a href=&quot;/2014/01/21/private-methods-in-ruby/&quot;&gt;limit that class’ public
-interface&lt;/a&gt;. The result is more readable public interface and me having to spend more
-time actually thinking about what kind of public interface I want to have.&lt;/li&gt;
-  &lt;li&gt;Small things are simply easier to work with and more accommodating to change. &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Again, this is a rule of thumb that should push you in the right direction but
-not at the expense of more important things (such as just getting started).
-Using it to your discretion, you should be on your way to much more readable,
-flexible code.&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>Debugging Ruby with Pry</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/17/debugging-ruby-with-pry/"/>
-   <updated>2014-01-17T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/17/debugging-ruby-with-pry</id>
-   <content type="html">&lt;p&gt;There is nothing worse than trying to fix code without a debugger. Since
-starting with Ruby, Pry has become perhaps the most essential tool for me to
-be productive and happy. &lt;a href=&quot;http://pryrepl.org/&quot;&gt;Pry&lt;/a&gt; is the de facto standard for
-Ruby and acts as a debugger and alternative to IRB.&lt;/p&gt;
-
-&lt;p&gt;Install the Gem:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;gem install pry&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Ensure pry is available in your Ruby file and drop binding.pry in:&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# test.rb&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;pry&amp;#39;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;A&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;hello world!&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# start a REPL session&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pry&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# program resumes here (after pry session)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;program resumes here.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This will open up a Pry session where you can investigate the program state at
-that point and begin debugging. &lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;pry&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;main&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&amp;gt; a.hello
-hello world!
-&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;gt; nil
-pry&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;main&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&amp;gt; puts x
-&lt;span class=&quot;nv&quot;&gt;10&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&amp;gt; nil&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The closer you get to your code the smaller your feedback loops, the more
-quickly you’ll be productive. Instead of trying to guess what a variable is at
-that point in the program, just drop a pry in and find out for sure. &lt;/p&gt;
-
-&lt;p&gt;I prefer to use this approach most with a test driven development workflow where
-I am constantly invoking the debugging session by running the particular
-test I am working on. &lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
    <title>Write Code worth Reading</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/14/write-code-worth-reading/"/>
-   <updated>2014-01-14T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/14/write-code-worth-reading</id>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/14/write-code-worth-reading/"/>
+   <updated>2015-01-14T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/14/write-code-worth-reading</id>
    <content type="html">&lt;p&gt;Coding is full of a lot of gray decisions. There is a ambiguous spectrum between
 design choices and stylistic choices and no easy sense of where one ends and
 the other begins.&lt;/p&gt;
@@ -439,9 +461,9 @@ vastly more readable and so it is the one I would go with. &lt;/p&gt;
  
  <entry>
    <title>Instance Variables in Rails</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/13/instance-variables-in-rails/"/>
-   <updated>2014-01-13T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/13/instance-variables-in-rails</id>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/13/instance-variables-in-rails/"/>
+   <updated>2015-01-13T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/13/instance-variables-in-rails</id>
    <content type="html">&lt;p&gt;Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
 there a whole new structure for you to learn, existing syntax starts to take on
 new meaning.&lt;/p&gt;
@@ -504,9 +526,9 @@ thinking in these &lt;/p&gt;
  
  <entry>
    <title>What to do with Sensitive Information in Rails?</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/12/sensitive-passwords-in-rails/"/>
-   <updated>2014-01-12T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/12/sensitive-passwords-in-rails</id>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/12/sensitive-passwords-in-rails/"/>
+   <updated>2015-01-12T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/12/sensitive-passwords-in-rails</id>
    <content type="html">&lt;p&gt;If you are just starting with Rails you will probably run into a moment where
 you need to incorporate some sensitive information that you don’t want to expose
 to the world via Github.&lt;/p&gt;
@@ -547,9 +569,9 @@ along with any other necessary but sensitive files such as a
  
  <entry>
    <title>Why Naming Matters</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/11/why-naming-matters/"/>
-   <updated>2014-01-11T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/11/why-naming-matters</id>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/11/why-naming-matters/"/>
+   <updated>2015-01-11T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/11/why-naming-matters</id>
    <content type="html">&lt;p&gt;One of the more subtle lessons I’ve learned since I started developing was how
 much object names both guide and reveal your thought process as you are building
 an application. Consider a few rules of thumb:&lt;/p&gt;
@@ -621,9 +643,9 @@ Guide&lt;/a&gt; you should do so. &lt;/p&gt;
  
  <entry>
    <title>When to use modules in Ruby</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/11/when-to-use-modules-in-ruby/"/>
-   <updated>2014-01-11T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/11/when-to-use-modules-in-ruby</id>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/11/when-to-use-modules-in-ruby/"/>
+   <updated>2015-01-11T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/11/when-to-use-modules-in-ruby</id>
    <content type="html">&lt;p&gt;When should you use modules in Ruby? &lt;/p&gt;
 
 &lt;h3 id=&quot;question-1-do-you-need-to-it-to-carry-state&quot;&gt;Question 1: Do you need to it to carry state?&lt;/h3&gt;
@@ -691,57 +713,10 @@ namespacing for versioning) when it becomes appropriate.&lt;/p&gt;
  </entry>
  
  <entry>
-   <title>Introducing Poole</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/02/introducing-poole/"/>
-   <updated>2014-01-02T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/02/introducing-poole</id>
-   <content type="html">&lt;p&gt;&lt;em&gt;The Strange Case of Dr. Jekyll and Mr. Hyde&lt;/em&gt; tells the story of a lawyer investigating the connection of two persons, Dr. Henry Jekyll and Mr. Edward Hyde. Chief among the novel’s supporting cast is a man by the name of Mr. Poole, Dr. Jekyll’s loyal butler.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Poole is the butler for &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt;, the static site generator. It’s designed and developed by &lt;a href=&quot;https://twitter.com/mdo&quot;&gt;@mdo&lt;/a&gt; to provide a clear and concise foundational setup for any Jekyll site. It does so by furnishing a full vanilla Jekyll install with example templates, pages, posts, and styles.&lt;/p&gt;
-
-&lt;p&gt;There are currently two themes built on Poole:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://hyde.getpoole.com&quot;&gt;Hyde&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://lanyon.getpoole.com&quot;&gt;Lanyon&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Learn more and contribute on &lt;a href=&quot;https://github.com/poole&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;whats-included&quot;&gt;What’s included&lt;/h3&gt;
-
-&lt;p&gt;Poole is a streamlined Jekyll site designed and built as a foundation for building more meaningful themes. Poole, and every theme built on it, includes the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Complete Jekyll setup included (layouts, config, &lt;a href=&quot;/404.html&quot;&gt;404&lt;/a&gt;, &lt;a href=&quot;/atom.xml&quot;&gt;RSS feed&lt;/a&gt;, posts, and &lt;a href=&quot;/about&quot;&gt;example page&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Mobile friendly design and development&lt;/li&gt;
-  &lt;li&gt;Easily scalable text and component sizing with &lt;code&gt;rem&lt;/code&gt; units in the CSS&lt;/li&gt;
-  &lt;li&gt;Support for a wide gamut of HTML elements&lt;/li&gt;
-  &lt;li&gt;Related posts (time-based, because Jekyll) below each post&lt;/li&gt;
-  &lt;li&gt;Syntax highlighting, courtesy Pygments (the Python-based code snippet highlighter)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Additional features are available in individual themes.&lt;/p&gt;
-
-&lt;h3 id=&quot;browser-support&quot;&gt;Browser support&lt;/h3&gt;
-
-&lt;p&gt;Poole and it’s themes are by preference a forward-thinking project. In addition to the latest versions of Chrome, Safari (mobile and desktop), and Firefox, it is only compatible with Internet Explorer 9 and above.&lt;/p&gt;
-
-&lt;h3 id=&quot;download&quot;&gt;Download&lt;/h3&gt;
-
-&lt;p&gt;Poole is developed on and hosted with GitHub. Head to the &lt;a href=&quot;https://github.com/poole/poole&quot;&gt;GitHub repository&lt;/a&gt; for downloads, bug reports, and features requests.&lt;/p&gt;
-
-&lt;p&gt;Thanks!&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
    <title>Example content</title>
-   <link href="http://vpfaulkner@github.io.com//2014/01/01/example-content/"/>
-   <updated>2014-01-01T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2014/01/01/example-content</id>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/01/01/example-content/"/>
+   <updated>2015-01-01T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/01/01/example-content</id>
    <content type="html">&lt;div class=&quot;message&quot;&gt;
   Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
 &lt;/div&gt;
@@ -880,21 +855,6 @@ namespacing for versioning) when it becomes appropriate.&lt;/p&gt;
 &lt;hr /&gt;
 
 &lt;p&gt;Want to see something else added? &lt;a href=&quot;https://github.com/poole/poole/issues/new&quot;&gt;Open an issue.&lt;/a&gt;&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>What's Jekyll?</title>
-   <link href="http://vpfaulkner@github.io.com//2013/12/31/whats-jekyll/"/>
-   <updated>2013-12-31T00:00:00-05:00</updated>
-   <id>http://vpfaulkner@github.io.com/2013/12/31/whats-jekyll</id>
-   <content type="html">&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From &lt;a href=&quot;https://github.com/jekyll/jekyll/blob/master/README.markdown&quot;&gt;the project’s readme&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Jekyll is a simple, blog aware, static site generator. It takes a template directory […] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;It’s an immensely useful tool. Find out more by &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;visiting the project on GitHub&lt;/a&gt;.&lt;/p&gt;
 </content>
  </entry>
  

@@ -39,7 +39,7 @@
 
   <title>
     
-      Control Flow in Ruby Pt. I &middot; Wrong Abstraction
+      What are Key Value Stores? &middot; Wrong Abstraction
     
   </title>
 
@@ -84,86 +84,28 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">Control Flow in Ruby Pt. I</h1>
-  <time datetime="2015-01-26T00:00:00-05:00" class="page-date">26 Jan 2015</time>
-  <p>Control flow is an important beginner concept in Ruby that you’ll need to master
-early on. Understanding the concepts can be difficult to someone new to
-programming but, once the idea starts to sink in, you find yourself no longer
-struggling with the syntax but instead with the overwhelming number of options
-you could use to several your particular problem. In fact, many beginners
-overuse the first control flow concept they really understood well and never
-branch out to understand the others.</p>
+  <h1 class="post-title">What are Key Value Stores?</h1>
+  <time datetime="2015-02-09T00:00:00-05:00" class="page-date">09 Feb 2015</time>
+  <p>Perhaps you’ve heard about “key value stores” or even one of the more popular forms of key value stores such as Redis, but are still a little unsure of what they are and their place.</p>
 
-<p>In light of this, I’m going to provide some general guidelines for how to think
-through the various options you have when needing control flow.</p>
+<p>To begin, let’s start with simply key value pairs:</p>
 
-<h2 id="use-the-if-statement-for-two-branches-of-logic-or-less">Use the if statement for two branches of logic or less</h2>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Name</span>         <span class="no">George</span>
+<span class="no">Hair</span>         <span class="no">White</span>
+<span class="no">Occupation</span>   <span class="no">President</span></code></pre></div>
 
-<p>The if keyword verifies whether an expression is true. If it is, the next line
-is executed. </p>
+<p>You get the picture: data is stored as part of a key (Name) and a value (George). You’re probably familiar with this concept but as a way to store data temporarily in memory, such as a hash in Ruby. However, when it comes to persisting data you think of storing it as part of a relational database with structured data, similar to how you would imagine it appearing on an Excel spreadsheet. </p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
-<span class="k">end</span></code></pre></div>
+<p>We won’t get into the full topic here but the reality is that persisting data in a database doesn’t have to look this way. There is another type of database called NoSQL that is preferred for data with inconsistent structure or data that can be very large. NoSQL DBs can come in variety of flavors and be useful for a variety of reasons but the type we are interested in here, key value stores, tend to lend themselves to situations in which accommodating speed and scalability is more important than accommodating complexity.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;y&quot;</span>
-<span class="k">end</span></code></pre></div>
+<p>The most popular key value store is Redis and some advantages that it provides is storing the data in-memory and allows for data types beyond just strings. Use Redis when you are dealing with frequently updated data that you want to retrieve quickly and don’t need to a more complex document-based NoSQL or SQL database. Think caching, queues, online shopping carts, etc. Moreover, many popular tools such as <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq</a> use Redis so you are bound to run into it at one point.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">&quot;x&quot;</span> <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span></code></pre></div>
-
-<p>These are generally the scenarios I use if statements for. Each one has a
-maximum of two branches of logic, and I prefer the third single line syntax if
-it feels more readable and can fit in an 80 character line.</p>
-
-<h2 id="use-unless-over-if-condition">Use Unless over if !condition</h2>
-
-<p>I like the unless statement over awkward if !condition because I think it is
-more readable.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">unless</span> <span class="n">decimal</span>
-  <span class="nb">puts</span> <span class="s2">&quot;whole number&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>As with if, I also prefer single-line syntax when possible</p>
-
-<h2 id="use-the-case-statement-for-multiple-branches">Use the case statement for multiple branches</h2>
-
-<p>One could use a whole nest of elsif statements but it makes your code messier
-and difficult to read. Prefer the case statement:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">case</span> <span class="n">song</span>
-<span class="k">when</span> <span class="s2">&quot;I Will&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;White Album&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Tomorrow Never Knows&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Revolver&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Hello, Goodbye&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Magical Mystery Tour&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t know&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Sometimes you have multiple branches of logic but the conditions are a little
-more complicated so you feel forced into a lot of complicated elsif statements.
-This is a sign that you need to refactor the logic into separate methods.
-Usually you can then create a new variable and use this in a case statement.</p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="http://vpfaulkner.github.io//2015/02/09/what-are-key-value-stores/">
-            What are Key Value Stores?
-            <small><time datetime="2015-02-09T00:00:00-05:00">09 Feb 2015</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -183,6 +125,15 @@ Usually you can then create a new variable and use this in a case statement.</p>
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/01/26/control-flow-in-ruby/">
+            Control Flow in Ruby Pt. I
+            <small><time datetime="2015-01-26T00:00:00-05:00">26 Jan 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -191,7 +142,7 @@ Usually you can then create a new variable and use this in a case statement.</p>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2015/01/26/control-flow-in-ruby/";
+    var disqus_identifier = "/2015/02/09/what-are-key-value-stores/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

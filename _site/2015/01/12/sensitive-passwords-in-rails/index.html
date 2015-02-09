@@ -39,7 +39,7 @@
 
   <title>
     
-      Control Flow in Ruby Pt. I &middot; Wrong Abstraction
+      What to do with Sensitive Information in Rails? &middot; Wrong Abstraction
     
   </title>
 
@@ -84,71 +84,43 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">Control Flow in Ruby Pt. I</h1>
-  <time datetime="2015-01-26T00:00:00-05:00" class="page-date">26 Jan 2015</time>
-  <p>Control flow is an important beginner concept in Ruby that you’ll need to master
-early on. Understanding the concepts can be difficult to someone new to
-programming but, once the idea starts to sink in, you find yourself no longer
-struggling with the syntax but instead with the overwhelming number of options
-you could use to several your particular problem. In fact, many beginners
-overuse the first control flow concept they really understood well and never
-branch out to understand the others.</p>
+  <h1 class="post-title">What to do with Sensitive Information in Rails?</h1>
+  <time datetime="2015-01-12T00:00:00-05:00" class="page-date">12 Jan 2015</time>
+  <p>If you are just starting with Rails you will probably run into a moment where
+you need to incorporate some sensitive information that you don’t want to expose
+to the world via Github.</p>
 
-<p>In light of this, I’m going to provide some general guidelines for how to think
-through the various options you have when needing control flow.</p>
+<p>There are multiple approaches but the easiest I’ve run into is with the <a href="https://github.com/bkeepers/dotenv">dotenv
+gem</a>. Per the instructions:</p>
 
-<h2 id="use-the-if-statement-for-two-branches-of-logic-or-less">Use the if statement for two branches of logic or less</h2>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span><span class="p">,</span> <span class="ss">:groups</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span></code></pre></div>
 
-<p>The if keyword verifies whether an expression is true. If it is, the next line
-is executed. </p>
+<p>Execute:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle</code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;y&quot;</span>
-<span class="k">end</span></code></pre></div>
+<p>This will allow you to have consistent syntax in your Rails code with a
+centralized place to keep your sensitive information in. Add a .env
+<a href="http://en.wikipedia.org/wiki/Dot-file">dot-file</a> to the root of your project
+(directly under the project folder) formatted like the following:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">&quot;x&quot;</span> <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SECRET_KEY</span><span class="o">=</span><span class="no">SECRETKEYHERE</span></code></pre></div>
 
-<p>These are generally the scenarios I use if statements for. Each one has a
-maximum of two branches of logic, and I prefer the third single line syntax if
-it feels more readable and can fit in an 80 character line.</p>
+<p>This will allow you to access these keys through the following syntax:</p>
 
-<h2 id="use-unless-over-if-condition">Use Unless over if !condition</h2>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_key</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span></code></pre></div>
 
-<p>I like the unless statement over awkward if !condition because I think it is
-more readable.</p>
+<p>Finally, you probably want to ensure this document does not get included in
+source control so add it to your
+<a href="https://help.github.com/articles/ignoring-files">.gitignore</a>, also to be stored
+in the root of your project.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">unless</span> <span class="n">decimal</span>
-  <span class="nb">puts</span> <span class="s2">&quot;whole number&quot;</span>
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">env</span></code></pre></div>
 
-<p>As with if, I also prefer single-line syntax when possible</p>
-
-<h2 id="use-the-case-statement-for-multiple-branches">Use the case statement for multiple branches</h2>
-
-<p>One could use a whole nest of elsif statements but it makes your code messier
-and difficult to read. Prefer the case statement:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">case</span> <span class="n">song</span>
-<span class="k">when</span> <span class="s2">&quot;I Will&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;White Album&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Tomorrow Never Knows&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Revolver&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Hello, Goodbye&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Magical Mystery Tour&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t know&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Sometimes you have multiple branches of logic but the conditions are a little
-more complicated so you feel forced into a lot of complicated elsif statements.
-This is a sign that you need to refactor the logic into separate methods.
-Usually you can then create a new variable and use this in a case statement.</p>
+<p>If you are working in a group, you should then document that this .env file is
+necessary (along with any other dependencies) and securely deliver it to them
+along with any other necessary but sensitive files such as a
+<a href="http://railscasts.com/episodes/179-seed-data?view=asciicast">seeds</a> file.</p>
 
 </article>
 
@@ -191,7 +163,7 @@ Usually you can then create a new variable and use this in a case statement.</p>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2015/01/26/control-flow-in-ruby/";
+    var disqus_identifier = "/2015/01/12/sensitive-passwords-in-rails/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {
