@@ -39,7 +39,7 @@
 
   <title>
     
-      Instance Variables in Rails &middot; Wrong Abstraction
+      Intro to PostgreSQL &middot; Wrong Abstraction
     
   </title>
 
@@ -84,80 +84,37 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">Instance Variables in Rails</h1>
-  <time datetime="2015-01-13T00:00:00-05:00" class="page-date">13 Jan 2015</time>
-  <p>Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
-there a whole new structure for you to learn, existing syntax starts to take on
-new meaning.</p>
+  <h1 class="post-title">Intro to PostgreSQL</h1>
+  <time datetime="2015-02-10T00:00:00-05:00" class="page-date">10 Feb 2015</time>
+  <p>If you are just getting started with Rails you might not realize it but the database you are using is <a href="https://www.sqlite.org/">SQLite</a>. SQLite. SQLite is perhaps the most widely-deployed database out there and will work well for many application needs. However, it does have some limitations with speed, particularly write operations, and not as full featured as other relational databases such as MySQL and PostgreSQL. </p>
 
-<p>One of the more fundamental shifts is the role of instance variables in Rails.
-As you remember from Ruby, instance variables begin with @ and are scoped to the
-instance of the class in which they reside. </p>
+<p>PostgreSQL is worth a deeper look because of how popular it is with rails developers today. Without getting too much in the details, Postgres really lends itself to object-oriented, relational database interactions and is very efficient. It does well with concurrency without read locks and has a strong community if you have any questions or issues.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Game</span>
+<p>To begin, make sure you have it installed on your computer:</p>
 
-  <span class="k">def</span> <span class="nf">initialize</span>
-    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="k">end</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">brew install postgresql</code></pre></div>
 
-<span class="k">end</span></code></pre></div>
+<p>I usually go with PostreSQL over SQLite from the beginning of any Rails project just because it is easier than migrating later:</p>
 
-<p>In Rails, this is still true but the underlying structure that is providing in
-essence cheats this distinction. As you have or (will) learn, Rails is an MVC
-framework meaning that the three core components of a Rails application is a
-model, view and controller. For every incoming http request you can think of the
-controller as acting as the central hub in which all of the necessary ingridients
-for the response are put together. These ingridients are then passed on to the
-view (assuming there is one) to be presented to the user.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">rails new myapp -d postgresql</code></pre></div>
 
-<p>Rails preforms this magic by passing on the instance variables from the
-controller and passing them to the controller. This is what allows a Rails app,
-for instance, to insert logic and state into the view portion of an app without
-actually preforming that logic in the view. </p>
+<p>You can confirm everything by looking at the newly created database.yml file:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">GamesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">index</span>
-    <span class="vi">@games</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">all</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">development:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_development
+  pool: 5
+  username: myapp
+  password:</code></pre></div>
 
-<p>app/views/games/index.html</p>
-
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="x">&lt;h1&gt;All Games&lt;/h1&gt;</span>
-<span class="x">&lt;table&gt;</span>
-<span class="x">  &lt;tr&gt;</span>
-<span class="x">    &lt;th&gt;Game&lt;/th&gt;</span>
-<span class="x">  &lt;/tr&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@games</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">game</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">game</span><span class="o">.</span><span class="n">now</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
-<span class="x">  &lt;/tr&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">&lt;/table&gt;</span></code></pre></div>
-
-<p>The last piece of the puzzle is that these instance variables live and die
-in a single http request. Think of each time the user navigates to a new page as
-an encapsulated new state for your application. This state ends once the
-request is done, including the state of these instance variables. Now of course
-there have been techniques to emulate state on web apps of course such as
-storing session variables etc; however, by thinking of these requests as
-isolated states of your app then the role that instance variables play in Rails
-will begin to make sense.
-thinking in these </p>
+<p>When needing to persist data there are a variety of different options from full featured DBs such as PostsgreSQL even to simple <a href="/2015/02/09/what-are-key-value-stores/">key-value stores</a> and sometimes just picking one and experimenting is the best path forward. Nevertheless, knowing a little bit more on what is going on under the hood of your current database and what other options you have out there is always worth the research.</p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="http://vpfaulkner.github.io//2015/02/10/intro-to-postgresql/">
-            Intro to PostgreSQL
-            <small><time datetime="2015-02-10T00:00:00-05:00">10 Feb 2015</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -177,6 +134,15 @@ thinking in these </p>
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/01/conways-law/">
+            Conway's Law
+            <small><time datetime="2015-02-01T00:00:00-05:00">01 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -185,7 +151,7 @@ thinking in these </p>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2015/01/13/instance-variables-in-rails/";
+    var disqus_identifier = "/2015/02/10/intro-to-postgresql/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

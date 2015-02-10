@@ -4,13 +4,44 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
- <updated>2015-02-09T08:13:01-05:00</updated>
+ <updated>2015-02-10T08:05:18-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Intro to PostgreSQL</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/02/10/intro-to-postgresql/"/>
+   <updated>2015-02-10T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/02/10/intro-to-postgresql</id>
+   <content type="html">&lt;p&gt;If you are just getting started with Rails you might not realize it but the database you are using is &lt;a href=&quot;https://www.sqlite.org/&quot;&gt;SQLite&lt;/a&gt;. SQLite. SQLite is perhaps the most widely-deployed database out there and will work well for many application needs. However, it does have some limitations with speed, particularly write operations, and not as full featured as other relational databases such as MySQL and PostgreSQL. &lt;/p&gt;
+
+&lt;p&gt;PostgreSQL is worth a deeper look because of how popular it is with rails developers today. Without getting too much in the details, Postgres really lends itself to object-oriented, relational database interactions and is very efficient. It does well with concurrency without read locks and has a strong community if you have any questions or issues.&lt;/p&gt;
+
+&lt;p&gt;To begin, make sure you have it installed on your computer:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;brew install postgresql&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I usually go with PostreSQL over SQLite from the beginning of any Rails project just because it is easier than migrating later:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;rails new myapp -d postgresql&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can confirm everything by looking at the newly created database.yml file:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;development:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_development
+  pool: 5
+  username: myapp
+  password:&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When needing to persist data there are a variety of different options from full featured DBs such as PostsgreSQL even to simple &lt;a href=&quot;/2015/02/09/what-are-key-value-stores/&quot;&gt;key-value stores&lt;/a&gt; and sometimes just picking one and experimenting is the best path forward. Nevertheless, knowing a little bit more on what is going on under the hood of your current database and what other options you have out there is always worth the research.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>What are Key Value Stores?</title>
