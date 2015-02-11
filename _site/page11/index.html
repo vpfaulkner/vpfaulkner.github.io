@@ -5,6 +5,8 @@
   <div class="about_me">
     <h3>Recent Posts</h3>
       
+        <a href=" /2015/02/11/what-is-heroku-exactly/ "> What is Heroku Exactly? </a><br>
+      
         <a href=" /2015/02/10/intro-to-postgresql/ "> Intro to PostgreSQL </a><br>
       
         <a href=" /2015/02/09/what-are-key-value-stores/ "> What are Key Value Stores? </a><br>
@@ -12,8 +14,6 @@
         <a href=" /2015/02/04/sidekiq-in-rails/ "> Sidekiq in Rails </a><br>
       
         <a href=" /2015/02/01/conways-law/ "> Conway's Law </a><br>
-      
-        <a href=" /2015/01/26/control-flow-in-ruby/ "> Control Flow in Ruby Pt. I </a><br>
       
 
     <br>
@@ -87,40 +87,75 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/14/write-code-worth-reading/">
-        Write Code worth Reading
+      <a href="/2015/01/17/control-flow-in-ruby-ii/">
+        Control Flow in Ruby Pt. II
       </a>
     </h1>
 
-    <time datetime="2015-01-14T00:00:00-05:00" class="post-date">14 Jan 2015</time>
+    <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
 
-    <p>Coding is full of a lot of gray decisions. There is a ambiguous spectrum between
-design choices and stylistic choices and no easy sense of where one ends and
-the other begins.</p>
+    <p>This is a follow up on an <a href="/2015/01/26/control-flow-in-ruby/">earlier post</a> on
+control flow in Ruby.</p>
 
-<p>For more stylistic choices that tend to be more syntactically focused I  rely on
-the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style Guide</a> and try to
-always rely on the same question for ultimately making my decision: Which choice
-is easiest for me to read?</p>
+<h2 id="if-you-must-repeatedly-loop-over-code-use-while-or-until">If you must repeatedly loop over code, use While or Until</h2>
 
-<p>For example, the following choices achieve the same functionality in your code:</p>
+<p>Introducing with the condition for a code loop upfront is much more readable
+than having a break statement buried in a loop statement.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Choice A</span>
-<span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="kp">loop</span> <span class="k">do</span>
+  <span class="n">number</span> <span class="o">+=</span><span class="mi">1</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
+  <span class="k">break</span> <span class="k">if</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="mi">100</span>
 <span class="k">end</span>
 
-<span class="c1"># Choice B</span>
-<span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">even?</span>
+<span class="c1"># Good</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
 <span class="k">end</span></code></pre></div>
 
-<p>Every design choice involves tradeoffs and so your first instinct should always
-be to look for the tradeoffs of different options. Yet, this syntactic choice is
-less about tradeoffs and more about what stylistic choice you prefer. I defer to
-the question of readability here simply because most of my (and your) time will
-be spent reading code rather than writing it. For me, I consider Choice B to be
-vastly more readable and so it is the one I would go with. </p>
+<p>Avoid the for method which is even less readable</p>
 
-<p>Comprehensible code makes an incredible difference in productivity, much more so I would argue than what editor you use, what flavor of agile you subscribe to, or even how efficient your code is, and it should be your top priority in writing code when it comes to stylistic questions. </p>
+<h2 id="use-collect-for-building-a-new-array-from-a-collection">Use collect for building a new array from a collection</h2>
+
+<p>I used to create a blank array and then fill it with the each method. Now I
+prefer the collect method:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
+<span class="n">standardized_scores</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">percentage_scores</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">standardized_score</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
+  <span class="n">scores</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">standardize_score</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Good</span>
+<span class="n">standardized_scores</span> <span class="o">=</span> <span class="n">students</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="k">end</span></code></pre></div>
+
+<h2 id="use-each-or-select-for-iterating-through-a-hash">Use each or select for iterating through a hash</h2>
+
+<p>The each method is very readable and gets the job done most of the time for
+iterating over a hash. </p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_birthdays</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;July 12&quot;</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;November 1&quot;</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;March 12&quot;</span> <span class="p">}</span>
+<span class="n">students_birthdays</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">student</span><span class="p">,</span> <span class="n">birthday</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">&#39;s birthday is </span><span class="si">#{</span><span class="n">birthday</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>For more complex cases, feel free to use select. This returns a hash consisting
+of entries for which the block returns true.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_ages</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">}</span>
+<span class="n">older_students</span> <span class="o">=</span> <span class="n">students_ages</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span>
+  <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">11</span>
+<span class="k">end</span></code></pre></div>
+
 
   </article>
   
@@ -143,7 +178,7 @@ vastly more readable and so it is the one I would go with. </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-10T08:05:18-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-02-11T08:04:05-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
