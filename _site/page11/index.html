@@ -5,6 +5,8 @@
   <div class="about_me">
     <h3>Recent Posts</h3>
       
+        <a href=" /2015/02/13/what-is-active-record/ "> What is Active Record? </a><br>
+      
         <a href=" /2015/02/11/what-is-heroku-exactly/ "> What is Heroku Exactly? </a><br>
       
         <a href=" /2015/02/10/intro-to-postgresql/ "> Intro to PostgreSQL </a><br>
@@ -12,8 +14,6 @@
         <a href=" /2015/02/09/what-are-key-value-stores/ "> What are Key Value Stores? </a><br>
       
         <a href=" /2015/02/04/sidekiq-in-rails/ "> Sidekiq in Rails </a><br>
-      
-        <a href=" /2015/02/01/conways-law/ "> Conway's Law </a><br>
       
 
     <br>
@@ -87,75 +87,56 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/17/control-flow-in-ruby-ii/">
-        Control Flow in Ruby Pt. II
+      <a href="/2015/01/17/debugging-ruby-with-pry/">
+        Debugging Ruby with Pry
       </a>
     </h1>
 
     <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
 
-    <p>This is a follow up on an <a href="/2015/01/26/control-flow-in-ruby/">earlier post</a> on
-control flow in Ruby.</p>
+    <p>There is nothing worse than trying to fix code without a debugger. Since
+starting with Ruby, Pry has become perhaps the most essential tool for me to
+be productive and happy. <a href="http://pryrepl.org/">Pry</a> is the de facto standard for
+Ruby and acts as a debugger and alternative to IRB.</p>
 
-<h2 id="if-you-must-repeatedly-loop-over-code-use-while-or-until">If you must repeatedly loop over code, use While or Until</h2>
+<p>Install the Gem:</p>
 
-<p>Introducing with the condition for a code loop upfront is much more readable
-than having a break statement buried in a loop statement.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">gem install pry</code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
-<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="kp">loop</span> <span class="k">do</span>
-  <span class="n">number</span> <span class="o">+=</span><span class="mi">1</span>
-  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
-  <span class="k">break</span> <span class="k">if</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="mi">100</span>
+<p>Ensure pry is available in your Ruby file and drop binding.pry in:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># test.rb</span>
+<span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+
+<span class="k">class</span> <span class="nc">A</span>
+  <span class="k">def</span> <span class="nf">hello</span><span class="p">()</span> <span class="nb">puts</span> <span class="s2">&quot;hello world!&quot;</span> <span class="k">end</span>
 <span class="k">end</span>
 
-<span class="c1"># Good</span>
-<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">while</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
-  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
-<span class="k">end</span></code></pre></div>
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">new</span>
 
-<p>Avoid the for method which is even less readable</p>
+<span class="c1"># start a REPL session</span>
+<span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
 
-<h2 id="use-collect-for-building-a-new-array-from-a-collection">Use collect for building a new array from a collection</h2>
+<span class="c1"># program resumes here (after pry session)</span>
+<span class="nb">puts</span> <span class="s2">&quot;program resumes here.</span></code></pre></div>
 
-<p>I used to create a blank array and then fill it with the each method. Now I
-prefer the collect method:</p>
+<p>This will open up a Pry session where you can investigate the program state at
+that point and begin debugging. </p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
-<span class="n">standardized_scores</span> <span class="o">=</span> <span class="o">[]</span>
-<span class="n">percentage_scores</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-  <span class="n">standardized_score</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
-  <span class="n">scores</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">standardize_score</span><span class="p">)</span>
-<span class="k">end</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">pry<span class="o">(</span>main<span class="o">)</span>&gt; a.hello
+hello world!
+<span class="o">=</span>&gt; nil
+pry<span class="o">(</span>main<span class="o">)</span>&gt; puts x
+<span class="nv">10</span>
+<span class="o">=</span>&gt; nil</code></pre></div>
 
-<span class="c1"># Good</span>
-<span class="n">standardized_scores</span> <span class="o">=</span> <span class="n">students</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-  <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="k">end</span></code></pre></div>
+<p>The closer you get to your code the smaller your feedback loops, the more
+quickly you’ll be productive. Instead of trying to guess what a variable is at
+that point in the program, just drop a pry in and find out for sure. </p>
 
-<h2 id="use-each-or-select-for-iterating-through-a-hash">Use each or select for iterating through a hash</h2>
-
-<p>The each method is very readable and gets the job done most of the time for
-iterating over a hash. </p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_birthdays</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;July 12&quot;</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;November 1&quot;</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;March 12&quot;</span> <span class="p">}</span>
-<span class="n">students_birthdays</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">student</span><span class="p">,</span> <span class="n">birthday</span><span class="o">|</span>
-  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">&#39;s birthday is </span><span class="si">#{</span><span class="n">birthday</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>For more complex cases, feel free to use select. This returns a hash consisting
-of entries for which the block returns true.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_ages</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">}</span>
-<span class="n">older_students</span> <span class="o">=</span> <span class="n">students_ages</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span>
-  <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">11</span>
-<span class="k">end</span></code></pre></div>
-
+<p>I prefer to use this approach most with a test driven development workflow where
+I am constantly invoking the debugging session by running the particular
+test I am working on. </p>
 
   </article>
   
@@ -178,7 +159,7 @@ of entries for which the block returns true.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-11T08:04:05-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-02-13T08:10:10-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

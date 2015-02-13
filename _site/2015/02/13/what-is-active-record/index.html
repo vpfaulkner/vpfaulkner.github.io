@@ -39,7 +39,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      What is Active Record? &middot; Wrong Abstraction
     
   </title>
 
@@ -83,18 +83,10 @@
       </header>
 
       <main>
-        <div class="posts">
-  
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/2015/02/13/what-is-active-record/">
-        What is Active Record?
-      </a>
-    </h1>
-
-    <time datetime="2015-02-13T00:00:00-05:00" class="post-date">13 Feb 2015</time>
-
-    <p>If you’re getting into Rails perhaps the most important concept to learn besides the MVC pattern is the role that Active Record plays.</p>
+        <article class="post">
+  <h1 class="post-title">What is Active Record?</h1>
+  <time datetime="2015-02-13T00:00:00-05:00" class="page-date">13 Feb 2015</time>
+  <p>If you’re getting into Rails perhaps the most important concept to learn besides the MVC pattern is the role that Active Record plays.</p>
 
 <p>For starters, it might be worth clarifying that active record can refer to both the general software architecture pattern first coined by Martin Fowler as well as the specific Rails implementation of that pattern. What that pattern hopes to do is essentially abstract the database allowing you as the software developer to interact with application objects (think User.last) rather than the database itself. This is done through Object-Relational Mapping and will make your life as a new Rails developer significantly easier. In addition to making your Rails app nearly database agnostic and allowing you to not build tedious database queries yourself, active record gives you the ability to:</p>
 
@@ -136,20 +128,59 @@
 <p>There are a multitude of ways to query active record which you can find with the <a href="http://guides.rubyonrails.org/active_record_querying.html">Rails guide</a>. Becoming comfortable with active record is essential as well as relatively easy and will set you up for becoming a productive rails developer. </p>
 
 
-  </article>
-  
-</div>
+</article>
 
-<div class="pagination">
-  
-    <a class="pagination-item older" href="http://vpfaulkner.github.io/page2">Older</a>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/11/what-is-heroku-exactly/">
+            What is Heroku Exactly?
+            <small><time datetime="2015-02-11T00:00:00-05:00">11 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/10/intro-to-postgresql/">
+            Intro to PostgreSQL
+            <small><time datetime="2015-02-10T00:00:00-05:00">10 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/09/what-are-key-value-stores/">
+            What are Key Value Stores?
+            <small><time datetime="2015-02-09T00:00:00-05:00">09 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
 
         
+  <!-- Add Disqus comments. -->
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
+    var disqus_identifier = "/2015/02/13/what-is-active-record/";
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
       </main>
 
