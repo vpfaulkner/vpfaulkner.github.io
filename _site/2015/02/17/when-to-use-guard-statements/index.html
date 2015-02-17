@@ -11,7 +11,7 @@
 
   <title>
     
-      What to do with Sensitive Information in Rails? &middot; Wrong Abstraction
+      When to use Guard Statements &middot; Wrong Abstraction
     
   </title>
 
@@ -56,58 +56,31 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">What to do with Sensitive Information in Rails?</h1>
-  <time datetime="2015-01-12T00:00:00-05:00" class="page-date">12 Jan 2015</time>
-  <p>If you are just starting with Rails you will probably run into a moment where
-you need to incorporate some sensitive information that you don’t want to expose
-to the world via Github.</p>
+  <h1 class="post-title">When to use Guard Statements</h1>
+  <time datetime="2015-02-17T00:00:00-05:00" class="page-date">17 Feb 2015</time>
+  <p>What are guard statements and when should I use them? If you are starting out on Ruby you might run into a line like the one below and be a little confused:</p>
 
-<p>There are multiple approaches but the easiest I’ve run into is with the <a href="https://github.com/bkeepers/dotenv">dotenv
-gem</a>. Per the instructions:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">return</span> <span class="k">unless</span> <span class="n">user</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span><span class="p">,</span> <span class="ss">:groups</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span></code></pre></div>
+<p>It reads well enough to get an sense of what is going on but you might be more comfortable with a nested if else statement:</p>
 
-<p>Execute:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">user</span>
+  <span class="c1"># ...</span>
+<span class="k">else</span>
+  <span class="k">return</span> <span class="kp">nil</span>
+<span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle</code></pre></div>
+<p>While they do the same thing, the guard statement is 1) it avoids a level of indentation 2) it is more readable 3) it is more concise. It takes advantage of the trailing conditional if as well as the implicit return nil (same as return unless).</p>
 
-<p>This will allow you to have consistent syntax in your Rails code with a
-centralized place to keep your sensitive information in. Add a .env
-<a href="http://en.wikipedia.org/wiki/Dot-file">dot-file</a> to the root of your project
-(directly under the project folder) formatted like the following:</p>
+<p>There are a few liabilities with the techniques however. The first is that you may be suppressing and thus perpetuating a critical bug in your code by not allowing a NoMethodError to be raised. An alternative is in fact to raise an exception of your own? Secondly, you are forcing whatever object called this method to <a href="http://www.sandimetz.com/blog/2014/12/19/suspicions-of-nil">respond to two different</a> types of object.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SECRET_KEY</span><span class="o">=</span><span class="no">SECRETKEYHERE</span></code></pre></div>
-
-<p>This will allow you to access these keys through the following syntax:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_key</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span></code></pre></div>
-
-<p>Finally, you probably want to ensure this document does not get included in
-source control so add it to your
-<a href="https://help.github.com/articles/ignoring-files">.gitignore</a>, also to be stored
-in the root of your project.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">env</span></code></pre></div>
-
-<p>If you are working in a group, you should then document that this .env file is
-necessary (along with any other dependencies) and securely deliver it to them
-along with any other necessary but sensitive files such as a
-<a href="http://railscasts.com/episodes/179-seed-data?view=asciicast">seeds</a> file.</p>
+<p>Overall, I prefer using guard statements when I need to prevent accepting invalid data and only if I have determined the exact circumstance of the bug. If you are having a mysterious bug pop up for some unknown reason, spend your time investigating and remedying that bug rather than smothering it with a line like this.</p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="http://vpfaulkner.github.io//2015/02/17/when-to-use-guard-statements/">
-            When to use Guard Statements
-            <small><time datetime="2015-02-17T00:00:00-05:00">17 Feb 2015</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -127,6 +100,15 @@ along with any other necessary but sensitive files such as a
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/10/intro-to-postgresql/">
+            Intro to PostgreSQL
+            <small><time datetime="2015-02-10T00:00:00-05:00">10 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -135,7 +117,7 @@ along with any other necessary but sensitive files such as a
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2015/01/12/sensitive-passwords-in-rails/";
+    var disqus_identifier = "/2015/02/17/when-to-use-guard-statements/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {

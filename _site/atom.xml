@@ -4,13 +4,38 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
- <updated>2015-02-15T14:50:43-05:00</updated>
+ <updated>2015-02-17T09:15:59-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>When to use Guard Statements</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/02/17/when-to-use-guard-statements/"/>
+   <updated>2015-02-17T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/02/17/when-to-use-guard-statements</id>
+   <content type="html">&lt;p&gt;What are guard statements and when should I use them? If you are starting out on Ruby you might run into a line like the one below and be a little confused:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It reads well enough to get an sense of what is going on but you might be more comfortable with a nested if else statement:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;While they do the same thing, the guard statement is 1) it avoids a level of indentation 2) it is more readable 3) it is more concise. It takes advantage of the trailing conditional if as well as the implicit return nil (same as return unless).&lt;/p&gt;
+
+&lt;p&gt;There are a few liabilities with the techniques however. The first is that you may be suppressing and thus perpetuating a critical bug in your code by not allowing a NoMethodError to be raised. An alternative is in fact to raise an exception of your own? Secondly, you are forcing whatever object called this method to &lt;a href=&quot;http://www.sandimetz.com/blog/2014/12/19/suspicions-of-nil&quot;&gt;respond to two different&lt;/a&gt; types of object.&lt;/p&gt;
+
+&lt;p&gt;Overall, I prefer using guard statements when I need to prevent accepting invalid data and only if I have determined the exact circumstance of the bug. If you are having a mysterious bug pop up for some unknown reason, spend your time investigating and remedying that bug rather than smothering it with a line like this.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>What is Active Record?</title>
