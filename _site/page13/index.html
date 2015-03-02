@@ -59,75 +59,37 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/17/control-flow-in-ruby-ii/">
-        Control Flow in Ruby Pt. II
+      <a href="/2015/01/20/how-big-should-methods-be/">
+        How Big Should Methods Be?
       </a>
     </h1>
 
-    <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
+    <time datetime="2015-01-20T00:00:00-05:00" class="post-date">20 Jan 2015</time>
 
-    <p>This is a follow up on an <a href="/2015/01/26/control-flow-in-ruby/">earlier post</a> on
-control flow in Ruby.</p>
+    <p>I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see <a href="http://robots.thoughtbot.com/sandi-metz-rules-for-developers">Sandi Metz’s blogpost</a> on the Thoughtbot blog). </p>
 
-<h2 id="if-you-must-repeatedly-loop-over-code-use-while-or-until">If you must repeatedly loop over code, use While or Until</h2>
+<p>Now to be honest, I take this as more of a rule of thumb than an unbreakable law
+but perhaps that is because I bend more towards pragmatism than purist although
+I (like you) try to walk that in that in-between. This means I’m not going
+through my code or my coworkers code hellbent on conforming it to meet this
+standard, but I am usually advocating for smaller methods, particular if the
+method is 10 lines or more. The reasons I like this are:</p>
 
-<p>Introducing with the condition for a code loop upfront is much more readable
-than having a break statement buried in a loop statement.</p>
+<ol>
+  <li><a href="/2014/01/14/write-code-worth-reading/">Readability of
+code</a> is the ultimate test of good code for me and I think
+small methods with good names make a huge difference in readability. </li>
+  <li>I am forced to make large public methods much smaller which in turn
+forces me to make a lot of these methods private to <a href="/2014/01/21/private-methods-in-ruby/">limit that class’ public
+interface</a>. The result is more readable public interface and me having to spend more
+time actually thinking about what kind of public interface I want to have.</li>
+  <li>Small things are simply easier to work with and more accommodating to change. </li>
+</ol>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
-<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="kp">loop</span> <span class="k">do</span>
-  <span class="n">number</span> <span class="o">+=</span><span class="mi">1</span>
-  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
-  <span class="k">break</span> <span class="k">if</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="mi">100</span>
-<span class="k">end</span>
-
-<span class="c1"># Good</span>
-<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">while</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
-  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Avoid the for method which is even less readable</p>
-
-<h2 id="use-collect-for-building-a-new-array-from-a-collection">Use collect for building a new array from a collection</h2>
-
-<p>I used to create a blank array and then fill it with the each method. Now I
-prefer the collect method:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
-<span class="n">standardized_scores</span> <span class="o">=</span> <span class="o">[]</span>
-<span class="n">percentage_scores</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-  <span class="n">standardized_score</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
-  <span class="n">scores</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">standardize_score</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="c1"># Good</span>
-<span class="n">standardized_scores</span> <span class="o">=</span> <span class="n">students</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-  <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="k">end</span></code></pre></div>
-
-<h2 id="use-each-or-select-for-iterating-through-a-hash">Use each or select for iterating through a hash</h2>
-
-<p>The each method is very readable and gets the job done most of the time for
-iterating over a hash. </p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_birthdays</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;July 12&quot;</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;November 1&quot;</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;March 12&quot;</span> <span class="p">}</span>
-<span class="n">students_birthdays</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">student</span><span class="p">,</span> <span class="n">birthday</span><span class="o">|</span>
-  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">&#39;s birthday is </span><span class="si">#{</span><span class="n">birthday</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>For more complex cases, feel free to use select. This returns a hash consisting
-of entries for which the block returns true.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_ages</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">}</span>
-<span class="n">older_students</span> <span class="o">=</span> <span class="n">students_ages</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span>
-  <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">11</span>
-<span class="k">end</span></code></pre></div>
-
+<p>Again, this is a rule of thumb that should push you in the right direction but
+not at the expense of more important things (such as just getting started).
+Using it to your discretion, you should be on your way to much more readable,
+flexible code.</p>
 
   </article>
   
@@ -150,7 +112,7 @@ of entries for which the block returns true.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-17T09:15:59-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-02T08:06:01-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

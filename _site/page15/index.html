@@ -59,70 +59,75 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/13/instance-variables-in-rails/">
-        Instance Variables in Rails
+      <a href="/2015/01/17/control-flow-in-ruby-ii/">
+        Control Flow in Ruby Pt. II
       </a>
     </h1>
 
-    <time datetime="2015-01-13T00:00:00-05:00" class="post-date">13 Jan 2015</time>
+    <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
 
-    <p>Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
-there a whole new structure for you to learn, existing syntax starts to take on
-new meaning.</p>
+    <p>This is a follow up on an <a href="/2015/01/26/control-flow-in-ruby/">earlier post</a> on
+control flow in Ruby.</p>
 
-<p>One of the more fundamental shifts is the role of instance variables in Rails.
-As you remember from Ruby, instance variables begin with @ and are scoped to the
-instance of the class in which they reside. </p>
+<h2 id="if-you-must-repeatedly-loop-over-code-use-while-or-until">If you must repeatedly loop over code, use While or Until</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Game</span>
+<p>Introducing with the condition for a code loop upfront is much more readable
+than having a break statement buried in a loop statement.</p>
 
-  <span class="k">def</span> <span class="nf">initialize</span>
-    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="k">end</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="kp">loop</span> <span class="k">do</span>
+  <span class="n">number</span> <span class="o">+=</span><span class="mi">1</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
+  <span class="k">break</span> <span class="k">if</span> <span class="n">sum</span> <span class="o">&gt;=</span> <span class="mi">100</span>
+<span class="k">end</span>
 
+<span class="c1"># Good</span>
+<span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
 <span class="k">end</span></code></pre></div>
 
-<p>In Rails, this is still true but the underlying structure that is providing in
-essence cheats this distinction. As you have or (will) learn, Rails is an MVC
-framework meaning that the three core components of a Rails application is a
-model, view and controller. For every incoming http request you can think of the
-controller as acting as the central hub in which all of the necessary ingridients
-for the response are put together. These ingridients are then passed on to the
-view (assuming there is one) to be presented to the user.</p>
+<p>Avoid the for method which is even less readable</p>
 
-<p>Rails preforms this magic by passing on the instance variables from the
-controller and passing them to the controller. This is what allows a Rails app,
-for instance, to insert logic and state into the view portion of an app without
-actually preforming that logic in the view. </p>
+<h2 id="use-collect-for-building-a-new-array-from-a-collection">Use collect for building a new array from a collection</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">GamesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">index</span>
-    <span class="vi">@games</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">all</span>
-  <span class="k">end</span>
+<p>I used to create a blank array and then fill it with the each method. Now I
+prefer the collect method:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Bad</span>
+<span class="n">standardized_scores</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">percentage_scores</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">standardized_score</span> <span class="o">=</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
+  <span class="n">scores</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">standardize_score</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Good</span>
+<span class="n">standardized_scores</span> <span class="o">=</span> <span class="n">students</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span> <span class="o">*</span> <span class="mi">100</span>
 <span class="k">end</span></code></pre></div>
 
-<p>app/views/games/index.html</p>
+<h2 id="use-each-or-select-for-iterating-through-a-hash">Use each or select for iterating through a hash</h2>
 
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="x">&lt;h1&gt;All Games&lt;/h1&gt;</span>
-<span class="x">&lt;table&gt;</span>
-<span class="x">  &lt;tr&gt;</span>
-<span class="x">    &lt;th&gt;Game&lt;/th&gt;</span>
-<span class="x">  &lt;/tr&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@games</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">game</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">game</span><span class="o">.</span><span class="n">now</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
-<span class="x">  &lt;/tr&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">&lt;/table&gt;</span></code></pre></div>
+<p>The each method is very readable and gets the job done most of the time for
+iterating over a hash. </p>
 
-<p>The last piece of the puzzle is that these instance variables live and die
-in a single http request. Think of each time the user navigates to a new page as
-an encapsulated new state for your application. This state ends once the
-request is done, including the state of these instance variables. Now of course
-there have been techniques to emulate state on web apps of course such as
-storing session variables etc; however, by thinking of these requests as
-isolated states of your app then the role that instance variables play in Rails
-will begin to make sense.
-thinking in these </p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_birthdays</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;July 12&quot;</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;November 1&quot;</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;March 12&quot;</span> <span class="p">}</span>
+<span class="n">students_birthdays</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">student</span><span class="p">,</span> <span class="n">birthday</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">student</span><span class="si">}</span><span class="s2">&#39;s birthday is </span><span class="si">#{</span><span class="n">birthday</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>For more complex cases, feel free to use select. This returns a hash consisting
+of entries for which the block returns true.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">students_ages</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;jack&quot;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;jill&quot;</span> <span class="o">=&gt;</span> <span class="mi">11</span><span class="p">,</span> <span class="s2">&quot;joe&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="p">}</span>
+<span class="n">older_students</span> <span class="o">=</span> <span class="n">students_ages</span><span class="o">.</span><span class="n">select</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span>
+  <span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">11</span>
+<span class="k">end</span></code></pre></div>
+
 
   </article>
   
@@ -145,7 +150,7 @@ thinking in these </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-17T09:15:59-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-02T08:06:01-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

@@ -24,7 +24,9 @@ Some of my favorite tools and background:
 
 * **Testing**: RSpec, Capybara
 
-* **Other**: Sidekiq, VIM, Haml, Sass, Markdown, JSON, rbenv
+* **Agile**: JIRA, Trello
+
+* **Other**: Sidekiq, VIM, NSQ, Haml, Sass, Markdown, JSON, rbenv
 
 * **Education**: University of North Carolina - BA in Economics
 

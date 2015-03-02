@@ -59,36 +59,54 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/10/intro-to-postgresql/">
-        Intro to PostgreSQL
+      <a href="/2015/02/13/what-is-active-record/">
+        What is Active Record?
       </a>
     </h1>
 
-    <time datetime="2015-02-10T00:00:00-05:00" class="post-date">10 Feb 2015</time>
+    <time datetime="2015-02-13T00:00:00-05:00" class="post-date">13 Feb 2015</time>
 
-    <p>If you are just getting started with Rails you might not realize it but the database you are using is <a href="https://www.sqlite.org/">SQLite</a>. SQLite. SQLite is perhaps the most widely-deployed database out there and will work well for many application needs. However, it does have some limitations with speed, particularly write operations, and not as full featured as other relational databases such as MySQL and PostgreSQL. </p>
+    <p>If you’re getting into Rails perhaps the most important concept to learn besides the MVC pattern is the role that Active Record plays.</p>
 
-<p>PostgreSQL is worth a deeper look because of how popular it is with rails developers today. Without getting too much in the details, Postgres really lends itself to object-oriented, relational database interactions and is very efficient. It does well with concurrency without read locks and has a strong community if you have any questions or issues.</p>
+<p>For starters, it might be worth clarifying that active record can refer to both the general software architecture pattern first coined by Martin Fowler as well as the specific Rails implementation of that pattern. What that pattern hopes to do is essentially abstract the database allowing you as the software developer to interact with application objects (think User.last) rather than the database itself. This is done through Object-Relational Mapping and will make your life as a new Rails developer significantly easier. In addition to making your Rails app nearly database agnostic and allowing you to not build tedious database queries yourself, active record gives you the ability to:</p>
 
-<p>To begin, make sure you have it installed on your computer:</p>
+<ul>
+  <li>Represent models and their data</li>
+  <li>Represent associations between these models</li>
+  <li>Validate models before they get persisted to the database</li>
+  <li>Perform database operations in an object-oriented fashion.</li>
+</ul>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">brew install postgresql</code></pre></div>
+<p>(taken from the official Rails guide, see below)</p>
 
-<p>I usually go with PostreSQL over SQLite from the beginning of any Rails project just because it is easier than migrating later:</p>
+<p>Let’s start with some examples.</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">rails new myapp -d postgresql</code></pre></div>
+<p>Using a SQL database without active record, if you wanted to grab the first user in your User table you would have to build the query below:</p>
 
-<p>You can confirm everything by looking at the newly created database.yml file:</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">clients</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">users</span><span class="p">.</span><span class="n">id</span> <span class="k">ASC</span> <span class="k">LIMIT</span> <span class="mi">1</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">development:
-  adapter: postgresql
-  encoding: unicode
-  database: myapp_development
-  pool: 5
-  username: myapp
-  password:</code></pre></div>
+<p>Not only do you have to know the right query syntax but you are suddenly very coupled to your database because its specific logic is sprinkled throughout your program. Furthermore, reading even a simple query such as this one is difficult and make it harder to communicate what you are doing in your program.</p>
 
-<p>When needing to persist data there are a variety of different options from full featured DBs such as PostsgreSQL even to simple <a href="/2015/02/09/what-are-key-value-stores/">key-value stores</a> and sometimes just picking one and experimenting is the best path forward. Nevertheless, knowing a little bit more on what is going on under the hood of your current database and what other options you have out there is always worth the research.</p>
+<p>The same query using active record would look like this:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span></code></pre></div>
+
+<p>Much cleaner right? Not only are you as a beginner able to make relatively complex database queries without learning another language, but I also find that the active record pattern helps you write better object-oriented code. Some other examples:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Find user with last name as &#39;Faulkner&#39;</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">last_name</span><span class="p">:</span> <span class="s1">&#39;Faulkner&#39;</span><span class="p">)</span>
+
+<span class="c1"># Find user with last name as &#39;Faulkner&#39; and first name as &#39;Vance&#39;</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">last_name</span><span class="p">:</span> <span class="s1">&#39;Faulkner&#39;</span><span class="p">,</span> <span class="ss">first_name</span><span class="p">:</span> <span class="s1">&#39;Vance&#39;</span><span class="p">)</span>
+
+<span class="c1"># Find non-member users and loop through block</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">member</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">find_each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="p">}</span>
+
+<span class="c1"># Retrieve member users by created_at date</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">member</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="ss">:created_at</span><span class="p">)</span></code></pre></div>
+
+<p>There are a multitude of ways to query active record which you can find with the <a href="http://guides.rubyonrails.org/active_record_querying.html">Rails guide</a>. Becoming comfortable with active record is essential as well as relatively easy and will set you up for becoming a productive rails developer. </p>
+
 
   </article>
   
@@ -111,7 +129,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-17T09:15:59-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-02T08:06:01-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

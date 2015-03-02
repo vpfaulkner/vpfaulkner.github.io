@@ -59,56 +59,61 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/17/debugging-ruby-with-pry/">
-        Debugging Ruby with Pry
+      <a href="/2015/01/21/private-methods-in-ruby/">
+        Private Methods in Ruby
       </a>
     </h1>
 
-    <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
+    <time datetime="2015-01-21T00:00:00-05:00" class="post-date">21 Jan 2015</time>
 
-    <p>There is nothing worse than trying to fix code without a debugger. Since
-starting with Ruby, Pry has become perhaps the most essential tool for me to
-be productive and happy. <a href="http://pryrepl.org/">Pry</a> is the de facto standard for
-Ruby and acts as a debugger and alternative to IRB.</p>
+    <p>“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
+some ways the question makes sense: you are only hiding this method from
+yourself or someone else whom you trust enough already to be working along the
+project with you. So what gives?</p>
 
-<p>Install the Gem:</p>
+<p>Let’s start with an example:</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">gem install pry</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Concert</span>
 
-<p>Ensure pry is available in your Ruby file and drop binding.pry in:</p>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">number_of_attendees</span><span class="p">)</span>
+    <span class="vi">@band</span> <span class="o">=</span> <span class="n">band</span>
+    <span class="vi">@time</span> <span class="o">=</span> <span class="n">time</span>
+    <span class="vi">@number_of_attendees</span> <span class="o">=</span> <span class="n">number_of_attendees</span>
+  <span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># test.rb</span>
-<span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+  <span class="k">def</span> <span class="nf">prepare</span>
+    <span class="n">open_venue</span>
+    <span class="c1"># other preperations</span>
+  <span class="k">end</span>
 
-<span class="k">class</span> <span class="nc">A</span>
-  <span class="k">def</span> <span class="nf">hello</span><span class="p">()</span> <span class="nb">puts</span> <span class="s2">&quot;hello world!&quot;</span> <span class="k">end</span>
+  <span class="kp">private</span> <span class="c1"># Every method below this is private</span>
+
+  <span class="k">def</span> <span class="nf">open_venue</span>
+    <span class="c1"># open venue logic</span>
+  <span class="k">end</span>
+
 <span class="k">end</span>
 
-<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">new</span>
+<span class="n">concert</span> <span class="o">=</span> <span class="no">Concert</span><span class="o">.</span><span class="n">new</span>
+<span class="n">concert</span><span class="o">.</span><span class="n">prepare</span>
+<span class="n">concert</span><span class="o">.</span><span class="n">open_venue</span> <span class="c1">#NoMethodError: private method &#39;open_venue&#39;</span></code></pre></div>
 
-<span class="c1"># start a REPL session</span>
-<span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+<p>Here you can see that we are able to see that open_venue is defined under
+private in the class, that open_venue can be called within the class, but it cannot
+be called outside of the class. This is because in Ruby private methods cannot have an explicit receiver. When we call concert.open_venue our explicit receiver is concert, but when it is called in the prepare method it is called implicitly within the calling object.</p>
 
-<span class="c1"># program resumes here (after pry session)</span>
-<span class="nb">puts</span> <span class="s2">&quot;program resumes here.</span></code></pre></div>
+<p>Knowing how it works, however, doesn’t get back to the original question of “Why
+ever use it?”</p>
 
-<p>This will open up a Pry session where you can investigate the program state at
-that point and begin debugging. </p>
-
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">pry<span class="o">(</span>main<span class="o">)</span>&gt; a.hello
-hello world!
-<span class="o">=</span>&gt; nil
-pry<span class="o">(</span>main<span class="o">)</span>&gt; puts x
-<span class="nv">10</span>
-<span class="o">=</span>&gt; nil</code></pre></div>
-
-<p>The closer you get to your code the smaller your feedback loops, the more
-quickly you’ll be productive. Instead of trying to guess what a variable is at
-that point in the program, just drop a pry in and find out for sure. </p>
-
-<p>I prefer to use this approach most with a test driven development workflow where
-I am constantly invoking the debugging session by running the particular
-test I am working on. </p>
+<p>I advocate private methods as a means of clearly defining the public interface
+for a class. Public interfaces are a very important concept and allow you the
+signal to other developers that some of these things are publicly available to you and
+will remain relatively stable while other things are not and may be subject to
+change. This is particularly relevant in Rails controllers where I suggest
+keeping only the methods associated with controller actions public while making 
+any others private. This <a href="/2014/01/22/make-your-ruby-objects-single-minded/">separation of concerns</a> frees you up to continually rework the
+“how” methods that contain must of the logic without fear of breaking external
+code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.</p>
 
   </article>
   
@@ -131,7 +136,7 @@ test I am working on. </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-02-17T09:15:59-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-02T08:06:01-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

@@ -11,7 +11,7 @@
 
   <title>
     
-      Conway's Law &middot; Wrong Abstraction
+      Structs in Ruby &middot; Wrong Abstraction
     
   </title>
 
@@ -56,34 +56,48 @@
 
       <main>
         <article class="post">
-  <h1 class="post-title">Conway's Law</h1>
-  <time datetime="2015-02-01T00:00:00-05:00" class="page-date">01 Feb 2015</time>
-  <p>“Why was it setup this way?”</p>
+  <h1 class="post-title">Structs in Ruby</h1>
+  <time datetime="2015-03-02T00:00:00-05:00" class="page-date">02 Mar 2015</time>
+  <p>What is a Struct anyway? That’s what I thought for the longest time until I started to see the benefits of them. First, how they work:</p>
 
-<p>I hear this question all of the time in reference to legacy systems. I think the practice of asking “Why?” is an excellent one and suggest such systems as the <a href="http://venturehacks.com/articles/five-whys">Five Whys</a> to help you do so. But unfortunately I don’t think people take their whys far enough.</p>
+<p>If you have a scenario where you would like to pull out an extremely simple class then using a Struct instead might be the way to go:</p>
 
-<p>What I mean is that we often realize that one design decision might have been, in retrospect, a bad one, but we do not oftentimes really ask why such a decision was made. </p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Birthday</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:day</span><span class="p">,</span> <span class="ss">:month</span><span class="p">,</span> <span class="ss">:year</span><span class="p">)</span>
+<span class="k">end</span>
 
-<blockquote>
-  <p>Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations - Conway’s Law</p>
-</blockquote>
+<span class="n">joes_birthday</span> <span class="o">=</span> <span class="no">Birthday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2003</span><span class="p">)</span></code></pre></div>
 
-<p>Particularly as programmers, I think it is easy to underestimate the role that communication and corporate culture play into these things. Thinking how your team is not only laid out but is also communicating will be a critical exercise to prevent and diagnose poor design decisions. In other words, if you want to know how your software’s interface design will lean, look at how the team works together.</p>
+<p>If you were working on a Person or User class and wanted to abstract out some of the birthday logic which you know will be relatively stable and simple then a Struct makes sense. Here are some characteristics I look for when considering a Struct:</p>
+
+<ul>
+  <li>
+    <p>It has stable, fixed data attributes</p>
+  </li>
+  <li>
+    <p>It is in fact a separate data object but is still very small.</p>
+  </li>
+  <li>
+    <p>I know I will always have all of its attributes upon instantiation (otherwise NoMethodErrors)</p>
+  </li>
+  <li>
+    <p>I feel certain that the needs of this object will not soon merit a full on class</p>
+  </li>
+</ul>
+
+<p>To summarize, Structs usually hold that in-between territory of needing more than an in-memory hash and less than a regular class.</p>
+
+<p>One more note on OStructs or OpenStructs: OStructs are very similar to regular Structs although they allow you to arbitrarily change attributes.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">joes_birthday</span> <span class="o">&lt;</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
+<span class="n">joes_birthday</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2003</span></code></pre></div>
+
+<p>I tend to use OStructs less because for me they are already starting to feel class-worthy, particularly since I like small classes anyways. If your data merits an object, and you can’t be sure that this might not grow in terms of complexity and importance then I usually go straight to creating a new class.</p>
 
 </article>
 
 <aside class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
-    
-      <li>
-        <h3>
-          <a href="http://vpfaulkner.github.io//2015/03/02/structs-in-ruby/">
-            Structs in Ruby
-            <small><time datetime="2015-03-02T00:00:00-05:00">02 Mar 2015</time></small>
-          </a>
-        </h3>
-      </li>
     
       <li>
         <h3>
@@ -103,6 +117,15 @@
         </h3>
       </li>
     
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/13/what-is-active-record/">
+            What is Active Record?
+            <small><time datetime="2015-02-13T00:00:00-05:00">13 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
   </ul>
 </aside>
 
@@ -111,7 +134,7 @@
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = 'vancefaulkner'; // required: replace example with your forum shortname
-    var disqus_identifier = "/2015/02/01/conways-law/";
+    var disqus_identifier = "/2015/03/02/structs-in-ruby/";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {
