@@ -63,7 +63,7 @@ def post
   begin
     puts "About to send"
     # response = HTTP Post logic
-    raise BadResponseError unless response == 201
+    raise "BadResponseError" unless response == 201
   rescue BadResponseError
     # Log bad response
   rescue => e
