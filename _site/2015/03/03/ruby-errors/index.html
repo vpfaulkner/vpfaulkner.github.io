@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      Ruby Errors &middot; Wrong Abstraction
     
   </title>
 
@@ -55,18 +55,10 @@
       </header>
 
       <main>
-        <div class="posts">
-  
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/2015/03/03/ruby-errors/">
-        Ruby Errors
-      </a>
-    </h1>
-
-    <time datetime="2015-03-03T00:00:00-05:00" class="post-date">03 Mar 2015</time>
-
-    <p>Rescue clauses should not be used recklessly in your code because they might make important bugs in your code hard to find. But in certain situations, particularly when your code deals with an external service that you can’t control, they become critical.</p>
+        <article class="post">
+  <h1 class="post-title">Ruby Errors</h1>
+  <time datetime="2015-03-03T00:00:00-05:00" class="page-date">03 Mar 2015</time>
+  <p>Rescue clauses should not be used recklessly in your code because they might make important bugs in your code hard to find. But in certain situations, particularly when your code deals with an external service that you can’t control, they become critical.</p>
 
 <p>In it’s simplest and most common form you can simply insert a rescue that rescues StandardError (don’t ever rescue from Exception as it can prevent much more important errors from coming to your attention!). See below:</p>
 
@@ -136,18 +128,41 @@
 
 <p>Here we are treating undesired responses as an error and rescuing that specific error before a general rescue. Note that if you want to handle certain errors differently than others you should rescue them specifically and before a general rescue clause.</p>
 
-  </article>
-  
-</div>
+</article>
 
-<div class="pagination">
-  
-    <a class="pagination-item older" href="http://vpfaulkner.github.io/page2">Older</a>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/03/02/structs-in-ruby/">
+            Structs in Ruby
+            <small><time datetime="2015-03-02T00:00:00-05:00">02 Mar 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/23/wrap-your-dependencies/">
+            Wrap Your Dependencies
+            <small><time datetime="2015-02-23T00:00:00-05:00">23 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/17/when-to-use-guard-statements/">
+            When to use Guard Statements
+            <small><time datetime="2015-02-17T00:00:00-05:00">17 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
 
         
 
