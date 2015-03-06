@@ -4,13 +4,68 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
- <updated>2015-03-03T08:05:35-05:00</updated>
+ <updated>2015-03-06T08:14:39-05:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Beware of Class Methods in Ruby</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/03/06/beware-of-class-methods-in-ruby/"/>
+   <updated>2015-03-06T00:00:00-05:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/03/06/beware-of-class-methods-in-ruby</id>
+   <content type="html">&lt;p&gt;It is so easy to resort to class methods in Ruby. The behavior you are trying to implement seems to be stateless and writing a class method just seems easier.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileCompressor&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;compress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# compressing...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You think to yourself here: the idea of state does not seem that attractive here. This compression should be completely stateless as the only needed in our case is what we are passing in as its argument, the file.&lt;/p&gt;
+
+&lt;p&gt;However, let’s say your compression logic begins to grow a little bit:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileCompressor&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;compress&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;determine_file_type&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# compressing...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;determine_file_type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# determining...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;OK, no big deal right? Well, suddenly the complexity of your compression logic is growing and each individual method must use only its argument(s) as context. You are navigating a slippery slope here that will make your code not only harder to read and write but also more resistant to refactoring. The key idea is that that with each addition of behavior you add via a new method your class is becoming more and more state-like yet it has no way to store state because you never instantiated it. Your code is becoming more and more procedural and resisting that natural advantages offered by an object-oriented design. At this point I would recommend rethinking your class:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileCompressor&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;vi&quot;&gt;@file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;compress&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;determine_file_type&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# compressing...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;determine_file_type&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# determining...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This design rethink will give you a more natural way to accommodate change in behavior and prevent class method “feature envy” here.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Ruby Errors</title>
@@ -71,7 +126,7 @@
   &lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
     &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;About to send&amp;quot;&lt;/span&gt;
     &lt;span class=&quot;c1&quot;&gt;# response = HTTP Post logic&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BadResponseError&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;201&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;raise&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;BadResponseError&amp;quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;201&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;rescue&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BadResponseError&lt;/span&gt;
     &lt;span class=&quot;c1&quot;&gt;# Log bad response&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;rescue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;
@@ -85,7 +140,7 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Here we are treating undesired responses as an error and rescuing that specific error before a general rescue. Note that if you want to handle certain errors differently than others you should rescue them specifically and before a general rescue clause.&lt;/p&gt;
+&lt;p&gt;Here we are treating undesired responses as an error and rescuing that specific error before a general rescue. Note that if you want to handle certain errors differently than others you should rescue them first.&lt;/p&gt;
 </content>
  </entry>
  

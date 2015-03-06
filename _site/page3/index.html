@@ -59,35 +59,47 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/23/wrap-your-dependencies/">
-        Wrap Your Dependencies
+      <a href="/2015/03/02/structs-in-ruby/">
+        Structs in Ruby
       </a>
     </h1>
 
-    <time datetime="2015-02-23T00:00:00-05:00" class="post-date">23 Feb 2015</time>
+    <time datetime="2015-03-02T00:00:00-05:00" class="post-date">02 Mar 2015</time>
 
-    <p>Properly wrapping and encapsulating parts of my code has come to feel like a kind of digital hygiene for my code not unlike regularly washing my hands to prevent sickness. You don’t know when you might be about to get sick so you just build some habits into to protect yourself against this outcome. In software, your mindset should be analogous but with a focus on your software’s potential to accommodate change.</p>
+    <p>What is a Struct anyway? That’s what I thought for the longest time until I started to see the benefits of them. First, how they work:</p>
 
-<p>At work we were dealing with the question of how we want to handle logging. We were told that our current tool for logging was Graylog but that we were considering moving to an <a href="http://www.elasticsearch.org/overview/">ELK stack</a>. Obviously we didn’t want to go to far down one road only to then turn around and go another direction. So we committed to doing what we should have been doing regardless: wrapping our logging logic. For example:</p>
+<p>If you have a scenario where you would like to pull out an extremely simple class then using a Struct instead might be the way to go:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Class</span> <span class="no">ShoppingCart</span>
-
-  <span class="k">def</span> <span class="nf">purchase</span>
-    <span class="c1"># purchase logic</span>
-    <span class="no">Log</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span> <span class="s2">&quot;Sucessfull purchase: </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="k">end</span>
-
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Birthday</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:day</span><span class="p">,</span> <span class="ss">:month</span><span class="p">,</span> <span class="ss">:year</span><span class="p">)</span>
 <span class="k">end</span>
 
-<span class="no">Class</span> <span class="no">Log</span>
+<span class="n">joes_birthday</span> <span class="o">=</span> <span class="no">Birthday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2003</span><span class="p">)</span></code></pre></div>
 
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-    <span class="c1"># Log logic</span>
-  <span class="k">end</span>
+<p>If you were working on a Person or User class and wanted to abstract out some of the birthday logic which you know will be relatively stable and simple then a Struct makes sense. Here are some characteristics I look for when considering a Struct:</p>
 
-<span class="k">end</span></code></pre></div>
+<ul>
+  <li>
+    <p>It has stable, fixed data attributes</p>
+  </li>
+  <li>
+    <p>It is in fact a separate data object but is still very small.</p>
+  </li>
+  <li>
+    <p>I know I will always have all of its attributes upon instantiation (otherwise NoMethodErrors)</p>
+  </li>
+  <li>
+    <p>I feel certain that the needs of this object will not soon merit a full on class</p>
+  </li>
+</ul>
 
-<p>Even if we decided to go with the default Ruby logger, by wrapping the logging logic in its own class we prepare ourselves for change. The result is cleaner, more adaptable code.</p>
+<p>To summarize, Structs usually hold that in-between territory of needing more than an in-memory hash and less than a regular class.</p>
+
+<p>One more note on OStructs or OpenStructs: OStructs are very similar to regular Structs although they allow you to arbitrarily change attributes.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">joes_birthday</span> <span class="o">&lt;</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
+<span class="n">joes_birthday</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2003</span></code></pre></div>
+
+<p>I tend to use OStructs less because for me they are already starting to feel class-worthy, particularly since I like small classes anyways. If your data merits an object, and you can’t be sure that this might not grow in terms of complexity and importance then I usually go straight to creating a new class.</p>
 
   </article>
   
@@ -110,7 +122,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-03T08:05:35-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-06T08:14:39-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

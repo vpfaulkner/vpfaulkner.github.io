@@ -59,22 +59,54 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/11/what-is-heroku-exactly/">
-        What is Heroku Exactly?
+      <a href="/2015/02/13/what-is-active-record/">
+        What is Active Record?
       </a>
     </h1>
 
-    <time datetime="2015-02-11T00:00:00-05:00" class="post-date">11 Feb 2015</time>
+    <time datetime="2015-02-13T00:00:00-05:00" class="post-date">13 Feb 2015</time>
 
-    <p>We know your secret: you’re a very new web developer still trying to get down the basics and you don’t want to admit to anyone that you’re still not exactly sure what Heroku is and why you need it. Your secret is safe with us but, yes, this would be a good time to get this figured out.</p>
+    <p>If you’re getting into Rails perhaps the most important concept to learn besides the MVC pattern is the role that Active Record plays.</p>
 
-<p>At some point or another you might have wondered how you are going to take what you’ve been working on, probably locally on your Macbook laptop, and expose it to the outside world? When you run rails server for instance you are able to see the fruit of your work by navigating a browser to local host, but if you want to show it so someone else you have no idea. What you need is something else besides your own computer to host your application and make it available over the web.</p>
+<p>For starters, it might be worth clarifying that active record can refer to both the general software architecture pattern first coined by Martin Fowler as well as the specific Rails implementation of that pattern. What that pattern hopes to do is essentially abstract the database allowing you as the software developer to interact with application objects (think User.last) rather than the database itself. This is done through Object-Relational Mapping and will make your life as a new Rails developer significantly easier. In addition to making your Rails app nearly database agnostic and allowing you to not build tedious database queries yourself, active record gives you the ability to:</p>
 
-<p>What Heroku is might be called a Platform as a Service. The idea of a platform probably makes sense because you need your application to stand on something. What you may not realize at first, however, is what needs to go into that platform to allow it to run the same way as on your conputer. This introduces the idea of your “stack” or the componenets and technologies that sit ontop of each other to support your program. For example, what operating system are you running locally? Is it, or something close enough, going to be availble to the platform that hosts your program? How about the same database or language or even specific version of that language? The good and bad thing about being able to easily spin up an application today and run it locally is that you don’t know what all is happening in the background and thearfore don’t realize how much work it would be to set that up somewhere else. </p>
+<ul>
+  <li>Represent models and their data</li>
+  <li>Represent associations between these models</li>
+  <li>Validate models before they get persisted to the database</li>
+  <li>Perform database operations in an object-oriented fashion.</li>
+</ul>
 
-<p>That is where a service like Heroku comes in. Heroku takes care of most of that work for you and, if you are in the open source community, works well with a lot of common tools. First, it works well with Git allowing you to deploy almost instantly, is extremely common in the Rails community so there is plenty of help available, and makes scalling your easy. Heroku also provides a free Dyno (think computing power for your app) which means for many simple apps you can deploy it to the web for nothing.</p>
+<p>(taken from the official Rails guide, see below)</p>
 
-<p>Heroku certainly has some downsides, most notably its cost as you scale, but it is an easy way to begin deploying your app, is a extremely valuable technology to know because of its ubiquity, and is free to get started. Finally if you are getting started there are plenty of resources to help you get up in running including an excellent set of <a href="https://devcenter.heroku.com/articles/getting-started-with-rails4">tutorials</a> for most of the more popular langagues.</p>
+<p>Let’s start with some examples.</p>
+
+<p>Using a SQL database without active record, if you wanted to grab the first user in your User table you would have to build the query below:</p>
+
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">clients</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">users</span><span class="p">.</span><span class="n">id</span> <span class="k">ASC</span> <span class="k">LIMIT</span> <span class="mi">1</span></code></pre></div>
+
+<p>Not only do you have to know the right query syntax but you are suddenly very coupled to your database because its specific logic is sprinkled throughout your program. Furthermore, reading even a simple query such as this one is difficult and make it harder to communicate what you are doing in your program.</p>
+
+<p>The same query using active record would look like this:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span></code></pre></div>
+
+<p>Much cleaner right? Not only are you as a beginner able to make relatively complex database queries without learning another language, but I also find that the active record pattern helps you write better object-oriented code. Some other examples:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Find user with last name as &#39;Faulkner&#39;</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">last_name</span><span class="p">:</span> <span class="s1">&#39;Faulkner&#39;</span><span class="p">)</span>
+
+<span class="c1"># Find user with last name as &#39;Faulkner&#39; and first name as &#39;Vance&#39;</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">last_name</span><span class="p">:</span> <span class="s1">&#39;Faulkner&#39;</span><span class="p">,</span> <span class="ss">first_name</span><span class="p">:</span> <span class="s1">&#39;Vance&#39;</span><span class="p">)</span>
+
+<span class="c1"># Find non-member users and loop through block</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">member</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">find_each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="p">}</span>
+
+<span class="c1"># Retrieve member users by created_at date</span>
+<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">member</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="ss">:created_at</span><span class="p">)</span></code></pre></div>
+
+<p>There are a multitude of ways to query active record which you can find with the <a href="http://guides.rubyonrails.org/active_record_querying.html">Rails guide</a>. Becoming comfortable with active record is essential as well as relatively easy and will set you up for becoming a productive rails developer. </p>
+
 
   </article>
   
@@ -97,7 +129,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-03T08:05:35-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-06T08:14:39-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

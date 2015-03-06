@@ -59,79 +59,48 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/11/why-naming-matters/">
-        Why Naming Matters
+      <a href="/2015/01/12/sensitive-passwords-in-rails/">
+        What to do with Sensitive Information in Rails?
       </a>
     </h1>
 
-    <time datetime="2015-01-11T00:00:00-05:00" class="post-date">11 Jan 2015</time>
+    <time datetime="2015-01-12T00:00:00-05:00" class="post-date">12 Jan 2015</time>
 
-    <p>One of the more subtle lessons I’ve learned since I started developing was how
-much object names both guide and reveal your thought process as you are building
-an application. Consider a few rules of thumb:</p>
+    <p>If you are just starting with Rails you will probably run into a moment where
+you need to incorporate some sensitive information that you don’t want to expose
+to the world via Github.</p>
 
-<h3 id="stick-with-real-world-objects-as-much-as-possible-dont-be-cute">Stick with real world objects as much as possible. Don’t be cute</h3>
+<p>There are multiple approaches but the easiest I’ve run into is with the <a href="https://github.com/bkeepers/dotenv">dotenv
+gem</a>. Per the instructions:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span><span class="p">,</span> <span class="ss">:groups</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span></code></pre></div>
 
-<p>instead of:</p>
+<p>Execute:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SongMaker</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle</code></pre></div>
 
-<h3 id="use-isattribute-for-booleans">Use is_attribute? for Booleans</h3>
+<p>This will allow you to have consistent syntax in your Rails code with a
+centralized place to keep your sensitive information in. Add a .env
+<a href="http://en.wikipedia.org/wiki/Dot-file">dot-file</a> to the root of your project
+(directly under the project folder) formatted like the following:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">is_connected?</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SECRET_KEY</span><span class="o">=</span><span class="no">SECRETKEYHERE</span></code></pre></div>
 
-<p>instead of:</p>
+<p>This will allow you to access these keys through the following syntax:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="ss">connected</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_key</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span></code></pre></div>
 
-<h3 id="dont-include-object-type">Don’t include object type</h3>
+<p>Finally, you probably want to ensure this document does not get included in
+source control so add it to your
+<a href="https://help.github.com/articles/ignoring-files">.gitignore</a>, also to be stored
+in the root of your project.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">env</span></code></pre></div>
 
-  <span class="k">def</span> <span class="nf">split</span>
-    <span class="c1"># split logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>instead of:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
-    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
-    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
-    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
-    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
-  <span class="k">end</span>
-
-  <span class="k">def</span> <span class="nf">split_method</span>
-    <span class="c1"># split logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>If you haven’t also checked out the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style
-Guide</a> you should do so. </p>
+<p>If you are working in a group, you should then document that this .env file is
+necessary (along with any other dependencies) and securely deliver it to them
+along with any other necessary but sensitive files such as a
+<a href="http://railscasts.com/episodes/179-seed-data?view=asciicast">seeds</a> file.</p>
 
   </article>
   
@@ -154,7 +123,7 @@ Guide</a> you should do so. </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-03T08:05:35-05:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-06T08:14:39-05:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      Beware of Class Methods in Ruby &middot; Wrong Abstraction
     
   </title>
 
@@ -55,18 +55,10 @@
       </header>
 
       <main>
-        <div class="posts">
-  
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/2015/03/06/beware-of-class-methods-in-ruby/">
-        Beware of Class Methods in Ruby
-      </a>
-    </h1>
-
-    <time datetime="2015-03-06T00:00:00-05:00" class="post-date">06 Mar 2015</time>
-
-    <p>It is so easy to resort to class methods in Ruby. The behavior you are trying to implement seems to be stateless and writing a class method just seems easier.</p>
+        <article class="post">
+  <h1 class="post-title">Beware of Class Methods in Ruby</h1>
+  <time datetime="2015-03-06T00:00:00-05:00" class="page-date">06 Mar 2015</time>
+  <p>It is so easy to resort to class methods in Ruby. The behavior you are trying to implement seems to be stateless and writing a class method just seems easier.</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">FileCompressor</span>
 
@@ -114,18 +106,41 @@
 
 <p>This design rethink will give you a more natural way to accommodate change in behavior and prevent class method “feature envy” here.</p>
 
-  </article>
-  
-</div>
+</article>
 
-<div class="pagination">
-  
-    <a class="pagination-item older" href="http://vpfaulkner.github.io/page2">Older</a>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/03/03/ruby-errors/">
+            Ruby Errors
+            <small><time datetime="2015-03-03T00:00:00-05:00">03 Mar 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/03/02/structs-in-ruby/">
+            Structs in Ruby
+            <small><time datetime="2015-03-02T00:00:00-05:00">02 Mar 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/02/23/wrap-your-dependencies/">
+            Wrap Your Dependencies
+            <small><time datetime="2015-02-23T00:00:00-05:00">23 Feb 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
 
         
 
