@@ -27,8 +27,8 @@ Sys. Admin / Dev Ops
 * Elasticsearch
 * Capistrano
 
-
 Back-end / DB
+
 * PostgreSQL
 * Redis
 * Mongo
@@ -39,8 +39,8 @@ Back-end / DB
 * RSpec
 * Sidekiq / Resque
 
-
 Front-end
+
 * HTML
 * CSS
 * SASS
