@@ -59,54 +59,30 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/13/what-is-active-record/">
-        What is Active Record?
+      <a href="/2015/02/17/when-to-use-guard-statements/">
+        When to use Guard Statements
       </a>
     </h1>
 
-    <time datetime="2015-02-13T00:00:00-05:00" class="post-date">13 Feb 2015</time>
+    <time datetime="2015-02-17T00:00:00-05:00" class="post-date">17 Feb 2015</time>
 
-    <p>If you’re getting into Rails perhaps the most important concept to learn besides the MVC pattern is the role that Active Record plays.</p>
+    <p>What are guard statements and when should I use them? If you are starting out on Ruby you might run into a line like the one below and be a little confused:</p>
 
-<p>For starters, it might be worth clarifying that active record can refer to both the general software architecture pattern first coined by Martin Fowler as well as the specific Rails implementation of that pattern. What that pattern hopes to do is essentially abstract the database allowing you as the software developer to interact with application objects (think User.last) rather than the database itself. This is done through Object-Relational Mapping and will make your life as a new Rails developer significantly easier. In addition to making your Rails app nearly database agnostic and allowing you to not build tedious database queries yourself, active record gives you the ability to:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">return</span> <span class="k">unless</span> <span class="n">user</span></code></pre></div>
 
-<ul>
-  <li>Represent models and their data</li>
-  <li>Represent associations between these models</li>
-  <li>Validate models before they get persisted to the database</li>
-  <li>Perform database operations in an object-oriented fashion.</li>
-</ul>
+<p>It reads well enough to get an sense of what is going on but you might be more comfortable with a nested if else statement:</p>
 
-<p>(taken from the official Rails guide, see below)</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">user</span>
+  <span class="c1"># ...</span>
+<span class="k">else</span>
+  <span class="k">return</span> <span class="kp">nil</span>
+<span class="k">end</span></code></pre></div>
 
-<p>Let’s start with some examples.</p>
+<p>While they do the same thing, the guard statement is 1) it avoids a level of indentation 2) it is more readable 3) it is more concise. It takes advantage of the trailing conditional if as well as the implicit return nil (same as return unless).</p>
 
-<p>Using a SQL database without active record, if you wanted to grab the first user in your User table you would have to build the query below:</p>
+<p>There are a few liabilities with the techniques however. The first is that you may be suppressing and thus perpetuating a critical bug in your code by not allowing a NoMethodError to be raised. An alternative is in fact to raise an exception of your own? Secondly, you are forcing whatever object called this method to <a href="http://www.sandimetz.com/blog/2014/12/19/suspicions-of-nil">respond to two different</a> types of object.</p>
 
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">clients</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">users</span><span class="p">.</span><span class="n">id</span> <span class="k">ASC</span> <span class="k">LIMIT</span> <span class="mi">1</span></code></pre></div>
-
-<p>Not only do you have to know the right query syntax but you are suddenly very coupled to your database because its specific logic is sprinkled throughout your program. Furthermore, reading even a simple query such as this one is difficult and make it harder to communicate what you are doing in your program.</p>
-
-<p>The same query using active record would look like this:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">first</span></code></pre></div>
-
-<p>Much cleaner right? Not only are you as a beginner able to make relatively complex database queries without learning another language, but I also find that the active record pattern helps you write better object-oriented code. Some other examples:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Find user with last name as &#39;Faulkner&#39;</span>
-<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">last_name</span><span class="p">:</span> <span class="s1">&#39;Faulkner&#39;</span><span class="p">)</span>
-
-<span class="c1"># Find user with last name as &#39;Faulkner&#39; and first name as &#39;Vance&#39;</span>
-<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">last_name</span><span class="p">:</span> <span class="s1">&#39;Faulkner&#39;</span><span class="p">,</span> <span class="ss">first_name</span><span class="p">:</span> <span class="s1">&#39;Vance&#39;</span><span class="p">)</span>
-
-<span class="c1"># Find non-member users and loop through block</span>
-<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">member</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">find_each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span> <span class="p">}</span>
-
-<span class="c1"># Retrieve member users by created_at date</span>
-<span class="no">User</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">member</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="ss">:created_at</span><span class="p">)</span></code></pre></div>
-
-<p>There are a multitude of ways to query active record which you can find with the <a href="http://guides.rubyonrails.org/active_record_querying.html">Rails guide</a>. Becoming comfortable with active record is essential as well as relatively easy and will set you up for becoming a productive rails developer. </p>
-
+<p>Overall, I prefer using guard statements when I need to prevent accepting invalid data and only if I have determined the exact circumstance of the bug. If you are having a mysterious bug pop up for some unknown reason, spend your time investigating and remedying that bug rather than smothering it with a line like this.</p>
 
   </article>
   
@@ -129,7 +105,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-10T08:11:02-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-11T08:02:33-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
