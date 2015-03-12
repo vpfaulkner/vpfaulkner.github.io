@@ -4,7 +4,7 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
- <updated>2015-03-11T08:02:33-04:00</updated>
+ <updated>2015-03-12T07:39:03-04:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
@@ -44,31 +44,37 @@
   &lt;li&gt;Capistrano&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Back-end / DB
-* PostgreSQL
-* Redis
-* Mongo
-* Ruby
-* Rails
-* SQL
-* JSON
-* RSpec
-* Sidekiq / Resque&lt;/p&gt;
+&lt;p&gt;Back-end / DB&lt;/p&gt;
 
-&lt;p&gt;Front-end
-* HTML
-* CSS
-* SASS
-* Javascript
-* jQuery
-* AngularJS
-* EmberJS
-* AJAX
-* UI
-* UX
-* Markdown
-* Capybara
-* Backbone&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;PostgreSQL&lt;/li&gt;
+  &lt;li&gt;Redis&lt;/li&gt;
+  &lt;li&gt;Mongo&lt;/li&gt;
+  &lt;li&gt;Ruby&lt;/li&gt;
+  &lt;li&gt;Rails&lt;/li&gt;
+  &lt;li&gt;SQL&lt;/li&gt;
+  &lt;li&gt;JSON&lt;/li&gt;
+  &lt;li&gt;RSpec&lt;/li&gt;
+  &lt;li&gt;Sidekiq / Resque&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Front-end&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+  &lt;li&gt;SASS&lt;/li&gt;
+  &lt;li&gt;Javascript&lt;/li&gt;
+  &lt;li&gt;jQuery&lt;/li&gt;
+  &lt;li&gt;AngularJS&lt;/li&gt;
+  &lt;li&gt;EmberJS&lt;/li&gt;
+  &lt;li&gt;AJAX&lt;/li&gt;
+  &lt;li&gt;UI&lt;/li&gt;
+  &lt;li&gt;UX&lt;/li&gt;
+  &lt;li&gt;Markdown&lt;/li&gt;
+  &lt;li&gt;Capybara&lt;/li&gt;
+  &lt;li&gt;Backbone&lt;/li&gt;
+&lt;/ul&gt;
 </content>
  </entry>
  
