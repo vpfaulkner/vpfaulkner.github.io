@@ -3,6 +3,7 @@ layout: page
 title: About Me
 ---
 
+![Me](/public/headshot.jpg)
 I'm Vance and I love to solve problems. I crave new companies, new technologies,
 new ideas, and obstacles that resist typical solutions.
 
@@ -10,7 +11,7 @@ I have a liberal arts background and was a doing analytics for a SaaS startup be
 development. As a developer I work primarily in Ruby on Rails and frontend
  web technologies. To see how I work, check out my [playbook](/playbook).
 
-Some of my favorite tools and background:
+Some of my favorite tools:
 
 * **Languages**: Ruby, Javascript, HTML, CSS
 
@@ -18,7 +19,7 @@ Some of my favorite tools and background:
 
 * **Frontend Frameworks & Libraries**: jQuery, Middleman, Jekyll, Bourbon, Foundation
 
-* **Dev Ops & Version Control**: Git, Github, Bitbucket, Heroku, UNIX
+* **Dev Ops & Version Control**: Git, Github, Bitbucket, Heroku, Unix
 
 * **Database**: PostgreSQL, MongoDB
 
@@ -28,5 +29,4 @@ Some of my favorite tools and background:
 
 * **Other**: Sidekiq, VIM, NSQ, Haml, Sass, Markdown, JSON, rbenv
 
-* **Education**: University of North Carolina - BA in Economics
-
+When not writing software, I am probably reading, with friends, or out running. I am a graduate of the University of North Carolina and reside in Durham, North Carolina.
