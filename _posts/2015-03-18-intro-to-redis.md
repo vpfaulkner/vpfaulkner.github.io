@@ -53,5 +53,5 @@ redis.get("mykey")
 
 The methods available to your instance of Redis are the same as those listed on the [website](http://redis.io/commands).
 
-In closing, consider Redis when you need something much faster and lightweight than a full on database. Again, this is why it makes a good candidate for caching. However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a [separate tool](http://antirez.com/news/88) to do just that.
+Consider Redis when you need something much faster and more lightweight than a full on database. Again, this is why it makes a good candidate for caching (in my opinion better than Memcached). However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a [separate tool](http://antirez.com/news/88) to do just that.
 
