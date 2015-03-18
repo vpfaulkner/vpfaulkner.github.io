@@ -59,76 +59,53 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/26/control-flow-in-ruby/">
-        Control Flow in Ruby Pt. I
+      <a href="/2015/02/04/sidekiq-in-rails/">
+        Sidekiq in Rails
       </a>
     </h1>
 
-    <time datetime="2015-01-26T00:00:00-05:00" class="post-date">26 Jan 2015</time>
+    <time datetime="2015-02-04T00:00:00-05:00" class="post-date">04 Feb 2015</time>
 
-    <p>Control flow is an important beginner concept in Ruby that you’ll need to master
-early on. Understanding the concepts can be difficult to someone new to
-programming but, once the idea starts to sink in, you find yourself no longer
-struggling with the syntax but instead with the overwhelming number of options
-you could use to several your particular problem. In fact, many beginners
-overuse the first control flow concept they really understood well and never
-branch out to understand the others.</p>
+    <p>If you’re looking to run a background job in Ruby, one tool that I have found very easy to work with is Sidekiq. First off, how to use it:</p>
 
-<p>In light of this, I’m going to provide some general guidelines for how to think
-through the various options you have when needing control flow.</p>
+<p>Begin by adding it to your Gemfile:</p>
 
-<h2 id="use-the-if-statement-for-two-branches-of-logic-or-less">Use the if statement for two branches of logic or less</h2>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;sidekiq&#39;</span></code></pre></div>
 
-<p>The if keyword verifies whether an expression is true. If it is, the next line
-is executed. </p>
+<p>Install:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">bundle install</code></pre></div>
+
+<p>Define the job you need done with a perform method:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># app/workers/email_worker.rb</span>
+<span class="k">class</span> <span class="nc">EmailWorker</span>
+  <span class="kp">include</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Worker</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+    <span class="c1"># Email logic</span>
+  <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
-  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;y&quot;</span>
+<p>And call the worker where appropriate</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">RegistrationController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">register</span>
+    <span class="c1"># Registation Logic</span>
+    <span class="no">EmailWorker</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="n">current_user</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+  <span class="k">end</span>
 <span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">&quot;x&quot;</span> <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span></code></pre></div>
+<p>Get the Sidekiq process going from the shell in your root directory:</p>
 
-<p>These are generally the scenarios I use if statements for. Each one has a
-maximum of two branches of logic, and I prefer the third single line syntax if
-it feels more readable and can fit in an 80 character line.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">bundle <span class="nb">exec </span>sidekiq</code></pre></div>
 
-<h2 id="use-unless-over-if-condition">Use Unless over if !condition</h2>
+<p>Beyond knowing how to do Sidekiq for background processing, the question remains for when to use it. </p>
 
-<p>I like the unless statement over awkward if !condition because I think it is
-more readable.</p>
+<p>For me Sidekiq (or any background job) is a trade-off of control and reliability for speed. Testing workers can be very difficult and trying to incorporate a complex workflow where certain actions must be kickedoff after the completion of multiple asynchronous processes can be unstable. Furthermore, it has an issue of thread saftey meaning you must use libraries in Sidekiq that are considered thread safe. For those whom this is a deal-breaker by the way, one other alternative is, <a href="https://github.com/resque/resque">Resque</a> which is a little slower but doesn’t require thread-safe code.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">unless</span> <span class="n">decimal</span>
-  <span class="nb">puts</span> <span class="s2">&quot;whole number&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>As with if, I also prefer single-line syntax when possible</p>
-
-<h2 id="use-the-case-statement-for-multiple-branches">Use the case statement for multiple branches</h2>
-
-<p>One could use a whole nest of elsif statements but it makes your code messier
-and difficult to read. Prefer the case statement:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">case</span> <span class="n">song</span>
-<span class="k">when</span> <span class="s2">&quot;I Will&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;White Album&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Tomorrow Never Knows&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Revolver&quot;</span>
-<span class="k">when</span> <span class="s2">&quot;Hello, Goodbye&quot;</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Magical Mystery Tour&quot;</span>
-<span class="k">else</span>
-  <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t know&quot;</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Sometimes you have multiple branches of logic but the conditions are a little
-more complicated so you feel forced into a lot of complicated elsif statements.
-This is a sign that you need to refactor the logic into separate methods.
-Usually you can then create a new variable and use this in a case statement.</p>
+<p>However, for a lot of situations such as the one here that involves sending an email in the background after registration, using a background job such as Sidekiq is perfect. In this case, any additional registration logic you want done does not have to wait for the email to be sent; furthermore, if you need to several things at once (such as emailing a larger mailing list) than doing that work in the background will allow you to make huge gains in speed.</p>
 
   </article>
   
@@ -151,7 +128,7 @@ Usually you can then create a new variable and use this in a case statement.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-12T07:39:03-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-18T08:22:31-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

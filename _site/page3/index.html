@@ -59,82 +59,71 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/03/ruby-errors/">
-        Ruby Errors
+      <a href="/2015/03/10/my-big-list-of-full-stack-developer-technologies/">
+        My Big List of Full Stack Developer Technologies
       </a>
     </h1>
 
-    <time datetime="2015-03-03T00:00:00-05:00" class="post-date">03 Mar 2015</time>
+    <time datetime="2015-03-10T00:00:00-04:00" class="post-date">10 Mar 2015</time>
 
-    <p>Rescue clauses should not be used recklessly in your code because they might make important bugs in your code hard to find. But in certain situations, particularly when your code deals with an external service that you can’t control, they become critical.</p>
+    <p>Let’s be honest, there are a lot of skills that go into being a full stack developer. There is a long and constantly changing list of core technologies and deciding how to invest your time in learning new ones is almost as important deciding to actually learn some of these in the first place.</p>
 
-<p>In it’s simplest and most common form you can simply insert a rescue that rescues StandardError (don’t ever rescue from Exception as it can prevent much more important errors from coming to your attention!). See below:</p>
+<p>My philosophy is:
+1. Realize that you can take on about half of what you hope to (if you are being honest) and therefore being focused and intentional about your learning is key
+2. Think in terms of inflection points of payoff. I say that having done at least one project with a technology (not just researching it) is an inflection point for familiarity. Try to go wide here is key. Then pick a few things that you want to be an “expert” in. For me, I want to be “an expert” in writing clean, object-oriented Ruby. This is expertise is another inflection point.
+3. Mix cutting edge, promising but unproven technologies with tried and true ones. Similar to the previous point, think of the tried and true technologies as conservative, reliable investments because, paradoxically, the longer a technology has been around the longer it is likely to stay around. Think of cutting edge technologies as a venture capitalist would think of investments: long shot bets that might pay off but don’t count an any one technology as a sure thing.
+4. Above all, learn what you love</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="c1"># Other rescue logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<p>With that, here is the list of technologies I have on my list:</p>
 
-<p>Here we have several things going on: a begin which marks the block you wish to rescue from (and the block which you might want to retry, see below), then the http post logic, and then logic to be executed upon rescue with e now holding the error information. I choose http post logic as an example because it is the very scenario that I see as commonly requiring rescue. For example, if the server receiving your post goes down or times out, you don’t want your program to crash. Instead, you should decide on how you want to handle these errors in advance and add that logic here.</p>
+<p>Sys. Admin / Dev Ops</p>
 
-<p>If you want to retry the post you can do so:</p>
+<ul>
+  <li>Linux admin and scripting</li>
+  <li>Shell Scripting</li>
+  <li>Git</li>
+  <li>Nginx</li>
+  <li>Vagrant</li>
+  <li>Heroku</li>
+  <li>Docker</li>
+  <li>AWS</li>
+  <li>Ansible</li>
+  <li>Logstash</li>
+  <li>Elasticsearch</li>
+  <li>Capistrano</li>
+</ul>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<p>Back-end / DB</p>
 
-<p>Here retry will go to the begin statement and retry the post. To prevent infinite retries, however, we are using a retry_count variable.</p>
+<ul>
+  <li>PostgreSQL</li>
+  <li>Redis</li>
+  <li>Mongo</li>
+  <li>Ruby</li>
+  <li>Rails</li>
+  <li>SQL</li>
+  <li>JSON</li>
+  <li>RSpec</li>
+  <li>Sidekiq / Resque</li>
+</ul>
 
-<p>You can also include else logic when the rescue clause is not executed and/or ensure logic that will be executed no matter what:</p>
+<p>Front-end</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">else</span>
-    <span class="nb">puts</span> <span class="s2">&quot;success!&quot;</span>
-  <span class="k">ensure</span>
-    <span class="c1"># Ensure something is logged</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Finally, it is OK to raise your own errors, particularly if a dependency is acting improperly:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># response = HTTP Post logic</span>
-    <span class="k">raise</span> <span class="s2">&quot;BadResponseError&quot;</span> <span class="k">unless</span> <span class="n">response</span> <span class="o">==</span> <span class="mi">201</span>
-  <span class="k">rescue</span> <span class="no">BadResponseError</span>
-    <span class="c1"># Log bad response</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">else</span>
-    <span class="nb">puts</span> <span class="s2">&quot;success!&quot;</span>
-  <span class="k">ensure</span>
-    <span class="c1"># Ensure something is logged</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Here we are treating undesired responses as an error and rescuing that specific error before a general rescue. Note that if you want to handle certain errors differently than others you should rescue them first.</p>
+<ul>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>SASS</li>
+  <li>Javascript</li>
+  <li>jQuery</li>
+  <li>AngularJS</li>
+  <li>EmberJS</li>
+  <li>AJAX</li>
+  <li>UI</li>
+  <li>UX</li>
+  <li>Markdown</li>
+  <li>Capybara</li>
+  <li>Backbone</li>
+</ul>
 
   </article>
   
@@ -157,7 +146,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-12T07:39:03-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-18T08:22:31-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

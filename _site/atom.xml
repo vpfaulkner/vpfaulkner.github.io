@@ -4,13 +4,74 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
- <updated>2015-03-12T07:39:03-04:00</updated>
+ <updated>2015-03-18T08:22:31-04:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Intro to Redis</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/03/18/intro-to-redis/"/>
+   <updated>2015-03-18T00:00:00-04:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/03/18/intro-to-redis</id>
+   <content type="html">&lt;p&gt;Over the last few months there has been no tool I’ve used more than Redis. Although much of this is due to how much we’ve also used &lt;a href=&quot;/2015/02/04/sidekiq-in-rails/&quot;&gt;Sidekiq for background jobs&lt;/a&gt; and Sidekiq uses Redis for a job queue essentially, we have also used Redis alone when we needed any kind of key-value store including times when we wanted to cache.&lt;/p&gt;
+
+&lt;p&gt;Perhaps the best feature it brings to the table is its ability to handle different types of data structures in addition to strings:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Strings&lt;/li&gt;
+  &lt;li&gt;Hashes&lt;/li&gt;
+  &lt;li&gt;Lists of strings&lt;/li&gt;
+  &lt;li&gt;Sets of strings (non-repeating, unsorted elements)&lt;/li&gt;
+  &lt;li&gt;Sorted sets of strings&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A more in-depth look at the Redis data types is &lt;a href=&quot;http://redis.io/topics/data-types-intro&quot;&gt;here&lt;/a&gt;, and if you are unfamiliar with key value stores, check out this &lt;a href=&quot;2015/02/09/what-are-key-value-stores/&quot;&gt;other post&lt;/a&gt;. To get started, first make sure it is installed:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;brew install redis&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You’ll need to ensure the redis server is running and can use the command line interface, although we will look at the Ruby Client for Redis.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;redis-server&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;redis-cli
+redis&amp;gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;mykey myvalue
+OK
+redis&amp;gt; get key
+&lt;span class=&quot;s2&quot;&gt;&amp;quot;value&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If you would like to use the Ruby client, require and instantiate it with default configuration and listening on localhost:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;redis&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If you want to use a specific URL, you can either pass that in when instantiating Redis or set it as an environment variable called REDIS_URL.&lt;/p&gt;
+
+&lt;p&gt;Remember to think of key value stores similar to that of a dictionary where you want to save something, a value, and identify that value with a key later, similar to how a word and its meaning are stored together in a dictionary.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;mykey&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;myvalue&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;mykey&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# &amp;quot;myvalue&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The methods available to your instance of Redis are the same as those listed on the &lt;a href=&quot;http://redis.io/commands&quot;&gt;website&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In closing, consider Redis when you need something much faster and lightweight than a full on database. Again, this is why it makes a good candidate for caching. However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a &lt;a href=&quot;http://antirez.com/news/88&quot;&gt;separate tool&lt;/a&gt; to do just that.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Messages before Objects</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/03/16/messages-before-objects/"/>
+   <updated>2015-03-16T00:00:00-04:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/03/16/messages-before-objects</id>
+   <content type="html">&lt;p&gt;The evolution of how I first think about addressing a problem through code has undergone a lot of change.  At first, my instinct was to focus first procedures. As I became more engrossed in proper OO I then fixated on domain objects. Now, I am much more message oriented in my initial design of a program and begin by sketching out what I think the conversation should be before deciding on the objects that need to be present.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>My Big List of Full Stack Developer Technologies</title>

@@ -4,13 +4,13 @@ relative_permalinks: true
 
 # Setup
 title:            Wrong Abstraction
-tagline:          Ruby Developer 
+tagline:          Ruby Developer
 url:              http://vpfaulkner@github.io.com
 paginate:         1
 baseurl:          http://vpfaulkner.github.io/
 author:
   name:           Vance Faulkner
-  url:            vpfaulkner@github.io.com 
+  url:            vpfaulkner@github.io.com
   email:          vpfaulkner@gmail.com
 encoding:         UTF-8
 

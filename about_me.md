@@ -4,12 +4,9 @@ title: About Me
 ---
 
 ![Me](/public/headshot.jpg)
-I'm Vance and I love to solve problems. I crave new companies, new technologies,
-new ideas, and obstacles that resist typical solutions.
+I'm Vance and I love to solve problems. I crave new companies, new technologies, new ideas, and obstacles that resist typical solutions.
 
-I have a liberal arts background and was a doing analytics for a SaaS startup before deciding I wanted to go into software
-development. As a developer I work primarily in Ruby on Rails and frontend
- web technologies. To see how I work, check out my [playbook](/playbook).
+I have a liberal arts background and was a doing analytics for a SaaS startup before deciding I wanted to go into software development. As a developer I work primarily in Ruby on Rails and frontend web technologies. To see how I work, check out my [playbook](/playbook).
 
 Some of my favorite tools:
 

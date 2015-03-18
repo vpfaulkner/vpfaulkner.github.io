@@ -59,76 +59,48 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/11/when-to-use-modules-in-ruby/">
-        When to use modules in Ruby
+      <a href="/2015/01/12/sensitive-passwords-in-rails/">
+        What to do with Sensitive Information in Rails?
       </a>
     </h1>
 
-    <time datetime="2015-01-11T00:00:00-05:00" class="post-date">11 Jan 2015</time>
+    <time datetime="2015-01-12T00:00:00-05:00" class="post-date">12 Jan 2015</time>
 
-    <p>When should you use modules in Ruby? </p>
+    <p>If you are just starting with Rails you will probably run into a moment where
+you need to incorporate some sensitive information that you don’t want to expose
+to the world via Github.</p>
 
-<h3 id="question-1-do-you-need-to-it-to-carry-state">Question 1: Do you need to it to carry state?</h3>
+<p>There are multiple approaches but the easiest I’ve run into is with the <a href="https://github.com/bkeepers/dotenv">dotenv
+gem</a>. Per the instructions:</p>
 
-<p>If so, then you should probably use a class. In fact, for most use-cases,
-particularly if you are new to object-oriented programming, if what you are
-trying to do should be done with a class.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span><span class="p">,</span> <span class="ss">:groups</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span></code></pre></div>
 
-<p>When thinking of your program, think first in terms of what objects are
-necessary for you to create the interactions required. Methods that for whatever
-reason do not form an object that should be instantiated can be contained within
-a class.</p>
+<p>Execute:</p>
 
-<h3 id="question-2-could-this-be-done-with-a-few-singleton-class-methods-on-an-existing-class">Question 2: Could this be done with a few singleton class methods on an existing class?</h3>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span>bundle</code></pre></div>
 
-<p>While oftentimes overused, class methods can be a better alternative.</p>
+<p>This will allow you to have consistent syntax in your Rails code with a
+centralized place to keep your sensitive information in. Add a .env
+<a href="http://en.wikipedia.org/wiki/Dot-file">dot-file</a> to the root of your project
+(directly under the project folder) formatted like the following:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Document</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">SECRET_KEY</span><span class="o">=</span><span class="no">SECRETKEYHERE</span></code></pre></div>
 
-  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_pdf</span>
-    <span class="c1">#...</span>
-  <span class="k">end</span>
+<p>This will allow you to access these keys through the following syntax:</p>
 
-<span class="k">end</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">my_key</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SECRET_KEY&#39;</span><span class="o">]</span></code></pre></div>
 
-<h3 id="question-3-will-this-be-helpful-in-multiple-classes">Question 3: Will this be helpful in multiple classes?</h3>
+<p>Finally, you probably want to ensure this document does not get included in
+source control so add it to your
+<a href="https://help.github.com/articles/ignoring-files">.gitignore</a>, also to be stored
+in the root of your project.</p>
 
-<p>Modules provide mixin functionality and allow you to extend the same logic to
-multiple classes.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">.</span><span class="n">env</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Converter</span> 
-
-  <span class="k">def</span> <span class="nf">convert_to_pdf</span>
-    <span class="c1">#...</span>
-  <span class="k">end</span>
-
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">class</span> <span class="no">Document</span>
-  <span class="kp">include</span> <span class="no">Converter</span>
-
-  <span class="c1">#...</span>
-<span class="k">end</span>
-
-<span class="n">document</span> <span class="o">=</span> <span class="no">Document</span><span class="o">.</span><span class="n">new</span>
-<span class="n">document</span><span class="o">.</span><span class="n">convert_to_pdf</span></code></pre></div>
-
-<h3 id="question-4-do-i-need-it-for-namespacing">Question 4: Do I need it for namespacing?</h3>
-
-<p>I generally don’t think namespacing is the best reason to create a module but
-there are certain use-cases (such as with building APIs that might need
-namespacing for versioning) when it becomes appropriate.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">Math</span>
-  <span class="no">PI</span> <span class="o">=</span> <span class="mi">3</span><span class="o">.</span><span class="mi">14</span>
-<span class="k">end</span>
-
-<span class="k">def</span> <span class="nf">circle</span>
-  <span class="k">def</span> <span class="nf">circumference</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
-    <span class="mi">2</span> <span class="o">*</span> <span class="no">Math</span><span class="o">::</span><span class="no">PI</span> <span class="o">*</span> <span class="n">radius</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
+<p>If you are working in a group, you should then document that this .env file is
+necessary (along with any other dependencies) and securely deliver it to them
+along with any other necessary but sensitive files such as a
+<a href="http://railscasts.com/episodes/179-seed-data?view=asciicast">seeds</a> file.</p>
 
   </article>
   
@@ -136,7 +108,7 @@ namespacing for versioning) when it becomes appropriate.</p>
 
 <div class="pagination">
   
-    <span class="pagination-item older">Older</span>
+    <a class="pagination-item older" href="http://vpfaulkner.github.io/page24">Older</a>
   
   
     
@@ -151,7 +123,7 @@ namespacing for versioning) when it becomes appropriate.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-12T07:39:03-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-18T08:22:31-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

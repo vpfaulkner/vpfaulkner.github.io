@@ -59,37 +59,48 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/20/how-big-should-methods-be/">
-        How Big Should Methods Be?
+      <a href="/2015/01/22/make-your-ruby-objects-single-minded/">
+        Make your Ruby Objects Single-Minded
       </a>
     </h1>
 
-    <time datetime="2015-01-20T00:00:00-05:00" class="post-date">20 Jan 2015</time>
+    <time datetime="2015-01-22T00:00:00-05:00" class="post-date">22 Jan 2015</time>
 
-    <p>I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see <a href="http://robots.thoughtbot.com/sandi-metz-rules-for-developers">Sandi Metz’s blogpost</a> on the Thoughtbot blog). </p>
+    <p>The easiest way I have found to ensure I am writing good object-oriented (OO)
+code is to ask, “What should this object know and not know?” It makes the
+objects a little more real and concrete for me, and forces me to write clean
+and simple code because it is such an honest and simple question. </p>
 
-<p>Now to be honest, I take this as more of a rule of thumb than an unbreakable law
-but perhaps that is because I bend more towards pragmatism than purist although
-I (like you) try to walk that in that in-between. This means I’m not going
-through my code or my coworkers code hellbent on conforming it to meet this
-standard, but I am usually advocating for smaller methods, particular if the
-method is 10 lines or more. The reasons I like this are:</p>
+<p>The <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility
+Principle</a> is a
+fundamental idea in OO programming and should always be your first question when
+you feel your code is starting to get out of hand. Take the following example:</p>
 
-<ol>
-  <li><a href="/2014/01/14/write-code-worth-reading/">Readability of
-code</a> is the ultimate test of good code for me and I think
-small methods with good names make a huge difference in readability. </li>
-  <li>I am forced to make large public methods much smaller which in turn
-forces me to make a lot of these methods private to <a href="/2014/01/21/private-methods-in-ruby/">limit that class’ public
-interface</a>. The result is more readable public interface and me having to spend more
-time actually thinking about what kind of public interface I want to have.</li>
-  <li>Small things are simply easier to work with and more accommodating to change. </li>
-</ol>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Checkout</span>
 
-<p>Again, this is a rule of thumb that should push you in the right direction but
-not at the expense of more important things (such as just getting started).
-Using it to your discretion, you should be on your way to much more readable,
-flexible code.</p>
+  <span class="k">def</span> <span class="nf">purchase</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">item_price</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">price</span>
+    <span class="n">tax</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">*</span> <span class="o">.</span><span class="mo">07</span>
+    <span class="n">grand_total</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">+</span> <span class="n">tax</span> 
+  <span class="k">end</span>
+
+<span class="k">end</span></code></pre></div>
+
+<p>Here I’ve tried to isolate that moment when your gut is starting to feel a
+little so-so about the code because you are introducing something into the
+Checkout logic that feels a little out of its domain: knowledge of how to
+appropriate tax to the checkout. </p>
+
+<p>Now this is a simple example where you might only care about local state tax, but
+it is suddenly a leak in your airtight encapsulation of responsibility. What if
+this logic suddenly has to accommodate multi-state purchases and know more than
+one state tax rate? What if certain items are taxed at different rates? You can
+see that trying to keep this logic in Checkout becomes a losing battle.</p>
+
+<p>But the early signs of responsibility shift are not the difficult to see if you
+are asking the right question. Should Checkout need to know about the taxing
+rules for different states and different items? In any but the most
+rudimentary, time-sensitive context, the answer should be no.</p>
 
   </article>
   
@@ -112,7 +123,7 @@ flexible code.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-12T07:39:03-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-18T08:22:31-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
