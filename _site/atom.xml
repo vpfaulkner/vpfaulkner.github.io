@@ -4,13 +4,41 @@
  <title>Wrong Abstraction</title>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/atom.xml" rel="self"/>
  <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io/"/>
- <updated>2015-03-18T08:22:31-04:00</updated>
+ <updated>2015-03-23T08:35:05-04:00</updated>
  <id>http://vpfaulkner@github.io.com</id>
  <author>
    <name>Vance Faulkner</name>
    <email>vpfaulkner@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>The Inject Method in Ruby</title>
+   <link href="http://vpfaulkner@github.io.comhttp://vpfaulkner.github.io//2015/03/23/the-inject-method-in-ruby/"/>
+   <updated>2015-03-23T00:00:00-04:00</updated>
+   <id>http://vpfaulkner@github.io.com/2015/03/23/the-inject-method-in-ruby</id>
+   <content type="html">&lt;p&gt;Sometimes you need to do a lot of work on an array and think to yourself, “Is there anyway I could get this done with a single method?” For example, if you are trying to find the longest word in a collection or are trying to downcase the values in an array. Chances are, this is a moment when you should look at inject.&lt;/p&gt;
+
+&lt;p&gt;The enumerable mixin provides some especially useful methods to collection classes (arrays, hashes, sets, etc) in Ruby that can take handle these cases easily. Let’s start with a classic example, summing a range of numbers:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;running_total&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;running_total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To understand what’s going, let’s also include how you might tackle this without inject:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;running_total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;running_total&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here you realize that you need to iterate through every member of the collection with an each loop and also to persist something through every iteration that is updated each time. These requirements for both iterating through a collection and the need to persist something through each of these iterations are flashing red lights for an enumerable method, the most powerful being inject. Whereas the local variable running_total acts as the object being passed through each iteration, inject provides this to us automatically. This object is then set from what is returned from each iteration.&lt;/p&gt;
+
+&lt;p&gt;Moreover, if you wanted to start with a value other than the first one of the collection, you could do so by providing an argument:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;running_product&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;running_product&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;With this ability to condense a lot of logic to a relatively few number of lines, however, should come a word of caution. Your primary goal should be to &lt;a href=&quot;/2015/01/14/write-code-worth-reading/&quot;&gt;write code worth reading&lt;/a&gt; and being too fancy with some enumerable methods can be an easy way to write code that looks good but actually difficult to debug and interpret. Moreover, as you refactor you should also heavily consider pulling these out to their own methods so that a thoughtful method name will clarify your intention to other developers.&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Intro to Redis</title>
@@ -59,7 +87,7 @@ redis&amp;gt; get key
 
 &lt;p&gt;The methods available to your instance of Redis are the same as those listed on the &lt;a href=&quot;http://redis.io/commands&quot;&gt;website&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;In closing, consider Redis when you need something much faster and lightweight than a full on database. Again, this is why it makes a good candidate for caching. However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a &lt;a href=&quot;http://antirez.com/news/88&quot;&gt;separate tool&lt;/a&gt; to do just that.&lt;/p&gt;
+&lt;p&gt;Consider Redis when you need something much faster and more lightweight than a full on database. Again, this is why it makes a good candidate for caching (in my opinion better than Memcached). However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a &lt;a href=&quot;http://antirez.com/news/88&quot;&gt;separate tool&lt;/a&gt; to do just that.&lt;/p&gt;
 
 </content>
  </entry>

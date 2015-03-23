@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      The Inject Method in Ruby &middot; Wrong Abstraction
     
   </title>
 
@@ -55,18 +55,10 @@
       </header>
 
       <main>
-        <div class="posts">
-  
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/2015/03/23/the-inject-method-in-ruby/">
-        The Inject Method in Ruby
-      </a>
-    </h1>
-
-    <time datetime="2015-03-23T00:00:00-04:00" class="post-date">23 Mar 2015</time>
-
-    <p>Sometimes you need to do a lot of work on an array and think to yourself, “Is there anyway I could get this done with a single method?” For example, if you are trying to find the longest word in a collection or are trying to downcase the values in an array. Chances are, this is a moment when you should look at inject.</p>
+        <article class="post">
+  <h1 class="post-title">The Inject Method in Ruby</h1>
+  <time datetime="2015-03-23T00:00:00-04:00" class="page-date">23 Mar 2015</time>
+  <p>Sometimes you need to do a lot of work on an array and think to yourself, “Is there anyway I could get this done with a single method?” For example, if you are trying to find the longest word in a collection or are trying to downcase the values in an array. Chances are, this is a moment when you should look at inject.</p>
 
 <p>The enumerable mixin provides some especially useful methods to collection classes (arrays, hashes, sets, etc) in Ruby that can take handle these cases easily. Let’s start with a classic example, summing a range of numbers:</p>
 
@@ -87,18 +79,41 @@
 
 <p>With this ability to condense a lot of logic to a relatively few number of lines, however, should come a word of caution. Your primary goal should be to <a href="/2015/01/14/write-code-worth-reading/">write code worth reading</a> and being too fancy with some enumerable methods can be an easy way to write code that looks good but actually difficult to debug and interpret. Moreover, as you refactor you should also heavily consider pulling these out to their own methods so that a thoughtful method name will clarify your intention to other developers.</p>
 
-  </article>
-  
-</div>
+</article>
 
-<div class="pagination">
-  
-    <a class="pagination-item older" href="http://vpfaulkner.github.io/page2">Older</a>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
-</div>
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/03/18/intro-to-redis/">
+            Intro to Redis
+            <small><time datetime="2015-03-18T00:00:00-04:00">18 Mar 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/03/16/messages-before-objects/">
+            Messages before Objects
+            <small><time datetime="2015-03-16T00:00:00-04:00">16 Mar 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/03/10/my-big-list-of-full-stack-developer-technologies/">
+            My Big List of Full Stack Developer Technologies
+            <small><time datetime="2015-03-10T00:00:00-04:00">10 Mar 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
 
         
 
