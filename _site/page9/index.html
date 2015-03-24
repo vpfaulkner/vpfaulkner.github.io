@@ -59,30 +59,35 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/17/when-to-use-guard-statements/">
-        When to use Guard Statements
+      <a href="/2015/02/23/wrap-your-dependencies/">
+        Wrap Your Dependencies
       </a>
     </h1>
 
-    <time datetime="2015-02-17T00:00:00-05:00" class="post-date">17 Feb 2015</time>
+    <time datetime="2015-02-23T00:00:00-05:00" class="post-date">23 Feb 2015</time>
 
-    <p>What are guard statements and when should I use them? If you are starting out on Ruby you might run into a line like the one below and be a little confused:</p>
+    <p>Properly wrapping and encapsulating parts of my code has come to feel like a kind of digital hygiene for my code not unlike regularly washing my hands to prevent sickness. You don’t know when you might be about to get sick so you just build some habits into to protect yourself against this outcome. In software, your mindset should be analogous but with a focus on your software’s potential to accommodate change.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">return</span> <span class="k">unless</span> <span class="n">user</span></code></pre></div>
+<p>At work we were dealing with the question of how we want to handle logging. We were told that our current tool for logging was Graylog but that we were considering moving to an <a href="http://www.elasticsearch.org/overview/">ELK stack</a>. Obviously we didn’t want to go to far down one road only to then turn around and go another direction. So we committed to doing what we should have been doing regardless: wrapping our logging logic. For example:</p>
 
-<p>It reads well enough to get an sense of what is going on but you might be more comfortable with a nested if else statement:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Class</span> <span class="no">ShoppingCart</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">user</span>
-  <span class="c1"># ...</span>
-<span class="k">else</span>
-  <span class="k">return</span> <span class="kp">nil</span>
+  <span class="k">def</span> <span class="nf">purchase</span>
+    <span class="c1"># purchase logic</span>
+    <span class="no">Log</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span> <span class="s2">&quot;Sucessfull purchase: </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="no">Class</span> <span class="no">Log</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="c1"># Log logic</span>
+  <span class="k">end</span>
+
 <span class="k">end</span></code></pre></div>
 
-<p>While they do the same thing, the guard statement is 1) it avoids a level of indentation 2) it is more readable 3) it is more concise. It takes advantage of the trailing conditional if as well as the implicit return nil (same as return unless).</p>
-
-<p>There are a few liabilities with the techniques however. The first is that you may be suppressing and thus perpetuating a critical bug in your code by not allowing a NoMethodError to be raised. An alternative is in fact to raise an exception of your own? Secondly, you are forcing whatever object called this method to <a href="http://www.sandimetz.com/blog/2014/12/19/suspicions-of-nil">respond to two different</a> types of object.</p>
-
-<p>Overall, I prefer using guard statements when I need to prevent accepting invalid data and only if I have determined the exact circumstance of the bug. If you are having a mysterious bug pop up for some unknown reason, spend your time investigating and remedying that bug rather than smothering it with a line like this.</p>
+<p>Even if we decided to go with the default Ruby logger, by wrapping the logging logic in its own class we prepare ourselves for change. The result is cleaner, more adaptable code.</p>
 
   </article>
   
@@ -105,7 +110,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-23T08:35:05-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

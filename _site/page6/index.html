@@ -59,82 +59,60 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/03/ruby-errors/">
-        Ruby Errors
+      <a href="/2015/03/06/beware-of-class-methods-in-ruby/">
+        Beware of Class Methods in Ruby
       </a>
     </h1>
 
-    <time datetime="2015-03-03T00:00:00-05:00" class="post-date">03 Mar 2015</time>
+    <time datetime="2015-03-06T00:00:00-05:00" class="post-date">06 Mar 2015</time>
 
-    <p>Rescue clauses should not be used recklessly in your code because they might make important bugs in your code hard to find. But in certain situations, particularly when your code deals with an external service that you can’t control, they become critical.</p>
+    <p>It is so easy to resort to class methods in Ruby. The behavior you are trying to implement seems to be stateless and writing a class method just seems easier.</p>
 
-<p>In it’s simplest and most common form you can simply insert a rescue that rescues StandardError (don’t ever rescue from Exception as it can prevent much more important errors from coming to your attention!). See below:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">FileCompressor</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="c1"># Other rescue logic</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">compress</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="c1"># compressing...</span>
   <span class="k">end</span>
+
 <span class="k">end</span></code></pre></div>
 
-<p>Here we have several things going on: a begin which marks the block you wish to rescue from (and the block which you might want to retry, see below), then the http post logic, and then logic to be executed upon rescue with e now holding the error information. I choose http post logic as an example because it is the very scenario that I see as commonly requiring rescue. For example, if the server receiving your post goes down or times out, you don’t want your program to crash. Instead, you should decide on how you want to handle these errors in advance and add that logic here.</p>
+<p>You think to yourself here: the idea of state does not seem that attractive here. This compression should be completely stateless as the only needed in our case is what we are passing in as its argument, the file.</p>
 
-<p>If you want to retry the post you can do so:</p>
+<p>However, let’s say your compression logic begins to grow a little bit:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">FileCompressor</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">compress</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">determine_file_type</span>
+    <span class="c1"># compressing...</span>
   <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">determine_file_type</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="c1"># determining...</span>
+  <span class="k">end</span>
+
 <span class="k">end</span></code></pre></div>
 
-<p>Here retry will go to the begin statement and retry the post. To prevent infinite retries, however, we are using a retry_count variable.</p>
+<p>OK, no big deal right? Well, suddenly the complexity of your compression logic is growing and each individual method must use only its argument(s) as context. You are navigating a slippery slope here that will make your code not only harder to read and write but also more resistant to refactoring. The key idea is that that with each addition of behavior you add via a new method your class is becoming more and more state-like yet it has no way to store state because you never instantiated it. Your code is becoming more and more procedural and resisting that natural advantages offered by an object-oriented design. At this point I would recommend rethinking your class:</p>
 
-<p>You can also include else logic when the rescue clause is not executed and/or ensure logic that will be executed no matter what:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">FileCompressor</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">else</span>
-    <span class="nb">puts</span> <span class="s2">&quot;success!&quot;</span>
-  <span class="k">ensure</span>
-    <span class="c1"># Ensure something is logged</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="vi">@file</span> <span class="o">=</span> <span class="n">file</span>
   <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">compress</span>
+    <span class="n">determine_file_type</span>
+    <span class="c1"># compressing...</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">determine_file_type</span>
+    <span class="c1"># determining...</span>
+  <span class="k">end</span>
+
 <span class="k">end</span></code></pre></div>
 
-<p>Finally, it is OK to raise your own errors, particularly if a dependency is acting improperly:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># response = HTTP Post logic</span>
-    <span class="k">raise</span> <span class="s2">&quot;BadResponseError&quot;</span> <span class="k">unless</span> <span class="n">response</span> <span class="o">==</span> <span class="mi">201</span>
-  <span class="k">rescue</span> <span class="no">BadResponseError</span>
-    <span class="c1"># Log bad response</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">else</span>
-    <span class="nb">puts</span> <span class="s2">&quot;success!&quot;</span>
-  <span class="k">ensure</span>
-    <span class="c1"># Ensure something is logged</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Here we are treating undesired responses as an error and rescuing that specific error before a general rescue. Note that if you want to handle certain errors differently than others you should rescue them first.</p>
+<p>This design rethink will give you a more natural way to accommodate change in behavior and prevent class method “feature envy” here.</p>
 
   </article>
   
@@ -157,7 +135,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-23T08:35:05-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

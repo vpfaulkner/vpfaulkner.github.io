@@ -59,14 +59,57 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/16/messages-before-objects/">
-        Messages before Objects
+      <a href="/2015/03/18/intro-to-redis/">
+        Intro to Redis
       </a>
     </h1>
 
-    <time datetime="2015-03-16T00:00:00-04:00" class="post-date">16 Mar 2015</time>
+    <time datetime="2015-03-18T00:00:00-04:00" class="post-date">18 Mar 2015</time>
 
-    <p>The evolution of how I first think about addressing a problem through code has undergone a lot of change.  At first, my instinct was to focus first procedures. As I became more engrossed in proper OO I then fixated on domain objects. Now, I am much more message oriented in my initial design of a program and begin by sketching out what I think the conversation should be before deciding on the objects that need to be present.</p>
+    <p>Over the last few months there has been no tool I’ve used more than Redis. Although much of this is due to how much we’ve also used <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq for background jobs</a> and Sidekiq uses Redis for a job queue essentially, we have also used Redis alone when we needed any kind of key-value store including times when we wanted to cache.</p>
+
+<p>Perhaps the best feature it brings to the table is its ability to handle different types of data structures in addition to strings:</p>
+
+<ul>
+  <li>Strings</li>
+  <li>Hashes</li>
+  <li>Lists of strings</li>
+  <li>Sets of strings (non-repeating, unsorted elements)</li>
+  <li>Sorted sets of strings</li>
+</ul>
+
+<p>A more in-depth look at the Redis data types is <a href="http://redis.io/topics/data-types-intro">here</a>, and if you are unfamiliar with key value stores, check out this <a href="2015/02/09/what-are-key-value-stores/">other post</a>. To get started, first make sure it is installed:</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">brew install redis</code></pre></div>
+
+<p>You’ll need to ensure the redis server is running and can use the command line interface, although we will look at the Ruby Client for Redis.</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">redis-server</code></pre></div>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">redis-cli
+redis&gt; <span class="nb">set </span>mykey myvalue
+OK
+redis&gt; get key
+<span class="s2">&quot;value&quot;</span></code></pre></div>
+
+<p>If you would like to use the Ruby client, require and instantiate it with default configuration and listening on localhost:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">&quot;redis&quot;</span>
+
+<span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span></code></pre></div>
+
+<p>If you want to use a specific URL, you can either pass that in when instantiating Redis or set it as an environment variable called REDIS_URL.</p>
+
+<p>Remember to think of key value stores similar to that of a dictionary where you want to save something, a value, and identify that value with a key later, similar to how a word and its meaning are stored together in a dictionary.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">redis</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;mykey&quot;</span><span class="p">,</span> <span class="s2">&quot;myvalue&quot;</span><span class="p">)</span>
+<span class="n">redis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mykey&quot;</span><span class="p">)</span>
+<span class="c1"># &quot;myvalue&quot;</span></code></pre></div>
+
+<p>The methods available to your instance of Redis are the same as those listed on the <a href="http://redis.io/commands">website</a>.</p>
+
+<p>Consider Redis when you need something much faster and more lightweight than a full on database. Again, this is why it makes a good candidate for caching (in my opinion better than Memcached). However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a <a href="http://antirez.com/news/88">separate tool</a> to do just that.</p>
+
 
   </article>
   
@@ -89,7 +132,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-23T08:35:05-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

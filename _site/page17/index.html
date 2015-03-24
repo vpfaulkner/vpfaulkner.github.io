@@ -59,48 +59,76 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/22/make-your-ruby-objects-single-minded/">
-        Make your Ruby Objects Single-Minded
+      <a href="/2015/01/26/control-flow-in-ruby/">
+        Control Flow in Ruby Pt. I
       </a>
     </h1>
 
-    <time datetime="2015-01-22T00:00:00-05:00" class="post-date">22 Jan 2015</time>
+    <time datetime="2015-01-26T00:00:00-05:00" class="post-date">26 Jan 2015</time>
 
-    <p>The easiest way I have found to ensure I am writing good object-oriented (OO)
-code is to ask, “What should this object know and not know?” It makes the
-objects a little more real and concrete for me, and forces me to write clean
-and simple code because it is such an honest and simple question. </p>
+    <p>Control flow is an important beginner concept in Ruby that you’ll need to master
+early on. Understanding the concepts can be difficult to someone new to
+programming but, once the idea starts to sink in, you find yourself no longer
+struggling with the syntax but instead with the overwhelming number of options
+you could use to several your particular problem. In fact, many beginners
+overuse the first control flow concept they really understood well and never
+branch out to understand the others.</p>
 
-<p>The <a href="http://en.wikipedia.org/wiki/Single_responsibility_principle">Single Responsibility
-Principle</a> is a
-fundamental idea in OO programming and should always be your first question when
-you feel your code is starting to get out of hand. Take the following example:</p>
+<p>In light of this, I’m going to provide some general guidelines for how to think
+through the various options you have when needing control flow.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Checkout</span>
+<h2 id="use-the-if-statement-for-two-branches-of-logic-or-less">Use the if statement for two branches of logic or less</h2>
 
-  <span class="k">def</span> <span class="nf">purchase</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-    <span class="n">item_price</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">price</span>
-    <span class="n">tax</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">*</span> <span class="o">.</span><span class="mo">07</span>
-    <span class="n">grand_total</span> <span class="o">=</span> <span class="n">item_price</span> <span class="o">+</span> <span class="n">tax</span> 
-  <span class="k">end</span>
+<p>The if keyword verifies whether an expression is true. If it is, the next line
+is executed. </p>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
 <span class="k">end</span></code></pre></div>
 
-<p>Here I’ve tried to isolate that moment when your gut is starting to feel a
-little so-so about the code because you are introducing something into the
-Checkout logic that feels a little out of its domain: knowledge of how to
-appropriate tax to the checkout. </p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
+<span class="k">else</span>
+  <span class="nb">puts</span> <span class="s2">&quot;y&quot;</span>
+<span class="k">end</span></code></pre></div>
 
-<p>Now this is a simple example where you might only care about local state tax, but
-it is suddenly a leak in your airtight encapsulation of responsibility. What if
-this logic suddenly has to accommodate multi-state purchases and know more than
-one state tax rate? What if certain items are taxed at different rates? You can
-see that trying to keep this logic in Checkout becomes a losing battle.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">&quot;x&quot;</span> <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span></code></pre></div>
 
-<p>But the early signs of responsibility shift are not the difficult to see if you
-are asking the right question. Should Checkout need to know about the taxing
-rules for different states and different items? In any but the most
-rudimentary, time-sensitive context, the answer should be no.</p>
+<p>These are generally the scenarios I use if statements for. Each one has a
+maximum of two branches of logic, and I prefer the third single line syntax if
+it feels more readable and can fit in an 80 character line.</p>
+
+<h2 id="use-unless-over-if-condition">Use Unless over if !condition</h2>
+
+<p>I like the unless statement over awkward if !condition because I think it is
+more readable.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">unless</span> <span class="n">decimal</span>
+  <span class="nb">puts</span> <span class="s2">&quot;whole number&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>As with if, I also prefer single-line syntax when possible</p>
+
+<h2 id="use-the-case-statement-for-multiple-branches">Use the case statement for multiple branches</h2>
+
+<p>One could use a whole nest of elsif statements but it makes your code messier
+and difficult to read. Prefer the case statement:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">case</span> <span class="n">song</span>
+<span class="k">when</span> <span class="s2">&quot;I Will&quot;</span>
+  <span class="nb">puts</span> <span class="s2">&quot;White Album&quot;</span>
+<span class="k">when</span> <span class="s2">&quot;Tomorrow Never Knows&quot;</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Revolver&quot;</span>
+<span class="k">when</span> <span class="s2">&quot;Hello, Goodbye&quot;</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Magical Mystery Tour&quot;</span>
+<span class="k">else</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t know&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Sometimes you have multiple branches of logic but the conditions are a little
+more complicated so you feel forced into a lot of complicated elsif statements.
+This is a sign that you need to refactor the logic into separate methods.
+Usually you can then create a new variable and use this in a case statement.</p>
 
   </article>
   
@@ -123,7 +151,7 @@ rudimentary, time-sensitive context, the answer should be no.</p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-23T08:35:05-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

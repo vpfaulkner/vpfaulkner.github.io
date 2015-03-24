@@ -59,53 +59,27 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/04/sidekiq-in-rails/">
-        Sidekiq in Rails
+      <a href="/2015/02/09/what-are-key-value-stores/">
+        What are Key Value Stores?
       </a>
     </h1>
 
-    <time datetime="2015-02-04T00:00:00-05:00" class="post-date">04 Feb 2015</time>
+    <time datetime="2015-02-09T00:00:00-05:00" class="post-date">09 Feb 2015</time>
 
-    <p>If you’re looking to run a background job in Ruby, one tool that I have found very easy to work with is Sidekiq. First off, how to use it:</p>
+    <p>Perhaps you’ve heard about “key value stores” or even one of the more popular forms of key value stores such as Redis, but are still a little unsure of what they are and their place.</p>
 
-<p>Begin by adding it to your Gemfile:</p>
+<p>To begin, let’s start with simply key value pairs:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;sidekiq&#39;</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Name</span>         <span class="no">George</span>
+<span class="no">Hair</span>         <span class="no">White</span>
+<span class="no">Occupation</span>   <span class="no">President</span></code></pre></div>
 
-<p>Install:</p>
+<p>You get the picture: data is stored as part of a key (Name) and a value (George). You’re probably familiar with this concept but as a way to store data temporarily in memory, such as a hash in Ruby. However, when it comes to persisting data you think of storing it as part of a relational database with structured data, similar to how you would imagine it appearing on an Excel spreadsheet. </p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">bundle install</code></pre></div>
+<p>We won’t get into the full topic here but the reality is that persisting data in a database doesn’t have to look this way. There is another type of database called NoSQL that is preferred for data with inconsistent structure or data that can be very large. NoSQL DBs can come in variety of flavors and be useful for a variety of reasons but the type we are interested in here, key value stores, tend to lend themselves to situations in which accommodating speed and scalability is more important than accommodating complexity.</p>
 
-<p>Define the job you need done with a perform method:</p>
+<p>The most popular key value store is Redis and some advantages that it provides is storing the data in-memory and allows for data types beyond just strings. Use Redis when you are dealing with frequently updated data that you want to retrieve quickly and don’t need to a more complex document-based NoSQL or SQL database. Think caching, queues, online shopping carts, etc. Moreover, many popular tools such as <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq</a> use Redis so you are bound to run into it at one point.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># app/workers/email_worker.rb</span>
-<span class="k">class</span> <span class="nc">EmailWorker</span>
-  <span class="kp">include</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Worker</span>
-
-  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
-    <span class="c1"># Email logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>And call the worker where appropriate</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">RegistrationController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-
-  <span class="k">def</span> <span class="nf">register</span>
-    <span class="c1"># Registation Logic</span>
-    <span class="no">EmailWorker</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="n">current_user</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>Get the Sidekiq process going from the shell in your root directory:</p>
-
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">bundle <span class="nb">exec </span>sidekiq</code></pre></div>
-
-<p>Beyond knowing how to do Sidekiq for background processing, the question remains for when to use it. </p>
-
-<p>For me Sidekiq (or any background job) is a trade-off of control and reliability for speed. Testing workers can be very difficult and trying to incorporate a complex workflow where certain actions must be kickedoff after the completion of multiple asynchronous processes can be unstable. Furthermore, it has an issue of thread saftey meaning you must use libraries in Sidekiq that are considered thread safe. For those whom this is a deal-breaker by the way, one other alternative is, <a href="https://github.com/resque/resque">Resque</a> which is a little slower but doesn’t require thread-safe code.</p>
-
-<p>However, for a lot of situations such as the one here that involves sending an email in the background after registration, using a background job such as Sidekiq is perfect. In this case, any additional registration logic you want done does not have to wait for the email to be sent; furthermore, if you need to several things at once (such as emailing a larger mailing list) than doing that work in the background will allow you to make huge gains in speed.</p>
 
   </article>
   
@@ -128,7 +102,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-23T08:35:05-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
