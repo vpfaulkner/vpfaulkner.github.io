@@ -3,7 +3,7 @@ permalink:        pretty
 relative_permalinks: true
 
 # Setup
-title:            Wrong Abstraction
+title:            SimpleObjects
 tagline:          Ruby Developer
 url:              http://vpfaulkner@github.io.com
 paginate:         1
