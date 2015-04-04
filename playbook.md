@@ -67,8 +67,6 @@ Above all, invest in yourself. Your character and your skills are the long-term 
 * Write daily for reflection. I prefer a [Moleskine Folio Ruled A4
    Book](http://www.moleskine.com/us/collections/model/product/folio-ruled-book-a4) because it provides lots of room for thinking
 
-* Keep a mental or actual checklist of people you want to emulate as well as those that you don't. The easiest way to change yourself is to through a mentor and role model.
-
 * If you write daily invest in a pen you like using. I use the [Lamy Safari Fountain
    Pen](http://www.amazon.com/Lamy-Safari-Fountain-Pen-Charcoal/dp/B0002T401Y)
 
