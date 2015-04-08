@@ -15,9 +15,9 @@ logger = Logger.new(STDOUT)
 logger.info("Processing job #{job.id}")
 {% endhighlight %}
 
-Seems simple enough. One thing worth noting is the info log level. You will need to ensure there is a consistent approach among your team towards how you will all handle log levels but some general rules of thumb for the various levels are as follows:
+Seems simple enough. As you can see this log is at the info log level. You will need to ensure there is a consistent approach among your team towards how you will all handle log levels but some general rules of thumb for the various levels are as follows:
 
-* Debug - This is the lowest level and is oftentimes not even turned on in production which means these log lines will not be run. Used for normal and insignificant occurrences in your application; if I want to simply expose a variable in a log I would use this.
+* Debug - This is the lowest level and is oftentimes not even turned on in production which means these log lines will not be run. Use for normal and insignificant occurrences in your application. If I want to simply expose a variable in a log I would use this.
 
 * Info - These should still be "normal" occurrences in your application but more significant ones. Perhaps an hourly cron-job ran that you want to take note of.
 
@@ -27,7 +27,7 @@ Seems simple enough. One thing worth noting is the info log level. You will need
 
 There are a few others that sometimes get used (trace or fatal for example) but these are the main levels you should consider.
 
-Once you clarify your team's approach to log levels you will need to decide what level to log at different environments, most importantly production. Think of this as a volume control for your logs: only logs of that level or higher will actually be written. So, for example, if you set your log level to Info, Debug logs would not be written but logs at Info or above would be. Setting your log level at Info or Warn in production is a good place to start although you should revisit this decision over time.
+Once you clarify your team's approach to log levels you will need to decide at what level to log at different environments, most importantly production. Think of this as a volume control for your logs: only logs of that level or higher will actually be written. So, for example, if you set your log level to Info, Debug logs would not be written but logs at Info or above would be. Setting your log level at Info or Warn in production is a good place to start although you should revisit this decision over time.
 
 To set a level using the default logger:
 
