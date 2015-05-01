@@ -1,5 +1,5 @@
 ---
-layout:post
+layout: post
 title: Benchmarking in Ruby
 ---
 
@@ -15,7 +15,7 @@ puts Benchmark.measure { 10_000_000.times { |i| i ** 2 } }
 
 This returns:
 
-{% highlight shell %}
+{% highlight Bash shell script %}
  0.900000   0.000000   0.900000 (  0.902290)
 {% endhighlight %}
 
@@ -43,7 +43,7 @@ end
 
 This returns:
 
-{% highlight shell %}
+{% highlight Bash shell script %}
        user     system      total        real
    0.000000   0.000000   0.000000 (  0.000226)
    0.000000   0.000000   0.000000 (  0.000006)

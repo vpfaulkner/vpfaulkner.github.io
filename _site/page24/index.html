@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,70 +58,37 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/13/instance-variables-in-rails/">
-        Instance Variables in Rails
+      <a href="/2015/01/20/how-big-should-methods-be/">
+        How Big Should Methods Be?
       </a>
     </h1>
 
-    <time datetime="2015-01-13T00:00:00-05:00" class="post-date">13 Jan 2015</time>
+    <time datetime="2015-01-20T00:00:00-05:00" class="post-date">20 Jan 2015</time>
 
-    <p>Transitioning to Rails from plain ole Ruby can be disorienting. Not only is
-there a whole new structure for you to learn, existing syntax starts to take on
-new meaning.</p>
+    <p>I love rules of thumb because they easily and clearly communicates a best practice but in a non-standoffish way that could overpower the true intent of that best practice. One that I always return to is that methods should be no longer than five lines of code (see <a href="http://robots.thoughtbot.com/sandi-metz-rules-for-developers">Sandi Metz’s blogpost</a> on the Thoughtbot blog). </p>
 
-<p>One of the more fundamental shifts is the role of instance variables in Rails.
-As you remember from Ruby, instance variables begin with @ and are scoped to the
-instance of the class in which they reside. </p>
+<p>Now to be honest, I take this as more of a rule of thumb than an unbreakable law
+but perhaps that is because I bend more towards pragmatism than purist although
+I (like you) try to walk that in that in-between. This means I’m not going
+through my code or my coworkers code hellbent on conforming it to meet this
+standard, but I am usually advocating for smaller methods, particular if the
+method is 10 lines or more. The reasons I like this are:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Game</span>
+<ol>
+  <li><a href="/2014/01/14/write-code-worth-reading/">Readability of
+code</a> is the ultimate test of good code for me and I think
+small methods with good names make a huge difference in readability. </li>
+  <li>I am forced to make large public methods much smaller which in turn
+forces me to make a lot of these methods private to <a href="/2014/01/21/private-methods-in-ruby/">limit that class’ public
+interface</a>. The result is more readable public interface and me having to spend more
+time actually thinking about what kind of public interface I want to have.</li>
+  <li>Small things are simply easier to work with and more accommodating to change. </li>
+</ol>
 
-  <span class="k">def</span> <span class="nf">initialize</span>
-    <span class="vi">@score</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="k">end</span>
-
-<span class="k">end</span></code></pre></div>
-
-<p>In Rails, this is still true but the underlying structure that is providing in
-essence cheats this distinction. As you have or (will) learn, Rails is an MVC
-framework meaning that the three core components of a Rails application is a
-model, view and controller. For every incoming http request you can think of the
-controller as acting as the central hub in which all of the necessary ingridients
-for the response are put together. These ingridients are then passed on to the
-view (assuming there is one) to be presented to the user.</p>
-
-<p>Rails preforms this magic by passing on the instance variables from the
-controller and passing them to the controller. This is what allows a Rails app,
-for instance, to insert logic and state into the view portion of an app without
-actually preforming that logic in the view. </p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">GamesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="k">def</span> <span class="nf">index</span>
-    <span class="vi">@games</span> <span class="o">=</span> <span class="no">Game</span><span class="o">.</span><span class="n">all</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
-
-<p>app/views/games/index.html</p>
-
-<div class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="x">&lt;h1&gt;All Games&lt;/h1&gt;</span>
-<span class="x">&lt;table&gt;</span>
-<span class="x">  &lt;tr&gt;</span>
-<span class="x">    &lt;th&gt;Game&lt;/th&gt;</span>
-<span class="x">  &lt;/tr&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%</span> <span class="vi">@games</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">game</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">      &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">game</span><span class="o">.</span><span class="n">now</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
-<span class="x">  &lt;/tr&gt;</span>
-<span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-<span class="x">&lt;/table&gt;</span></code></pre></div>
-
-<p>The last piece of the puzzle is that these instance variables live and die
-in a single http request. Think of each time the user navigates to a new page as
-an encapsulated new state for your application. This state ends once the
-request is done, including the state of these instance variables. Now of course
-there have been techniques to emulate state on web apps of course such as
-storing session variables etc; however, by thinking of these requests as
-isolated states of your app then the role that instance variables play in Rails
-will begin to make sense.
-thinking in these </p>
+<p>Again, this is a rule of thumb that should push you in the right direction but
+not at the expense of more important things (such as just getting started).
+Using it to your discretion, you should be on your way to much more readable,
+flexible code.</p>
 
   </article>
   
@@ -145,7 +111,7 @@ thinking in these </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

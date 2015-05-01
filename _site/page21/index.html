@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,56 +58,76 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/17/debugging-ruby-with-pry/">
-        Debugging Ruby with Pry
+      <a href="/2015/01/26/control-flow-in-ruby/">
+        Control Flow in Ruby Pt. I
       </a>
     </h1>
 
-    <time datetime="2015-01-17T00:00:00-05:00" class="post-date">17 Jan 2015</time>
+    <time datetime="2015-01-26T00:00:00-05:00" class="post-date">26 Jan 2015</time>
 
-    <p>There is nothing worse than trying to fix code without a debugger. Since
-starting with Ruby, Pry has become perhaps the most essential tool for me to
-be productive and happy. <a href="http://pryrepl.org/">Pry</a> is the de facto standard for
-Ruby and acts as a debugger and alternative to IRB.</p>
+    <p>Control flow is an important beginner concept in Ruby that you’ll need to master
+early on. Understanding the concepts can be difficult to someone new to
+programming but, once the idea starts to sink in, you find yourself no longer
+struggling with the syntax but instead with the overwhelming number of options
+you could use to several your particular problem. In fact, many beginners
+overuse the first control flow concept they really understood well and never
+branch out to understand the others.</p>
 
-<p>Install the Gem:</p>
+<p>In light of this, I’m going to provide some general guidelines for how to think
+through the various options you have when needing control flow.</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">gem install pry</code></pre></div>
+<h2 id="use-the-if-statement-for-two-branches-of-logic-or-less">Use the if statement for two branches of logic or less</h2>
 
-<p>Ensure pry is available in your Ruby file and drop binding.pry in:</p>
+<p>The if keyword verifies whether an expression is true. If it is, the next line
+is executed. </p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># test.rb</span>
-<span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
+<span class="k">end</span></code></pre></div>
 
-<span class="k">class</span> <span class="nc">A</span>
-  <span class="k">def</span> <span class="nf">hello</span><span class="p">()</span> <span class="nb">puts</span> <span class="s2">&quot;hello world!&quot;</span> <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span>
+  <span class="nb">puts</span> <span class="s2">&quot;x&quot;</span>
+<span class="k">else</span>
+  <span class="nb">puts</span> <span class="s2">&quot;y&quot;</span>
+<span class="k">end</span></code></pre></div>
 
-<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">new</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">puts</span> <span class="s2">&quot;x&quot;</span> <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">100</span></code></pre></div>
 
-<span class="c1"># start a REPL session</span>
-<span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+<p>These are generally the scenarios I use if statements for. Each one has a
+maximum of two branches of logic, and I prefer the third single line syntax if
+it feels more readable and can fit in an 80 character line.</p>
 
-<span class="c1"># program resumes here (after pry session)</span>
-<span class="nb">puts</span> <span class="s2">&quot;program resumes here.</span></code></pre></div>
+<h2 id="use-unless-over-if-condition">Use Unless over if !condition</h2>
 
-<p>This will open up a Pry session where you can investigate the program state at
-that point and begin debugging. </p>
+<p>I like the unless statement over awkward if !condition because I think it is
+more readable.</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">pry<span class="o">(</span>main<span class="o">)</span>&gt; a.hello
-hello world!
-<span class="o">=</span>&gt; nil
-pry<span class="o">(</span>main<span class="o">)</span>&gt; puts x
-<span class="nv">10</span>
-<span class="o">=</span>&gt; nil</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">unless</span> <span class="n">decimal</span>
+  <span class="nb">puts</span> <span class="s2">&quot;whole number&quot;</span>
+<span class="k">end</span></code></pre></div>
 
-<p>The closer you get to your code the smaller your feedback loops, the more
-quickly you’ll be productive. Instead of trying to guess what a variable is at
-that point in the program, just drop a pry in and find out for sure. </p>
+<p>As with if, I also prefer single-line syntax when possible</p>
 
-<p>I prefer to use this approach most with a test driven development workflow where
-I am constantly invoking the debugging session by running the particular
-test I am working on. </p>
+<h2 id="use-the-case-statement-for-multiple-branches">Use the case statement for multiple branches</h2>
+
+<p>One could use a whole nest of elsif statements but it makes your code messier
+and difficult to read. Prefer the case statement:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">case</span> <span class="n">song</span>
+<span class="k">when</span> <span class="s2">&quot;I Will&quot;</span>
+  <span class="nb">puts</span> <span class="s2">&quot;White Album&quot;</span>
+<span class="k">when</span> <span class="s2">&quot;Tomorrow Never Knows&quot;</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Revolver&quot;</span>
+<span class="k">when</span> <span class="s2">&quot;Hello, Goodbye&quot;</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Magical Mystery Tour&quot;</span>
+<span class="k">else</span>
+  <span class="nb">puts</span> <span class="s2">&quot;Don&#39;t know&quot;</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Sometimes you have multiple branches of logic but the conditions are a little
+more complicated so you feel forced into a lot of complicated elsif statements.
+This is a sign that you need to refactor the logic into separate methods.
+Usually you can then create a new variable and use this in a case statement.</p>
 
   </article>
   
@@ -131,7 +150,7 @@ test I am working on. </p>
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,82 +58,57 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/03/ruby-errors/">
-        Ruby Errors
+      <a href="/2015/03/18/intro-to-redis/">
+        Intro to Redis
       </a>
     </h1>
 
-    <time datetime="2015-03-03T00:00:00-05:00" class="post-date">03 Mar 2015</time>
+    <time datetime="2015-03-18T00:00:00-04:00" class="post-date">18 Mar 2015</time>
 
-    <p>Rescue clauses should not be used recklessly in your code because they might make important bugs in your code hard to find. But in certain situations, particularly when your code deals with an external service that you can’t control, they become critical.</p>
+    <p>Over the last few months there has been no tool I’ve used more than Redis. Although much of this is due to how much we’ve also used <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq for background jobs</a> and Sidekiq uses Redis for a job queue essentially, we have also used Redis alone when we needed any kind of key-value store including times when we wanted to cache.</p>
 
-<p>In it’s simplest and most common form you can simply insert a rescue that rescues StandardError (don’t ever rescue from Exception as it can prevent much more important errors from coming to your attention!). See below:</p>
+<p>Perhaps the best feature it brings to the table is its ability to handle different types of data structures in addition to strings:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="c1"># Other rescue logic</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<ul>
+  <li>Strings</li>
+  <li>Hashes</li>
+  <li>Lists of strings</li>
+  <li>Sets of strings (non-repeating, unsorted elements)</li>
+  <li>Sorted sets of strings</li>
+</ul>
 
-<p>Here we have several things going on: a begin which marks the block you wish to rescue from (and the block which you might want to retry, see below), then the http post logic, and then logic to be executed upon rescue with e now holding the error information. I choose http post logic as an example because it is the very scenario that I see as commonly requiring rescue. For example, if the server receiving your post goes down or times out, you don’t want your program to crash. Instead, you should decide on how you want to handle these errors in advance and add that logic here.</p>
+<p>A more in-depth look at the Redis data types is <a href="http://redis.io/topics/data-types-intro">here</a>, and if you are unfamiliar with key value stores, check out this <a href="2015/02/09/what-are-key-value-stores/">other post</a>. To get started, first make sure it is installed:</p>
 
-<p>If you want to retry the post you can do so:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">brew install redis</code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<p>You’ll need to ensure the redis server is running and can use the command line interface, although we will look at the Ruby Client for Redis.</p>
 
-<p>Here retry will go to the begin statement and retry the post. To prevent infinite retries, however, we are using a retry_count variable.</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">redis-server</code></pre></div>
 
-<p>You can also include else logic when the rescue clause is not executed and/or ensure logic that will be executed no matter what:</p>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">redis-cli
+redis&gt; <span class="nb">set </span>mykey myvalue
+OK
+redis&gt; get key
+<span class="s2">&quot;value&quot;</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># HTTP Post logic</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">else</span>
-    <span class="nb">puts</span> <span class="s2">&quot;success!&quot;</span>
-  <span class="k">ensure</span>
-    <span class="c1"># Ensure something is logged</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<p>If you would like to use the Ruby client, require and instantiate it with default configuration and listening on localhost:</p>
 
-<p>Finally, it is OK to raise your own errors, particularly if a dependency is acting improperly:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">&quot;redis&quot;</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">post</span>
-  <span class="k">begin</span>
-    <span class="nb">puts</span> <span class="s2">&quot;About to send&quot;</span>
-    <span class="c1"># response = HTTP Post logic</span>
-    <span class="k">raise</span> <span class="s2">&quot;BadResponseError&quot;</span> <span class="k">unless</span> <span class="n">response</span> <span class="o">==</span> <span class="mi">201</span>
-  <span class="k">rescue</span> <span class="no">BadResponseError</span>
-    <span class="c1"># Log bad response</span>
-  <span class="k">rescue</span> <span class="o">=&gt;</span> <span class="n">e</span>
-    <span class="nb">puts</span> <span class="s2">&quot;rescued from </span><span class="si">#{</span><span class="n">e</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="n">retry_count</span> <span class="p">?</span> <span class="n">retry_count</span> <span class="o">+=</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">retry_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">retry</span> <span class="k">if</span> <span class="n">retry_count</span> <span class="o">&lt;</span> <span class="mi">3</span>
-  <span class="k">else</span>
-    <span class="nb">puts</span> <span class="s2">&quot;success!&quot;</span>
-  <span class="k">ensure</span>
-    <span class="c1"># Ensure something is logged</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span></code></pre></div>
 
-<p>Here we are treating undesired responses as an error and rescuing that specific error before a general rescue. Note that if you want to handle certain errors differently than others you should rescue them first.</p>
+<p>If you want to use a specific URL, you can either pass that in when instantiating Redis or set it as an environment variable called REDIS_URL.</p>
+
+<p>Remember to think of key value stores similar to that of a dictionary where you want to save something, a value, and identify that value with a key later, similar to how a word and its meaning are stored together in a dictionary.</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">redis</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;mykey&quot;</span><span class="p">,</span> <span class="s2">&quot;myvalue&quot;</span><span class="p">)</span>
+<span class="n">redis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mykey&quot;</span><span class="p">)</span>
+<span class="c1"># &quot;myvalue&quot;</span></code></pre></div>
+
+<p>The methods available to your instance of Redis are the same as those listed on the <a href="http://redis.io/commands">website</a>.</p>
+
+<p>Consider Redis when you need something much faster and more lightweight than a full on database. Again, this is why it makes a good candidate for caching (in my opinion better than Memcached). However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a <a href="http://antirez.com/news/88">separate tool</a> to do just that.</p>
+
 
   </article>
   
@@ -157,7 +131,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

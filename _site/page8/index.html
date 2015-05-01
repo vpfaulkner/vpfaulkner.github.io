@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,47 +58,14 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/02/structs-in-ruby/">
-        Structs in Ruby
+      <a href="/2015/03/16/messages-before-objects/">
+        Messages before Objects
       </a>
     </h1>
 
-    <time datetime="2015-03-02T00:00:00-05:00" class="post-date">02 Mar 2015</time>
+    <time datetime="2015-03-16T00:00:00-04:00" class="post-date">16 Mar 2015</time>
 
-    <p>What is a Struct anyway? That’s what I thought for the longest time until I started to see the benefits of them. First, how they work:</p>
-
-<p>If you have a scenario where you would like to pull out an extremely simple class then using a Struct instead might be the way to go:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Birthday</span> <span class="o">&lt;</span> <span class="no">Struct</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:day</span><span class="p">,</span> <span class="ss">:month</span><span class="p">,</span> <span class="ss">:year</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">joes_birthday</span> <span class="o">=</span> <span class="no">Birthday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2003</span><span class="p">)</span></code></pre></div>
-
-<p>If you were working on a Person or User class and wanted to abstract out some of the birthday logic which you know will be relatively stable and simple then a Struct makes sense. Here are some characteristics I look for when considering a Struct:</p>
-
-<ul>
-  <li>
-    <p>It has stable, fixed data attributes</p>
-  </li>
-  <li>
-    <p>It is in fact a separate data object but is still very small.</p>
-  </li>
-  <li>
-    <p>I know I will always have all of its attributes upon instantiation (otherwise NoMethodErrors)</p>
-  </li>
-  <li>
-    <p>I feel certain that the needs of this object will not soon merit a full on class</p>
-  </li>
-</ul>
-
-<p>To summarize, Structs usually hold that in-between territory of needing more than an in-memory hash and less than a regular class.</p>
-
-<p>One more note on OStructs or OpenStructs: OStructs are very similar to regular Structs although they allow you to arbitrarily change attributes.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">joes_birthday</span> <span class="o">&lt;</span> <span class="no">OpenStruct</span><span class="o">.</span><span class="n">new</span>
-<span class="n">joes_birthday</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="mi">2003</span></code></pre></div>
-
-<p>I tend to use OStructs less because for me they are already starting to feel class-worthy, particularly since I like small classes anyways. If your data merits an object, and you can’t be sure that this might not grow in terms of complexity and importance then I usually go straight to creating a new class.</p>
+    <p>The evolution of how I first think about addressing a problem through code has undergone a lot of change.  At first, my instinct was to focus first procedures. As I became more engrossed in proper OO I then fixated on domain objects. Now, I am much more message oriented in my initial design of a program and begin by sketching out what I think the conversation should be before deciding on the objects that need to be present.</p>
 
   </article>
   
@@ -122,7 +88,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

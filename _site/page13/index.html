@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,36 +58,35 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/10/intro-to-postgresql/">
-        Intro to PostgreSQL
+      <a href="/2015/02/23/wrap-your-dependencies/">
+        Wrap Your Dependencies
       </a>
     </h1>
 
-    <time datetime="2015-02-10T00:00:00-05:00" class="post-date">10 Feb 2015</time>
+    <time datetime="2015-02-23T00:00:00-05:00" class="post-date">23 Feb 2015</time>
 
-    <p>If you are just getting started with Rails you might not realize it but the database you are using is <a href="https://www.sqlite.org/">SQLite</a>. SQLite. SQLite is perhaps the most widely-deployed database out there and will work well for many application needs. However, it does have some limitations with speed, particularly write operations, and not as full featured as other relational databases such as MySQL and PostgreSQL. </p>
+    <p>Properly wrapping and encapsulating parts of my code has come to feel like a kind of digital hygiene for my code not unlike regularly washing my hands to prevent sickness. You don’t know when you might be about to get sick so you just build some habits into to protect yourself against this outcome. In software, your mindset should be analogous but with a focus on your software’s potential to accommodate change.</p>
 
-<p>PostgreSQL is worth a deeper look because of how popular it is with rails developers today. Without getting too much in the details, Postgres really lends itself to object-oriented, relational database interactions and is very efficient. It does well with concurrency without read locks and has a strong community if you have any questions or issues.</p>
+<p>At work we were dealing with the question of how we want to handle logging. We were told that our current tool for logging was Graylog but that we were considering moving to an <a href="http://www.elasticsearch.org/overview/">ELK stack</a>. Obviously we didn’t want to go to far down one road only to then turn around and go another direction. So we committed to doing what we should have been doing regardless: wrapping our logging logic. For example:</p>
 
-<p>To begin, make sure you have it installed on your computer:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Class</span> <span class="no">ShoppingCart</span>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">brew install postgresql</code></pre></div>
+  <span class="k">def</span> <span class="nf">purchase</span>
+    <span class="c1"># purchase logic</span>
+    <span class="no">Log</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span> <span class="s2">&quot;Sucessfull purchase: </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+  <span class="k">end</span>
 
-<p>I usually go with PostreSQL over SQLite from the beginning of any Rails project just because it is easier than migrating later:</p>
+<span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">rails new myapp -d postgresql</code></pre></div>
+<span class="no">Class</span> <span class="no">Log</span>
 
-<p>You can confirm everything by looking at the newly created database.yml file:</p>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="c1"># Log logic</span>
+  <span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">development:
-  adapter: postgresql
-  encoding: unicode
-  database: myapp_development
-  pool: 5
-  username: myapp
-  password:</code></pre></div>
+<span class="k">end</span></code></pre></div>
 
-<p>When needing to persist data there are a variety of different options from full featured DBs such as PostsgreSQL even to simple <a href="/2015/02/09/what-are-key-value-stores/">key-value stores</a> and sometimes just picking one and experimenting is the best path forward. Nevertheless, knowing a little bit more on what is going on under the hood of your current database and what other options you have out there is always worth the research.</p>
+<p>Even if we decided to go with the default Ruby logger, by wrapping the logging logic in its own class we prepare ourselves for change. The result is cleaner, more adaptable code.</p>
 
   </article>
   
@@ -111,7 +109,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

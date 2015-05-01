@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,27 +58,30 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/09/what-are-key-value-stores/">
-        What are Key Value Stores?
+      <a href="/2015/02/17/when-to-use-guard-statements/">
+        When to use Guard Statements
       </a>
     </h1>
 
-    <time datetime="2015-02-09T00:00:00-05:00" class="post-date">09 Feb 2015</time>
+    <time datetime="2015-02-17T00:00:00-05:00" class="post-date">17 Feb 2015</time>
 
-    <p>Perhaps you’ve heard about “key value stores” or even one of the more popular forms of key value stores such as Redis, but are still a little unsure of what they are and their place.</p>
+    <p>What are guard statements and when should I use them? If you are starting out on Ruby you might run into a line like the one below and be a little confused:</p>
 
-<p>To begin, let’s start with simply key value pairs:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">return</span> <span class="k">unless</span> <span class="n">user</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Name</span>         <span class="no">George</span>
-<span class="no">Hair</span>         <span class="no">White</span>
-<span class="no">Occupation</span>   <span class="no">President</span></code></pre></div>
+<p>It reads well enough to get an sense of what is going on but you might be more comfortable with a nested if else statement:</p>
 
-<p>You get the picture: data is stored as part of a key (Name) and a value (George). You’re probably familiar with this concept but as a way to store data temporarily in memory, such as a hash in Ruby. However, when it comes to persisting data you think of storing it as part of a relational database with structured data, similar to how you would imagine it appearing on an Excel spreadsheet. </p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="n">user</span>
+  <span class="c1"># ...</span>
+<span class="k">else</span>
+  <span class="k">return</span> <span class="kp">nil</span>
+<span class="k">end</span></code></pre></div>
 
-<p>We won’t get into the full topic here but the reality is that persisting data in a database doesn’t have to look this way. There is another type of database called NoSQL that is preferred for data with inconsistent structure or data that can be very large. NoSQL DBs can come in variety of flavors and be useful for a variety of reasons but the type we are interested in here, key value stores, tend to lend themselves to situations in which accommodating speed and scalability is more important than accommodating complexity.</p>
+<p>While they do the same thing, the guard statement is 1) it avoids a level of indentation 2) it is more readable 3) it is more concise. It takes advantage of the trailing conditional if as well as the implicit return nil (same as return unless).</p>
 
-<p>The most popular key value store is Redis and some advantages that it provides is storing the data in-memory and allows for data types beyond just strings. Use Redis when you are dealing with frequently updated data that you want to retrieve quickly and don’t need to a more complex document-based NoSQL or SQL database. Think caching, queues, online shopping carts, etc. Moreover, many popular tools such as <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq</a> use Redis so you are bound to run into it at one point.</p>
+<p>There are a few liabilities with the techniques however. The first is that you may be suppressing and thus perpetuating a critical bug in your code by not allowing a NoMethodError to be raised. An alternative is in fact to raise an exception of your own? Secondly, you are forcing whatever object called this method to <a href="http://www.sandimetz.com/blog/2014/12/19/suspicions-of-nil">respond to two different</a> types of object.</p>
 
+<p>Overall, I prefer using guard statements when I need to prevent accepting invalid data and only if I have determined the exact circumstance of the bug. If you are having a mysterious bug pop up for some unknown reason, spend your time investigating and remedying that bug rather than smothering it with a line like this.</p>
 
   </article>
   
@@ -102,7 +104,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

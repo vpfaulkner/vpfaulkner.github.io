@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+  
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      The Law of Demeter &middot; SimpleObjects
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="http://vpfaulkner.github.io/public/css/poole.css">
+  <link rel="stylesheet" href="http://vpfaulkner.github.io/public/css/syntax.css">
+  <link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet'
+  type='text/css'>
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://vpfaulkner.github.io/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="http://vpfaulkner.github.io/public/favicon.ico">
+  <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
+</head>
+
+
+  <body>
+
+
+    <div class="container content">
+      <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
+
+          
+             &nbsp;&nbsp;&nbsp;
+             <small><a href="/about_me">About Me</a></small>
+          
+             &nbsp;&nbsp;&nbsp;
+             <small><a href="/playbook">Playbook</a></small>
+          
+             &nbsp;&nbsp;&nbsp;
+             <small><a href="/archive">Archive</a></small>
+          
+
+        </h3>
+      </header>
+
+      <main>
+        <article class="post">
+  <h1 class="post-title">The Law of Demeter</h1>
+  <time datetime="2015-04-20T00:00:00-04:00" class="page-date">20 Apr 2015</time>
+  <p>You have already almost certainly felt the pain that the Law of Demeter tries to save you from so in introducing it here we should start with an example of code gone wrong.</p>
+
+<p>Let’s say you were building a shopping cart application and wanted their default billing address to be displayed:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="n">default_billing_address</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span><span class="o">.</span><span class="n">billing_address</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>This might work fine for a while but then we realize that not every user has a credit card. Perhaps a short-term solution is to guard against this outcome right here:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="n">default_billing_address</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span><span class="o">.</span><span class="n">billing_address</span> <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>This will now protect you in the case of no credit card on file and it seems to work for a while until the developer who owns the user credit card related code decides to add the ability to maintain multiple credit cards on record including a preferred card:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="n">default_billing_address</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span><span class="o">.</span><span class="n">preferred</span><span class="o">.</span><span class="n">billing_address</span> <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>OK, at this point you are starting to realize that your ShoppingCart class might know a little bit too much about the user. Recent changes to an unknown object, CreditCard, is already having unforeseen consequences in ShoppingCart and any proposed future changes will be difficult to anticipate and prevent.</p>
+
+<p>This is the beginning of spaghetti code and the moment when you start to realize the Law of Demeter. The Law of the Demeter mandates that objects only talk to other objects that are closely related, or immediately available. The tell-tale sign in Ruby is the multiple dots (.) to represent a reaching across of objects. In this case, a method in ShoppingCart reaches across the User object to a CreditCard object to get its billing_address. The moment the interface of CreditCard changes, your ShoppingCart code breaks just as in the example above with storing multiple credit cards.</p>
+
+<p>Code that respects the Law of Demeter does not make any assumptions about objects it only can access via an intermediary object, in this case User. Instead it must either talk directly to that 3rd object or the interface of the intermediary object must change in order to wrap the necessary request. As the interface and desired behavior of distance objects change, the only objects you must focus on updating are those immediately surrounding it:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">default_billing_address</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">User</span>
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="k">if</span> <span class="n">credit_cards</span><span class="o">.</span><span class="n">preferred</span>
+      <span class="n">credit_cards</span><span class="o">.</span><span class="n">preferred</span><span class="o">.</span><span class="n">billing_address</span>
+    <span class="k">else</span>
+      <span class="n">default_shipping_address</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>While the Law of Demeter is more of a guiding principle than unbreakable law, you should stop and consider object responsibilities the moment you are tempted to break the Law of Demeter. It is there to help you stay disciplined in writing clean objected oriented code that is accommodating to change rather than resistant to it.</p>
+
+
+</article>
+
+<aside class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/05/01/benchmarking-in-ruby/">
+            Benchmarking in Ruby
+            <small><time datetime="2015-05-01T00:00:00-04:00">01 May 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/04/17/what-is-the-enumerable-module/">
+            What is the Enumerable Module in Ruby?
+            <small><time datetime="2015-04-17T00:00:00-04:00">17 Apr 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="http://vpfaulkner.github.io//2015/04/08/basic-logging-in-ruby/">
+            Basic Logging in Ruby
+            <small><time datetime="2015-04-08T00:00:00-04:00">08 Apr 2015</time></small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</aside>
+
+        
+
+      </main>
+
+      <footer class="footer">
+        <small>
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
+        </small>
+      </footer>
+    </div>
+
+  </body>
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-60674340-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+</html>

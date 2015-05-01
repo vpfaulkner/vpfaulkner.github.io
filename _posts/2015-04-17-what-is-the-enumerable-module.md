@@ -1,5 +1,5 @@
 ---
-layout:post
+layout: post
 title: What is the Enumerable Module in Ruby?
 ---
 If you are looking for a method to do some fairly complex logic on a collection in Ruby, the first place you should look is the Enumerable module. As you might recall, modules allow methods and constants to be included in a class as part of a mixin. This allows you to share code without relying on inheritance which is limited to one class in Ruby. Oftentimes modules then tend to [play the role of container](/2015/01/11/when-to-use-modules-in-ruby/) for common logic between somewhat unrelated classes.

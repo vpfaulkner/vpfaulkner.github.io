@@ -1,5 +1,5 @@
 ---
-layout:post
+layout: post
 title: Basic Logging in Ruby
 ---
 

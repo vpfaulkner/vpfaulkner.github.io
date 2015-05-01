@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,35 +58,71 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/02/23/wrap-your-dependencies/">
-        Wrap Your Dependencies
+      <a href="/2015/03/10/my-big-list-of-full-stack-developer-technologies/">
+        My Big List of Full Stack Developer Technologies
       </a>
     </h1>
 
-    <time datetime="2015-02-23T00:00:00-05:00" class="post-date">23 Feb 2015</time>
+    <time datetime="2015-03-10T00:00:00-04:00" class="post-date">10 Mar 2015</time>
 
-    <p>Properly wrapping and encapsulating parts of my code has come to feel like a kind of digital hygiene for my code not unlike regularly washing my hands to prevent sickness. You don’t know when you might be about to get sick so you just build some habits into to protect yourself against this outcome. In software, your mindset should be analogous but with a focus on your software’s potential to accommodate change.</p>
+    <p>Let’s be honest, there are a lot of skills that go into being a full stack developer. There is a long and constantly changing list of core technologies and deciding how to invest your time in learning new ones is almost as important deciding to actually learn some of these in the first place.</p>
 
-<p>At work we were dealing with the question of how we want to handle logging. We were told that our current tool for logging was Graylog but that we were considering moving to an <a href="http://www.elasticsearch.org/overview/">ELK stack</a>. Obviously we didn’t want to go to far down one road only to then turn around and go another direction. So we committed to doing what we should have been doing regardless: wrapping our logging logic. For example:</p>
+<p>My philosophy is:
+1. Realize that you can take on about half of what you hope to (if you are being honest) and therefore being focused and intentional about your learning is key
+2. Think in terms of inflection points of payoff. I say that having done at least one project with a technology (not just researching it) is an inflection point for familiarity. Try to go wide here is key. Then pick a few things that you want to be an “expert” in. For me, I want to be “an expert” in writing clean, object-oriented Ruby. This is expertise is another inflection point.
+3. Mix cutting edge, promising but unproven technologies with tried and true ones. Similar to the previous point, think of the tried and true technologies as conservative, reliable investments because, paradoxically, the longer a technology has been around the longer it is likely to stay around. Think of cutting edge technologies as a venture capitalist would think of investments: long shot bets that might pay off but don’t count an any one technology as a sure thing.
+4. Above all, learn what you love</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Class</span> <span class="no">ShoppingCart</span>
+<p>With that, here is the list of technologies I have on my list:</p>
 
-  <span class="k">def</span> <span class="nf">purchase</span>
-    <span class="c1"># purchase logic</span>
-    <span class="no">Log</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span> <span class="s2">&quot;Sucessfull purchase: </span><span class="si">#{</span><span class="nb">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-  <span class="k">end</span>
+<p>Sys. Admin / Dev Ops</p>
 
-<span class="k">end</span>
+<ul>
+  <li>Linux admin and scripting</li>
+  <li>Shell Scripting</li>
+  <li>Git</li>
+  <li>Nginx</li>
+  <li>Vagrant</li>
+  <li>Heroku</li>
+  <li>Docker</li>
+  <li>AWS</li>
+  <li>Ansible</li>
+  <li>Logstash</li>
+  <li>Elasticsearch</li>
+  <li>Capistrano</li>
+</ul>
 
-<span class="no">Class</span> <span class="no">Log</span>
+<p>Back-end / DB</p>
 
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-    <span class="c1"># Log logic</span>
-  <span class="k">end</span>
+<ul>
+  <li>PostgreSQL</li>
+  <li>Redis</li>
+  <li>Mongo</li>
+  <li>Ruby</li>
+  <li>Rails</li>
+  <li>SQL</li>
+  <li>JSON</li>
+  <li>RSpec</li>
+  <li>Sidekiq / Resque</li>
+</ul>
 
-<span class="k">end</span></code></pre></div>
+<p>Front-end</p>
 
-<p>Even if we decided to go with the default Ruby logger, by wrapping the logging logic in its own class we prepare ourselves for change. The result is cleaner, more adaptable code.</p>
+<ul>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>SASS</li>
+  <li>Javascript</li>
+  <li>jQuery</li>
+  <li>AngularJS</li>
+  <li>EmberJS</li>
+  <li>AJAX</li>
+  <li>UI</li>
+  <li>UX</li>
+  <li>Markdown</li>
+  <li>Capybara</li>
+  <li>Backbone</li>
+</ul>
 
   </article>
   
@@ -110,7 +145,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

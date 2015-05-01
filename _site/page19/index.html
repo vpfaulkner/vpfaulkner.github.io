@@ -11,7 +11,7 @@
 
   <title>
     
-      Wrong Abstraction &middot; Ruby Developer
+      SimpleObjects &middot; Ruby Developer
     
   </title>
 
@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="/public/font-awesome-4.3.0/css/font-awesome.min.css">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/atom+xml" title="Wrong Abstraction" href="http://vpfaulkner.github.io/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="SimpleObjects" href="http://vpfaulkner.github.io/atom.xml">
 </head>
 
 
@@ -37,8 +37,7 @@
     <div class="container content">
       <header class="masthead">
         <h3 class="masthead-title">
-          <a href="http://vpfaulkner.github.io/" title="Home"><i class="fa
-          fa-paper-plane"></i><span style="margin-left: .75rem">Wrong Abstraction</span></a>
+          <a href="http://vpfaulkner.github.io/" title="Home">SimpleObjects</a>
 
           
              &nbsp;&nbsp;&nbsp;
@@ -59,61 +58,53 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/01/21/private-methods-in-ruby/">
-        Private Methods in Ruby
+      <a href="/2015/02/04/sidekiq-in-rails/">
+        Sidekiq in Rails
       </a>
     </h1>
 
-    <time datetime="2015-01-21T00:00:00-05:00" class="post-date">21 Jan 2015</time>
+    <time datetime="2015-02-04T00:00:00-05:00" class="post-date">04 Feb 2015</time>
 
-    <p>“Why does anyone use private methods?”, you might ask as a beginner to Ruby. In
-some ways the question makes sense: you are only hiding this method from
-yourself or someone else whom you trust enough already to be working along the
-project with you. So what gives?</p>
+    <p>If you’re looking to run a background job in Ruby, one tool that I have found very easy to work with is Sidekiq. First off, how to use it:</p>
 
-<p>Let’s start with an example:</p>
+<p>Begin by adding it to your Gemfile:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Concert</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s1">&#39;sidekiq&#39;</span></code></pre></div>
 
-  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">number_of_attendees</span><span class="p">)</span>
-    <span class="vi">@band</span> <span class="o">=</span> <span class="n">band</span>
-    <span class="vi">@time</span> <span class="o">=</span> <span class="n">time</span>
-    <span class="vi">@number_of_attendees</span> <span class="o">=</span> <span class="n">number_of_attendees</span>
+<p>Install:</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">bundle install</code></pre></div>
+
+<p>Define the job you need done with a perform method:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># app/workers/email_worker.rb</span>
+<span class="k">class</span> <span class="nc">EmailWorker</span>
+  <span class="kp">include</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Worker</span>
+
+  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+    <span class="c1"># Email logic</span>
   <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-  <span class="k">def</span> <span class="nf">prepare</span>
-    <span class="n">open_venue</span>
-    <span class="c1"># other preperations</span>
+<p>And call the worker where appropriate</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">RegistrationController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+  <span class="k">def</span> <span class="nf">register</span>
+    <span class="c1"># Registation Logic</span>
+    <span class="no">EmailWorker</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="n">current_user</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
   <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-  <span class="kp">private</span> <span class="c1"># Every method below this is private</span>
+<p>Get the Sidekiq process going from the shell in your root directory:</p>
 
-  <span class="k">def</span> <span class="nf">open_venue</span>
-    <span class="c1"># open venue logic</span>
-  <span class="k">end</span>
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">bundle <span class="nb">exec </span>sidekiq</code></pre></div>
 
-<span class="k">end</span>
+<p>Beyond knowing how to do Sidekiq for background processing, the question remains for when to use it. </p>
 
-<span class="n">concert</span> <span class="o">=</span> <span class="no">Concert</span><span class="o">.</span><span class="n">new</span>
-<span class="n">concert</span><span class="o">.</span><span class="n">prepare</span>
-<span class="n">concert</span><span class="o">.</span><span class="n">open_venue</span> <span class="c1">#NoMethodError: private method &#39;open_venue&#39;</span></code></pre></div>
+<p>For me Sidekiq (or any background job) is a trade-off of control and reliability for speed. Testing workers can be very difficult and trying to incorporate a complex workflow where certain actions must be kickedoff after the completion of multiple asynchronous processes can be unstable. Furthermore, it has an issue of thread saftey meaning you must use libraries in Sidekiq that are considered thread safe. For those whom this is a deal-breaker by the way, one other alternative is, <a href="https://github.com/resque/resque">Resque</a> which is a little slower but doesn’t require thread-safe code.</p>
 
-<p>Here you can see that we are able to see that open_venue is defined under
-private in the class, that open_venue can be called within the class, but it cannot
-be called outside of the class. This is because in Ruby private methods cannot have an explicit receiver. When we call concert.open_venue our explicit receiver is concert, but when it is called in the prepare method it is called implicitly within the calling object.</p>
-
-<p>Knowing how it works, however, doesn’t get back to the original question of “Why
-ever use it?”</p>
-
-<p>I advocate private methods as a means of clearly defining the public interface
-for a class. Public interfaces are a very important concept and allow you the
-signal to other developers that some of these things are publicly available to you and
-will remain relatively stable while other things are not and may be subject to
-change. This is particularly relevant in Rails controllers where I suggest
-keeping only the methods associated with controller actions public while making 
-any others private. This <a href="/2014/01/22/make-your-ruby-objects-single-minded/">separation of concerns</a> frees you up to continually rework the
-“how” methods that contain must of the logic without fear of breaking external
-code and gives developers working with your class from the outside an ease of mind that they are working with a reliable public interface.</p>
+<p>However, for a lot of situations such as the one here that involves sending an email in the background after registration, using a background job such as Sidekiq is perfect. In this case, any additional registration logic you want done does not have to wait for the email to be sent; furthermore, if you need to several things at once (such as emailing a larger mailing list) than doing that work in the background will allow you to make huge gains in speed.</p>
 
   </article>
   
@@ -136,7 +127,7 @@ code and gives developers working with your class from the outside an ease of mi
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-03-24T08:31:08-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
