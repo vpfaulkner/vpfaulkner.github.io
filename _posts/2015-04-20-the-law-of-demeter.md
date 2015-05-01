@@ -1,5 +1,5 @@
 ---
-layout:posts
+layout:post
 title: The Law of Demeter
 ---
 
