@@ -58,52 +58,74 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/04/17/what-is-the-enumerable-module/">
-        What is the Enumerable Module in Ruby?
+      <a href="/2015/04/20/the-law-of-demeter/">
+        The Law of Demeter
       </a>
     </h1>
 
-    <time datetime="2015-04-17T00:00:00-04:00" class="post-date">17 Apr 2015</time>
+    <time datetime="2015-04-20T00:00:00-04:00" class="post-date">20 Apr 2015</time>
 
-    <p>If you are looking for a method to do some fairly complex logic on a collection in Ruby, the first place you should look is the Enumerable module. As you might recall, modules allow methods and constants to be included in a class as part of a mixin. This allows you to share code without relying on inheritance which is limited to one class in Ruby. Oftentimes modules then tend to <a href="/2015/01/11/when-to-use-modules-in-ruby/">play the role of container</a> for common logic between somewhat unrelated classes.</p>
+    <p>You have already almost certainly felt the pain that the Law of Demeter tries to save you from so in introducing it here we should start with an example of code gone wrong.</p>
 
-<p>Any class that implements an #each method can use Enumerable although the classes you are probably most familiar with that use it are Array and Hash. In fact, if you are particularly new at Ruby you may be using Enumerable methods already (Map for instance) on an instance of Array or Hash and not even realize that the method is available via the Enumerable mixin.</p>
+<p>Let’s say you were building a shopping cart application and wanted their default billing address to be displayed:</p>
 
-<p>To see all of the Enumerable methods:</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="n">default_billing_address</span>
+  <span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Enumerable</span><span class="o">.</span><span class="n">instance_methods</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:to_a</span><span class="p">,</span> <span class="ss">:entries</span><span class="p">,</span> <span class="ss">:to_h</span><span class="p">,</span> <span class="ss">:sort</span><span class="p">,</span> <span class="ss">:sort_by</span><span class="p">,</span> <span class="ss">:grep</span><span class="p">,</span> <span class="ss">:count</span><span class="p">,</span> <span class="ss">:find</span><span class="p">,</span> <span class="ss">:detect</span><span class="p">,</span> <span class="ss">:find_index</span><span class="p">,</span> <span class="ss">:find_all</span><span class="p">,</span> <span class="ss">:select</span><span class="p">,</span> <span class="ss">:reject</span><span class="p">,</span> <span class="ss">:collect</span><span class="p">,</span> <span class="ss">:map</span><span class="p">,</span> <span class="ss">:flat_map</span><span class="p">,</span> <span class="ss">:collect_concat</span><span class="p">,</span> <span class="ss">:inject</span><span class="p">,</span> <span class="ss">:reduce</span><span class="p">,</span> <span class="ss">:partition</span><span class="p">,</span> <span class="ss">:group_by</span><span class="p">,</span> <span class="ss">:first</span><span class="p">,</span> <span class="ss">:all?</span><span class="p">,</span> <span class="ss">:any?</span><span class="p">,</span> <span class="ss">:one?</span><span class="p">,</span> <span class="ss">:none?</span><span class="p">,</span> <span class="ss">:min</span><span class="p">,</span> <span class="ss">:max</span><span class="p">,</span> <span class="ss">:minmax</span><span class="p">,</span> <span class="ss">:min_by</span><span class="p">,</span> <span class="ss">:max_by</span><span class="p">,</span> <span class="ss">:minmax_by</span><span class="p">,</span> <span class="ss">:member?</span><span class="p">,</span> <span class="ss">:include?</span><span class="p">,</span> <span class="ss">:each_with_index</span><span class="p">,</span> <span class="ss">:reverse_each</span><span class="p">,</span> <span class="ss">:each_entry</span><span class="p">,</span> <span class="ss">:each_slice</span><span class="p">,</span> <span class="ss">:each_cons</span><span class="p">,</span> <span class="ss">:each_with_object</span><span class="p">,</span> <span class="ss">:zip</span><span class="p">,</span> <span class="ss">:take</span><span class="p">,</span> <span class="ss">:take_while</span><span class="p">,</span> <span class="ss">:drop</span><span class="p">,</span> <span class="ss">:drop_while</span><span class="p">,</span> <span class="ss">:cycle</span><span class="p">,</span> <span class="ss">:chunk</span><span class="p">,</span> <span class="ss">:slice_before</span><span class="p">,</span> <span class="ss">:lazy</span><span class="o">]</span></code></pre></div>
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span><span class="o">.</span><span class="n">billing_address</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<p>Enumerable provides a ton of useful methods (all of which are explained fully <a href="http://ruby-doc.org/core-2.2.2/Enumerable.html#method-i-map">here</a>) but some of the main ones you will see are below:</p>
+<p>This might work fine for a while but then we realize that not every user has a credit card. Perhaps a short-term solution is to guard against this outcome right here:</p>
 
-<h1 id="sort">Sort</h1>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="n">default_billing_address</span>
+  <span class="k">end</span>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">].</span><span class="n">sort</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span><span class="o">.</span><span class="n">billing_address</span> <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">].</span><span class="n">sort</span> <span class="p">{</span> <span class="o">|</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="o">|</span> <span class="n">b</span> <span class="o">&lt;=&gt;</span> <span class="n">a</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span></code></pre></div>
+<p>This will now protect you in the case of no credit card on file and it seems to work for a while until the developer who owns the user credit card related code decides to add the ability to maintain multiple credit cards on record including a preferred card:</p>
 
-<p>As you can see, Sort will iterate through each item and either use a given &lt;=&gt; (spaceship) operator or standard means of determining less than, equal to, or greater than. A sorted array will be returned.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="n">default_billing_address</span>
+  <span class="k">end</span>
 
-<h1 id="select">Select</h1>
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span><span class="o">.</span><span class="n">preferred</span><span class="o">.</span><span class="n">billing_address</span> <span class="k">if</span> <span class="vi">@user</span><span class="o">.</span><span class="n">credit_cards</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">].</span><span class="n">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">even?</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="o">[</span><span class="mi">2</span><span class="o">]</span></code></pre></div>
+<p>OK, at this point you are starting to realize that your ShoppingCart class might know a little bit too much about the user. Recent changes to an unknown object, CreditCard, is already having unforeseen consequences in ShoppingCart and any proposed future changes will be difficult to anticipate and prevent.</p>
 
-<p>Similar to sort, select takes a collection and a block. It item that returns true from the block will be returned as part of an array.</p>
+<p>This is the beginning of spaghetti code and the moment when you start to realize the Law of Demeter. The Law of the Demeter mandates that objects only talk to other objects that are closely related, or immediately available. The tell-tale sign in Ruby is the multiple dots (.) to represent a reaching across of objects. In this case, a method in ShoppingCart reaches across the User object to a CreditCard object to get its billing_address. The moment the interface of CreditCard changes, your ShoppingCart code breaks just as in the example above with storing multiple credit cards.</p>
 
-<h1 id="all-and-any">All? and Any?</h1>
+<p>Code that respects the Law of Demeter does not make any assumptions about objects it only can access via an intermediary object, in this case User. Instead it must either talk directly to that 3rd object or the interface of the intermediary object must change in order to wrap the necessary request. As the interface and desired behavior of distance objects change, the only objects you must focus on updating are those immediately surrounding it:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">].</span><span class="n">all?</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">odd?</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="kp">false</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">ShoppingCart</span>
+  <span class="k">def</span> <span class="nf">checkout</span>
+    <span class="n">billing_address</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">default_billing_address</span>
+  <span class="k">end</span>
+<span class="k">end</span>
 
-<span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">].</span><span class="n">any?</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span><span class="o">.</span><span class="n">odd?</span> <span class="p">}</span>
-<span class="o">=&gt;</span> <span class="kp">true</span></code></pre></div>
+<span class="k">class</span> <span class="nc">User</span>
+  <span class="k">def</span> <span class="nf">default_billing_address</span>
+    <span class="k">if</span> <span class="n">credit_cards</span><span class="o">.</span><span class="n">preferred</span>
+      <span class="n">credit_cards</span><span class="o">.</span><span class="n">preferred</span><span class="o">.</span><span class="n">billing_address</span>
+    <span class="k">else</span>
+      <span class="n">default_shipping_address</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
 
-<p>Pretty self-explanatory, right?</p>
-
-<p>There are many more useful methods but this will give you a good sense of what you can do with Enumerable methods. One in particular worth checking out is the #inject method of which you can find a <a href="/2015/03/23/the-inject-method-in-ruby/">whole blog post here</a>.</p>
+<p>While the Law of Demeter is more of a guiding principle than unbreakable law, you should stop and consider object responsibilities the moment you are tempted to break the Law of Demeter. It is there to help you stay disciplined in writing clean objected oriented code that is accommodating to change rather than resistant to it.</p>
 
 
   </article>
@@ -127,7 +149,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-06T08:42:56-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

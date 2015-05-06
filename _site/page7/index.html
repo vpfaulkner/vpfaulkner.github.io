@@ -58,57 +58,33 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/18/intro-to-redis/">
-        Intro to Redis
+      <a href="/2015/03/23/the-inject-method-in-ruby/">
+        The Inject Method in Ruby
       </a>
     </h1>
 
-    <time datetime="2015-03-18T00:00:00-04:00" class="post-date">18 Mar 2015</time>
+    <time datetime="2015-03-23T00:00:00-04:00" class="post-date">23 Mar 2015</time>
 
-    <p>Over the last few months there has been no tool I’ve used more than Redis. Although much of this is due to how much we’ve also used <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq for background jobs</a> and Sidekiq uses Redis for a job queue essentially, we have also used Redis alone when we needed any kind of key-value store including times when we wanted to cache.</p>
+    <p>Sometimes you need to do a lot of work on an array and think to yourself, “Is there anyway I could get this done with a single method?” For example, if you are trying to find the longest word in a collection or are trying to downcase the values in an array. Chances are, this is a moment when you should look at inject.</p>
 
-<p>Perhaps the best feature it brings to the table is its ability to handle different types of data structures in addition to strings:</p>
+<p>The enumerable mixin provides some especially useful methods to collection classes (arrays, hashes, sets, etc) in Ruby that can take handle these cases easily. Let’s start with a classic example, summing a range of numbers:</p>
 
-<ul>
-  <li>Strings</li>
-  <li>Hashes</li>
-  <li>Lists of strings</li>
-  <li>Sets of strings (non-repeating, unsorted elements)</li>
-  <li>Sorted sets of strings</li>
-</ul>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span> <span class="p">{</span> <span class="o">|</span><span class="n">running_total</span><span class="p">,</span> <span class="n">number</span><span class="o">|</span> <span class="n">running_total</span> <span class="o">+</span> <span class="n">number</span> <span class="p">}</span></code></pre></div>
 
-<p>A more in-depth look at the Redis data types is <a href="http://redis.io/topics/data-types-intro">here</a>, and if you are unfamiliar with key value stores, check out this <a href="2015/02/09/what-are-key-value-stores/">other post</a>. To get started, first make sure it is installed:</p>
+<p>To understand what’s going, let’s also include how you might tackle this without inject:</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">brew install redis</code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">running_total</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+  <span class="n">running_total</span> <span class="o">+=</span> <span class="n">n</span>
+<span class="k">end</span></code></pre></div>
 
-<p>You’ll need to ensure the redis server is running and can use the command line interface, although we will look at the Ruby Client for Redis.</p>
+<p>Here you realize that you need to iterate through every member of the collection with an each loop and also to persist something through every iteration that is updated each time. These requirements for both iterating through a collection and the need to persist something through each of these iterations are flashing red lights for an enumerable method, the most powerful being inject. Whereas the local variable running_total acts as the object being passed through each iteration, inject provides this to us automatically. This object is then set from what is returned from each iteration.</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">redis-server</code></pre></div>
+<p>Moreover, if you wanted to start with a value other than the first one of the collection, you could do so by providing an argument:</p>
 
-<div class="highlight"><pre><code class="language-sh" data-lang="sh">redis-cli
-redis&gt; <span class="nb">set </span>mykey myvalue
-OK
-redis&gt; get key
-<span class="s2">&quot;value&quot;</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">running_product</span><span class="p">,</span> <span class="n">number</span><span class="o">|</span> <span class="n">running_product</span> <span class="o">*</span> <span class="n">number</span> <span class="p">}</span></code></pre></div>
 
-<p>If you would like to use the Ruby client, require and instantiate it with default configuration and listening on localhost:</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">&quot;redis&quot;</span>
-
-<span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span></code></pre></div>
-
-<p>If you want to use a specific URL, you can either pass that in when instantiating Redis or set it as an environment variable called REDIS_URL.</p>
-
-<p>Remember to think of key value stores similar to that of a dictionary where you want to save something, a value, and identify that value with a key later, similar to how a word and its meaning are stored together in a dictionary.</p>
-
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">redis</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;mykey&quot;</span><span class="p">,</span> <span class="s2">&quot;myvalue&quot;</span><span class="p">)</span>
-<span class="n">redis</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mykey&quot;</span><span class="p">)</span>
-<span class="c1"># &quot;myvalue&quot;</span></code></pre></div>
-
-<p>The methods available to your instance of Redis are the same as those listed on the <a href="http://redis.io/commands">website</a>.</p>
-
-<p>Consider Redis when you need something much faster and more lightweight than a full on database. Again, this is why it makes a good candidate for caching (in my opinion better than Memcached). However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a <a href="http://antirez.com/news/88">separate tool</a> to do just that.</p>
-
+<p>With this ability to condense a lot of logic to a relatively few number of lines, however, should come a word of caution. Your primary goal should be to <a href="/2015/01/14/write-code-worth-reading/">write code worth reading</a> and being too fancy with some enumerable methods can be an easy way to write code that looks good but actually difficult to debug and interpret. Moreover, as you refactor you should also heavily consider pulling these out to their own methods so that a thoughtful method name will clarify your intention to other developers.</p>
 
   </article>
   
@@ -131,7 +107,7 @@ redis&gt; get key
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-06T08:42:56-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>

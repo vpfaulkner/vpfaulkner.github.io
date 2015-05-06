@@ -58,53 +58,61 @@
   
   <article class="post">
     <h1 class="post-title">
-      <a href="/2015/03/24/sets-the-other-collection-in-ruby/">
-        Sets, The Other Collection in Ruby
+      <a href="/2015/04/08/basic-logging-in-ruby/">
+        Basic Logging in Ruby
       </a>
     </h1>
 
-    <time datetime="2015-03-24T00:00:00-04:00" class="post-date">24 Mar 2015</time>
+    <time datetime="2015-04-08T00:00:00-04:00" class="post-date">08 Apr 2015</time>
 
-    <p>Even if you’ve been using Ruby for a decent amount of time there is a good chance that you haven’t really played with Sets. We have embraced Arrays and Hashes so much that, when a use-case for Sets comes up, we often forget they are even an option and go straight to one of those two.</p>
+    <p>Logging is an important topic but gets perhaps less discussion than it should. If you haven’t already incorporated a logging strategy into your app, do so soon. If you haven’t found a logging tool or Gem to use, start simple with the built in Ruby logger.</p>
 
-<p>Sets in Ruby are based on the concept of a <a href="http://en.wikipedia.org/wiki/Set_(mathematics)">set in math</a> and are appropriate when you want to store a list of items, similar to that of an array, but only want to store unique items, similar to keys in a hash.</p>
+<p>A basic log to standard output:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;set&#39;</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;logger&#39;</span>
 
-<span class="n">set1</span> <span class="o">=</span> <span class="no">Set</span><span class="o">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="o">]</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}&gt;</span>
-<span class="n">set1</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;d&#39;</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;}&gt;</span>
-<span class="n">set1</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;a&#39;</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;}&gt;</span></code></pre></div>
+<span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">STDOUT</span><span class="p">)</span>
 
-<p>As you can see, adding an item feels just like an Array but a Set will not create duplicate items.</p>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Processing job </span><span class="si">#{</span><span class="n">job</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></code></pre></div>
 
-<p>Sets also work well together allowing you to find the union, intersection, and more–just like you would in math class.</p>
+<p>Seems simple enough. As you can see this log is at the info log level. You will need to ensure there is a consistent approach among your team towards how you will all handle log levels but some general rules of thumb for the various levels are as follows:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">set2</span> <span class="o">=</span> <span class="no">Set</span><span class="o">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="o">]</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;y&quot;, &quot;z&quot;, &quot;a&quot;}&gt;</span>
-<span class="n">set1</span> <span class="o">||</span> <span class="n">set2</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;}&gt;</span>
-<span class="n">set1</span> <span class="o">&amp;</span> <span class="n">set2</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;a&quot;}&gt;</span>
-<span class="n">set1</span> <span class="o">-</span> <span class="n">set2</span>
-<span class="c1">#=&gt; #&lt;Set: {&quot;b&quot;, &quot;c&quot;, &quot;d&quot;}&gt;</span></code></pre></div>
+<ul>
+  <li>
+    <p>Debug - This is the lowest level and is oftentimes not even turned on in production which means these log lines will not be run. Use for normal and insignificant occurrences in your application. If I want to simply expose a variable in a log I would use this.</p>
+  </li>
+  <li>
+    <p>Info - These should still be “normal” occurrences in your application but more significant ones. Perhaps an hourly cron-job ran that you want to take note of.</p>
+  </li>
+  <li>
+    <p>Warn - This is for when something is unexpected occurs such as an exception but that your program is able to handle and continue on. Perhaps if you were expecting a configuration to be set but it wasn’t and now you are resorting to a default.</p>
+  </li>
+  <li>
+    <p>Error - Something went wrong and halted execution of your program. You aren’t able to write something to your database for example.</p>
+  </li>
+</ul>
 
-<p>So when would you use a set? I would recommend considering sets when 1) you don’t want duplicates, 2) order doesn’t matter, and 3) you might want to compare two lists for equality (of items included–not order of items), intersections, etc.</p>
+<p>There are a few others that sometimes get used (trace or fatal for example) but these are the main levels you should consider.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;set&#39;</span>
+<p>Once you clarify your team’s approach to log levels you will need to decide at what level to log at different environments, most importantly production. Think of this as a volume control for your logs: only logs of that level or higher will actually be written. So, for example, if you set your log level to Info, Debug logs would not be written but logs at Info or above would be. Setting your log level at Info or Warn in production is a good place to start although you should revisit this decision over time.</p>
 
-<span class="n">participating_organizations</span> <span class="o">=</span> <span class="no">Set</span><span class="o">.</span><span class="n">new</span>
-<span class="n">employees</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">employee</span><span class="o">|</span>
-  <span class="k">if</span> <span class="n">employee</span><span class="o">.</span><span class="n">participating</span>
-    <span class="n">participating_organizations</span> <span class="o">&lt;&lt;</span> <span class="n">employee</span><span class="o">.</span><span class="n">organization</span><span class="o">.</span><span class="n">id</span>
-  <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<p>To set a level using the default logger:</p>
 
-<p>Here we consider an organization as participating if at least one employee is participating but don’t want to create duplicate organizations. Moreover, if we were to decide to have multiple events that an organization could participate in, we could do so easily with just another Set and compare the two easily.</p>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">::</span><span class="no">WARN</span></code></pre></div>
 
-<p>As you can see, Sets have several handy use-cases in Ruby but often get overlooked for an Array or Hash. Next time you find yourself in one of these use-cases, ask yourself if a Set would be a better fit.</p>
+<p>If you want to specify a logfile:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;my_logfile.log&#39;</span><span class="p">)</span></code></pre></div>
+
+<p>If you want to age a logfile so that a new logfile is created after a certain point you can do so according to time limit (daily) or byte size (1000000):</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;my_logfile.log&#39;</span><span class="p">,</span> <span class="s1">&#39;daily&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;my_logfile.log&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span></code></pre></div>
+
+<p>The second example will leave only 5 logfiles, moving on to the next file once that byte limit is reached.</p>
+
+<p>Effective logging should include a good context and a good technology stack to aggregate and present the logs for searching. I would recommend an <a href="https://www.elastic.co/webinars/elk-stack-devops-environment/">ELK stack</a> although this might be overkill if you are just starting out.</p>
+
 
   </article>
   
@@ -127,7 +135,7 @@
 
       <footer class="footer">
         <small>
-          &copy; <time datetime="2015-05-01T08:38:04-04:00">2015</time>. All rights reserved.
+          &copy; <time datetime="2015-05-06T08:42:56-04:00">2015</time>. All rights reserved.
         </small>
       </footer>
     </div>
