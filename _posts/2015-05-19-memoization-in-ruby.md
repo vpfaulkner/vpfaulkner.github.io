@@ -20,7 +20,7 @@ def pi_squared
 end
 {% endhighlight %}
 
-For those that haven't used the ||= technique before in Ruby, it basically is shorthand for:
+For those that haven't used this technique before in Ruby, it basically is shorthand for:
 
 {% highlight ruby %}
  @pi_squared = @pi_squared || Math::PI**2
