@@ -20,7 +20,13 @@ def pi_squared
 end
 {% endhighlight %}
 
-For those that haven't used the ||= technique before in Ruby, it basically is shorthand for @pi_squared = @pi_squared || Math::PI**2. Essentially that Math::PI**2 will only be executed the first time with the result saved to memory for later use.
+For those that haven't used the ||= technique before in Ruby, it basically is shorthand for:
+
+{% highlight ruby %}
+ @pi_squared = @pi_squared || Math::PI**2
+{% endhighlight %}
+
+Essentially that Math::PI**2 will only be executed the first time with the result saved to memory for later use.
 
 Although this will technically save you time, real savings will come in queries to a database or external service:
 
