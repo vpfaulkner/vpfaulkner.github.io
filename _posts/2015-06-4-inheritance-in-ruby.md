@@ -20,7 +20,7 @@ Parent.new.shared_method   # => "I am shared"
 Child.new.shared_method    # => "I am shared"
 {% endhighlight %}
 
-As you can see, the behavior from Parent is endowed to Child. Think of it almost as if everything between {% highlight ruby %}class Parent{% endhighlight %} and {% highlight ruby %}end{% endhighlight %} is copied and pasted to the Child class.
+As you can see, the behavior from Parent is endowed to Child. Think of it almost as if everything between class Parent and end is copied and pasted to the Child class.
 
 Let's say you wanted to inherit some more functionality. You could do so but only through a longer line of inheritance:
 
@@ -68,7 +68,7 @@ end
 
 Here it is clear that a DigitalMovie is a type of product and thus embodies that hierarchical relationship. Now if this were a real life application that you were starting from scratch you first instinct should be to stick with just the Product class and perhaps have a category attribute with DigitialMovie being a category. Keeping your design as simple as possible is your first priority and if the required behavior for every type of product is nearly identical, then this would make sense.
 
-The {% highlight ruby %}super{% endhighlight %} you see here is a technique to call the purchase method on the Product class. This allows you to easily include the generic purchase behavior and add the more specialized download behavior, both as part of purchase.
+The super you see here is a technique to call the purchase method on the Product class. This allows you to easily include the generic purchase behavior and add the more specialized download behavior, both as part of purchase.
 
 The problem of increasingly divergent behavior will take you to a design crossroads however. In this example, a DigitalMovie requires very unique download behavior once it is purchased (vs say a table which cannot be downloaded). Trying to cram this specialized behavior into Product will begin to bloat that class and put increasing pressure on the type field you might have originally included. With the design choice to have a generic product class with specialized subclasses, you now have a clear and clean path forward when asked to implement more complex and specialized behavior.
 
