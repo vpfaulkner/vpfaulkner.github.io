@@ -8,7 +8,7 @@ Recently I wanted to introduce an object store wrapper to my application with a 
 {% highlight ruby %}
 ObjectStore.write(id, object)
 ObjectStore.retrieve(id)
-{% endhighlight }
+{% endhighlight %}
 
 This object would not be instantiated and thus I started out with a module defining the two methods on the singleton instance:
 
