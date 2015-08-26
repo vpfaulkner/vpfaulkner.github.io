@@ -1,5 +1,5 @@
 ---
-layout:posts
+layout: post
 title: Memoization in Ruby
 ---
 Let's say you are relatively new to Rails and progressing through one of your first major Rails applications when you suddenly become conscious for the first time about performance. This happened to me when I was loading a large YAML file into memory and the app's performance on the free Heroku account began to suffer.

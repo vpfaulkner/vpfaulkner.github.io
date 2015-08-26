@@ -1,5 +1,5 @@
 ---
-layout:posts
+layout: post
 title: RSpec Basics
 ---
 If you are going to embrace testing in Ruby you need to know RSpec, even if you prefer another testing tool such as MiniTest. RSpec is used widely and at many places testing is such a core part of the development process that knowing the basics of RSpec is essential.
