@@ -17,6 +17,7 @@ greet # => 'Hello friend!!!'
 A few things of note:
 
 1) Unlike an options hash, we no longer have to pull out the variables from a hash early on in the method
+
 2) As you can see, the name keyword argument will default to friend when not supplied anything.
 
 If you wanted to use this syntax without making the argument optional simply don't provide a default value:
@@ -50,7 +51,7 @@ However, for cases where you might be tempted to use a hash parameter I find thi
 # Positional syntax
 song_descriptor("Getting Better", "Sgt. Pepper's Lonely Hearts Club Band", "The Beatles", 1967)
 
-# Keyworkd syntax
+# Keyword syntax
 song_descriptor(song: "Getting Better",
                 album: "Sgt. Pepper's Lonely Hearts Club Band",
                 band: "The Beatles",
