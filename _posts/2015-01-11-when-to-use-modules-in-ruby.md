@@ -4,7 +4,7 @@ title: When to use modules in Ruby
 comments: True
 ---
 
-###Question 1: Do you need to it to carry state?
+###Question 1: Do you need state?
 
 If so, then you should probably use a class. In fact, for most use-cases,
 particularly if you are new to object-oriented programming, if what you are
