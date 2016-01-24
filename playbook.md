@@ -5,7 +5,7 @@ title: Playbook
 ----
 
 ## Guiding Philosophy
-When at a crossroads, always have your guiding philosophies to refer to. These should underpin both code-level and architectural decisions.
+When at a crossroads, always go back to your core values or guiding philosophy. For me, these are:
 
 * Simplicity
 
@@ -16,49 +16,45 @@ When at a crossroads, always have your guiding philosophies to refer to. These s
 
 ##Task Management
 
-Task management should emphasize productivity. This couples well with simplicity as simple systems are easy to get started and easy to maintain.
+Every aspect of development should incorporate these core values including task management. Here is what task management looks like to me:
 
-* Use whiteboards or "back of the napkin" drawings freely. They're cheap, easy, and quickly get the point across.
+* At its core, agile is about optimizing for information rather than pure efficiency. It works because oftentimes our starting assumptions are wrong and the loss from these bad assumptions is greater than the loss of having to do things multiple times as you would with a more iterative approach.
 
-* Most task management systems are overly-complicated and are difficult to keep up to date. If you're having trouble keeping it up to date, scrap it and use something simpler like Trello even if you have to sacrifice features such as metrics.
+* Embrace the Minimum Viable Product (MVP). Get on the same page about an MVP approach and define what "done" looks like for an MVP. Get to your MVP in a similar manner to how you would get to green doing test-driven development (TDD).
 
-* My preferred mental model for task management: everything should be divided into verb-oriented tasks and those tasks divided into three simple categories: "Not Started", "In Progress", and "Complete".
+* Craftsmanship requires ownership, rigor, and attention to detail. Its thrust is towards putting out the best final product that you can possible can. It **does not** mean that you will put out that product on the first try. Great writers obsess over constant editing; wood-workers embrace prototyping and an continual improvement. Great developers should embrace moving fast and multiple iterations as an approach to craftsmanship--not in opposition to it.
 
-* Partition out your day's tasks using a simple to-do list on a white notepad. Don't be afraid to re-write it multiple times.
+* Be paranoid about all of the assumptions you make starting a project, particularly if those assumptions are about projects outside of your control. If your project assumes multiple other teams will deliver a required service on time, rethink your own deadline or find a way to build a first iteration without that service.
 
+* Many task management systems are complex and may be overkill for you needs. JIRA provides an enormous amount of metrics and ability to fine-tune your task management but if your team is struggling to be productive on it, scrap it and retreat to something simpler like Trello. Be honest about what works and don't prematurely optimize.
 
-##Preferred Languages and Frameworks
+* Have empathy for the customer. In other words, build delightful products for real people, not for abstract use-cases or a given set of specs handed down to you. Sometimes the specs are wrong.
 
-Approach technologies as a craftsman approaches a tool: he hopes to be familiar with broad range of them but then deeply invests in a few. Take ownership in your tools but don't fixate on them more than what you are trying build.
+##Technologies
 
-* Life's too short to work with a language you don't love. I prefer Ruby for its readability.
+Technologies are both a tool and an investment. Your role as an engineer is to have both a deep expertise in a few and broad familiarity with many others.
 
-* Don't overkill an app with too much framework.
+* Acknowledge that there are inflection points of learning. Keep these in mind when learning a technology.
 
-* Learn Javascript because it's everwhere.
+* I have found it very difficult to learn a technology unless I have a real life problem to use it for. Perhaps others can but you should know how you learn.
 
-* PostgreSQL almost always gets the job done and there are a ton of resources on it.
-
-* Modularity is appropriate at all levels. For web applications, prefer building a [static app](http://www.staticapps.org/) if possible.
+* Of all technologies in your toolbelt, languages are the most personal and important. Your first goal should be deep understanding of at least one language.
 
 ##Dev Environment
 
 Invest in your dev environment but not at the expense of productivity or simplicity. Instill a rhythm to your work through TDD and continuous deployment.
 
-* You will spend much more time reading code than you will spend writing it. Optimize to readability 99% of the time.
+* You will spend much more time reading code than you will spend writing it. Optimize to readability most of the time.
 
-* Embrace test driven development. I prefer RSpec but there are a ton of choices that work.
+* Embrace test driven development--it works.
 
-* I prefer [Sandi Metz approach to testing](https://www.youtube.com/watch?v=URSWYvyc42M). It will make sticking to TDD much easier.
-
-* If at all possible follow continuous deployment.
+* Embrace continuous deployment. It will improve the quality of your product and in my opinion give you a much healthier rhythm at work.
 
 * Take the time to ensure everyone is on the same Git workflow. If you are looking for one start with [Thoughtbot's Git protocol](https://github.com/thoughtbot/guides/tree/master/protocol/git)
 
 * They matter less than the hype they garner but do find an editor you can invest in. I like to stay close to the command line so I use Vim paired with tmux. I recommend iTerm and Zsh.
 
-* When in doubt, follow a style guide, such as the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide)
-
+* Get a style guide for your team.
 
 ##Personal
 
@@ -67,6 +63,4 @@ Above all, invest in yourself. Your character and your skills are the long-term 
 * Write daily for reflection. I prefer a [Moleskine Folio Ruled A4
    Book](http://www.moleskine.com/us/collections/model/product/folio-ruled-book-a4) because it provides lots of room for thinking
 
-* If you write daily invest in a pen you like using. I use the [Lamy Safari Fountain
-   Pen](http://www.amazon.com/Lamy-Safari-Fountain-Pen-Charcoal/dp/B0002T401Y)
-
+* Realize that you are human and work with other humans. Keep a sense of humor, don't be arrogant, and be someone that others want to work with.
