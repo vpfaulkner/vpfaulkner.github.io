@@ -4,26 +4,24 @@ title: About Me
 ---
 
 ![Me](/public/headshot.jpg)
-I'm Vance and I love to solve problems. I crave new companies, new technologies, new ideas, and obstacles that resist typical solutions.
+I'm Vance and I love to solve problems. I crave new challenges, new ideas, and obstacles that require me to grow as an engineer.
 
-I have a liberal arts background and was a doing analytics for a SaaS startup before deciding I wanted to go into software development. As a developer I work primarily in Ruby on Rails and frontend web technologies. To see how I work, check out my [playbook](/playbook).
+I have a liberal arts background and was a doing analytics for a SaaS startup before deciding I wanted to go into software development. My primary expertise is with APIs, both designing them and integrating them, but I also have experience with front-end development and DevOps. Additionally in my current role I regularly deal with issues of concurrency, data transformation and integrity, customer support, and scale. To see how I work, check out my [playbook](/playbook).
 
-Some of my favorite tools:
+Some of my favorite tools and technologies:
 
-* **Languages**: Ruby, Javascript, HTML, CSS
+* **Backend** - Ruby, Ruby on Rails, Sidekiq, Rspec, Capybara
 
-* **Web Frameworks**: Ruby on Rails, Sinatra
+* **Datastore** - MongoDB, PostgreSQL, Redis
 
-* **Frontend Frameworks & Libraries**: jQuery, Middleman, Jekyll, Bourbon, Foundation
+* **Frontend** - HTML, Javascript, CSS, SASS, jQuery, AJAX, Websockets, Bootstrap, SemanticUI, Foundation
 
-* **Dev Ops & Version Control**: Git, Github, Bitbucket, Heroku, Unix
+* **Infrastructure** - Linux/Unix, AWS, DigitalOcean, Docker, Nginx, TravisCI, Codeship, Jenkins, Heroku
 
-* **Database**: PostgreSQL, MongoDB
+* **Monitoring** - Rollbar, Graylog, Grafana, New Relic, StatsD, Kibana
 
-* **Testing**: RSpec, Capybara
+* **Agile** - JIRA, Trello
 
-* **Agile**: JIRA, Trello
-
-* **Other**: Sidekiq, VIM, NSQ, Haml, Sass, Markdown, JSON, rbenv
+* **Other** - Git, Github, Vim
 
 When not writing software, I am probably reading, with friends, or out running. I am a graduate of the University of North Carolina and reside in Durham, North Carolina.
