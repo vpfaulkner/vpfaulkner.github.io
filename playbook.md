@@ -13,7 +13,7 @@ When at a crossroads, always go back to your core engineering values or guiding 
 
 * Craftsmanship
 
-##Personal Workflow
+## Personal Workflow
 
 Be honest about what works and start there. Here is what works for me:
 
@@ -29,7 +29,7 @@ Be honest about what works and start there. Here is what works for me:
 
 * At the end of the day, you have to get joy from your work. Craftsmanship stems from the belief that a well-crafted product is a good in and of itself.
 
-##Agile
+## Agile
 
 Agile works because we make bad assumptions. I see Test-Driven Development, Agile workflows, and Customer Discovery as all applying the same fundamental principles in different contexts:
 
@@ -45,7 +45,7 @@ Agile works because we make bad assumptions. I see Test-Driven Development, Agil
 
 * Have empathy for the customer. In other words, build delightful products for real people, not for abstract use-cases or a given set of specs handed down to you. Sometimes the specs are wrong.
 
-##Technologies
+## Technologies
 
 Technologies are both a tool and an investment. Consequently, I like to have both a deep expertise in a few and broad familiarity with many others.
 
