@@ -3,7 +3,7 @@ layout: post
 title: Introducing Rails Sandbox
 ---
 
-Introducing (Rails Sandbox)[http://rails-sandbox.com]. This is an open source project currently in Beta whose source code can be found on Github at (https://github.com/vpfaulkner/rails_sandbox)[https://github.com/vpfaulkner/rails_sandbox].
+Introducing [Rails Sandbox](http://rails-sandbox.com). This is an open source project currently in Beta whose source code can be found on Github at [https://github.com/vpfaulkner/rails_sandbox](https://github.com/vpfaulkner/rails_sandbox).
 
 # Why?
 
