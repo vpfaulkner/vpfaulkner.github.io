@@ -11,6 +11,10 @@ layout: nil
   color: #2ca82e;
 }
 
+#laptop-image {
+  width: 650px;
+}
+
 #hero-header {
   font-size: 3.0em;
 }
