@@ -1,24 +1,6 @@
-# Permalinks
-permalink:        pretty
-
-# Setup
-title:            SimpleObjects
-tagline:          Ruby Developer
-url:              http://vpfaulkner@github.io.com
-paginate:         1
-baseurl:          http://vpfaulkner.github.io/
-author:
-  name:           Vance Faulkner
-  url:            vpfaulkner@github.io.com
-  email:          vpfaulkner@gmail.com
-encoding:         UTF-8
-
-# Custom vars
-version:          1.0.0
-github:
-  repo:           https://github.com/poole/poole
-
-pages_list:
-  About Me: '/about_me'
-  Playbook: '/playbook'
-  Archive: '/archive'
+defaults:
+  -
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      layout: "default"

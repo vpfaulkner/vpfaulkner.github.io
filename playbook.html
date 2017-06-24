@@ -1,0 +1,73 @@
+---
+layout: default
+title: Playbook
+---
+
+<div class="ui left aligned text container">
+  <div id="playbook-links">
+    <a href="#agile">Agile</a>
+    <a href="#checklists">Checklists</a>
+    <a href="#communication">Communication</a>
+    <a href="#data-modeling">Data Modeling</a>
+    <a href="#development-environment">Development Environment</a>
+    <a href="#git">Git</a>
+    <a href="#testing">Testing</a>
+    <a href="#working-remotely">Working Remotely</a>
+  </div>
+
+
+  <h2 id="agile">Agile</h2>
+  <p>Agile works because we make bad assumptions. At its core, agile is about optimizing for information rather than pure efficiency. It works because oftentimes our starting assumptions are wrong and the loss from these bad assumptions is greater than the loss of having to do things multiple times as you would with a more iterative approach. I rely on the following habits to enforce an agile workflow:</p>
+  <ul>
+    <li>Daily standups</li>
+    <li>1 week sprint cycles</li>
+    <li>Simple, "t-shirt" sized story scoping</li>
+    <li>A daily groomed Trello board</li>
+    <li>A single work-in-progress workflow</li>
+    <li>Problem-based product discovery</li>
+    <li>Lightweight wireframes before every feature</li>
+    <li>Multi-phased roll out</li>
+    <li>Technical spikes to deal with non-obvious technical problems</li>
+    <li>Timeboxing to short-circut scope creep</li>
+  </ul>
+
+
+  <h2 id="checklists">Checklists</h2>
+  <p>Every day I write a new checklist. I used to pick right up with the checklist that I had the day before, but I've found that starting a new one every day somehow makes it feel like I'm starting from a new slate.</p>
+  <img id="todo-img" src="/todo-list.png" />
+  <p>I try to ensure that everything I'm working on lines up with a todo. If I get pulled off onto a distriction (bug in production for example) I'll add it to the top of the checklist then tackle it. This way, the checklist also serves as a mental map.</p>
+
+
+  <h2 id="development-environment">Development Environment</h2>
+  <p>My setup is as follows:</p>
+  <ul>
+    <li>MacBook Pro</li>
+    <li>Zsh Shell</li>
+    <li>iTerm2</li>
+    <li>Vim</li>
+    <li>tmux</li>
+    <li>Screenhero or tmate for remote pairing</li>
+    <li>Slack</li>
+    <li>Git / GitHub</li>
+    <li>Gmail</li>
+  </ul>
+
+  <h2 id="git">Git</h2>
+  <p>My preferred Git branching model is as follows:
+  <ul>
+    <li>New features should be done on seperate branches</li>
+    <li>Changes to Master can only be made via GitHub pull requests</li>
+    <li>All pull requests must be approved by at least 1 reviewer</li>
+    <li>All pull requests must have a green test suite</li>
+    <li>All pull requests must have no linting errors according an agreed upon style guide</li>
+    <li>Prior to being merged pull requests should be rebased / squashed to a few or even a single commit with meaningful messages that describe the change</li>
+    <li>Longer features should be avoided or, at the very least, be visible to the rest of the team during development as WIP PRs with a Markdown checklist on the PR description</li>
+    <li>Branch names and PR descriptions should match the feature or bug's Trello card</li>
+  </ul>
+
+  <h2 id="testing">Testing</h2>
+  <p>I prefer TDD with tests being run in "watch mode" via something like <a href="https://github.com/guard/guard-test">guard-test</a>. In fact, my development environment is oftentimes tests on one external monitor, the code I am developing an another external monitor, and guard tests on my laptop in the middle.</p>
+
+  <h2 id="working-remotely">Working Remotely</h2>
+  <p>Thriving remotely requires a lot of self-imposed structure. For example, I start workingly roughly the same time everyday (7:30 am), I only work from my desk, I dress in work appropriate clothes, and I end work at roughly the same time (5:00 pm).</p>
+</div>
