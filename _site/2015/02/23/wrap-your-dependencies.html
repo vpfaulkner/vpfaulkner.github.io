@@ -1,0 +1,22 @@
+<p>Properly wrapping and encapsulating parts of my code has come to feel like a kind of digital hygiene for my code not unlike regularly washing my hands to prevent sickness. You don’t know when you might be about to get sick so you just build some habits into to protect yourself against this outcome. In software, your mindset should be analogous but with a focus on your software’s potential to accommodate change.</p>
+
+<p>At work we were dealing with the question of how we want to handle logging. We were told that our current tool for logging was Graylog but that we were considering moving to an <a href="http://www.elasticsearch.org/overview/">ELK stack</a>. Obviously we didn’t want to go to far down one road only to then turn around and go another direction. So we committed to doing what we should have been doing regardless: wrapping our logging logic. For example:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">Class</span> <span class="no">ShoppingCart</span>
+
+  <span class="k">def</span> <span class="nf">purchase</span>
+    <span class="c1"># purchase logic</span>
+    <span class="no">Log</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span> <span class="s2">"Sucessfull purchase: </span><span class="si">#{</span><span class="nb">self</span><span class="p">.</span><span class="nf">id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+
+<span class="no">Class</span> <span class="no">Log</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="c1"># Log logic</span>
+  <span class="k">end</span>
+
+<span class="k">end</span></code></pre></figure>
+
+<p>Even if we decided to go with the default Ruby logger, by wrapping the logging logic in its own class we prepare ourselves for change. The result is cleaner, more adaptable code.</p>

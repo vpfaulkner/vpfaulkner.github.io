@@ -1,0 +1,43 @@
+<p>Benchmarking, <a href="/2015/04/08/basic-logging-in-ruby/">like logging</a>, deserves more attention than it currently gets. Unless your application is just getting off the ground with little or no usage, performance testing should accompany other functional tests (such as unit, and integration tests) as part of your continuous integration infrastructure.</p>
+
+<p>Luckily, basic benchmarking is easy in Ruby via the built-in Benchmark module:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'benchmark'</span>
+
+<span class="nb">puts</span> <span class="no">Benchmark</span><span class="p">.</span><span class="nf">measure</span> <span class="p">{</span> <span class="mi">10_000_000</span><span class="p">.</span><span class="nf">times</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="o">**</span> <span class="mi">2</span> <span class="p">}</span> <span class="p">}</span></code></pre></figure>
+
+<p>This returns:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"> 0.900000   0.000000   0.900000 <span class="o">(</span>  0.902290<span class="o">)</span></code></pre></figure>
+
+<p>These represent (all in seconds):</p>
+<ul>
+  <li>user CPU time</li>
+  <li>system CPU time</li>
+  <li>the sum of the user and system CPU times</li>
+  <li>the elapsed real time</li>
+</ul>
+
+<p>The last one is probably most important for you, the elapsed real time.</p>
+
+<p>This syntax is ideal for very simple benchmarking where you might for example want to see how long a single method takes. However, a much more common need is to compare multiple approaches to the same problem to see which performs better:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'benchmark'</span>
+
+<span class="n">array</span> <span class="o">=</span> <span class="no">Array</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">set</span> <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="nf">.</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="no">Benchmark</span><span class="p">.</span><span class="nf">bm</span> <span class="k">do</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span>
+  <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span> <span class="n">array</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">999</span> <span class="p">}</span>
+  <span class="n">x</span><span class="p">.</span><span class="nf">report</span> <span class="p">{</span> <span class="n">set</span><span class="p">.</span><span class="nf">include?</span> <span class="mi">999</span> <span class="p">}</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This returns:</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">       user     system      total        real
+   0.000000   0.000000   0.000000 <span class="o">(</span>  0.000226<span class="o">)</span>
+   0.000000   0.000000   0.000000 <span class="o">(</span>  0.000006<span class="o">)</span></code></pre></figure>
+
+<p>As you can see, the Array include? is a lot slower than the Set include? (a Set does not preserve original order so a binary search technique can be used when looking up items).</p>
+
+<p>There are a number of more advanced options all available as part of the standard module and can be found <a href="http://ruby-doc.org/stdlib-1.9.3/libdoc/benchmark/rdoc/Benchmark.html">here</a>.</p>

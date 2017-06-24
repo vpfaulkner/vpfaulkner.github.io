@@ -1,0 +1,66 @@
+<p>One of the more subtle lessons I’ve learned since I started developing was how
+much object names both guide and reveal your thought process as you are building
+an application. Consider a few rules of thumb:</p>
+
+<p>###Stick with real world objects as much as possible. Don’t be cute</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>instead of:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">SongMaker</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>###Use is_attribute? for Booleans</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="n">is_connected?</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span></code></pre></figure>
+
+<p>instead of:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">user</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">connected: </span><span class="kp">true</span><span class="p">)</span></code></pre></figure>
+
+<p>###Don’t include object type</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">split</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>instead of:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Song</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">artist</span><span class="p">,</span> <span class="n">album</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+    <span class="vi">@name</span>     <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@artist</span>   <span class="o">=</span> <span class="n">artist</span>
+    <span class="vi">@album</span>    <span class="o">=</span> <span class="n">album</span>
+    <span class="vi">@duration</span> <span class="o">=</span> <span class="n">duration</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">split_method</span>
+    <span class="c1"># split logic</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>If you haven’t also checked out the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style
+Guide</a> you should do so.</p>

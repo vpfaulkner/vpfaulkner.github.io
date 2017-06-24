@@ -4,7 +4,7 @@ title: About Me
 ---
 
 ![Me](/public/headshot.jpg)
-I'm Vance and I love to solve problems. I crave new challenges, new ideas, and obstacles that require me to grow as an engineer.
+I'm Vance and I love to solve problems. I crave new challenges, new ideas and obstacles that require me to grow as an engineer.
 
 I have a liberal arts background and was a doing analytics for a SaaS startup before deciding I wanted to go into software development. My primary expertise is with APIs, both designing them and integrating them, but I also have experience with front-end development and DevOps. Additionally in my current role I regularly deal with issues of concurrency, data transformation and integrity, customer support, and scale. To see how I work, check out my [playbook](/playbook).
 

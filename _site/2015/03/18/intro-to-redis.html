@@ -1,0 +1,44 @@
+<p>Over the last few months there has been no tool I’ve used more than Redis. Although much of this is due to how much we’ve also used <a href="/2015/02/04/sidekiq-in-rails/">Sidekiq for background jobs</a> and Sidekiq uses Redis for a job queue essentially, we have also used Redis alone when we needed any kind of key-value store including times when we wanted to cache.</p>
+
+<p>Perhaps the best feature it brings to the table is its ability to handle different types of data structures in addition to strings:</p>
+
+<ul>
+  <li>Strings</li>
+  <li>Hashes</li>
+  <li>Lists of strings</li>
+  <li>Sets of strings (non-repeating, unsorted elements)</li>
+  <li>Sorted sets of strings</li>
+</ul>
+
+<p>A more in-depth look at the Redis data types is <a href="http://redis.io/topics/data-types-intro">here</a>, and if you are unfamiliar with key value stores, check out this <a href="2015/02/09/what-are-key-value-stores/">other post</a>. To get started, first make sure it is installed:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">brew install redis</code></pre></figure>
+
+<p>You’ll need to ensure the redis server is running and can use the command line interface, although we will look at the Ruby Client for Redis.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">redis-server</code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">redis-cli
+<span class="gp">redis&gt; </span><span class="nb">set </span>mykey myvalue
+OK
+<span class="gp">redis&gt; </span>get key
+<span class="s2">"value"</span></code></pre></figure>
+
+<p>If you would like to use the Ruby client, require and instantiate it with default configuration and listening on localhost:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">"redis"</span>
+
+<span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="p">.</span><span class="nf">new</span></code></pre></figure>
+
+<p>If you want to use a specific URL, you can either pass that in when instantiating Redis or set it as an environment variable called REDIS_URL.</p>
+
+<p>Remember to think of key value stores similar to that of a dictionary where you want to save something, a value, and identify that value with a key later, similar to how a word and its meaning are stored together in a dictionary.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">redis</span><span class="p">.</span><span class="nf">set</span><span class="p">(</span><span class="s2">"mykey"</span><span class="p">,</span> <span class="s2">"myvalue"</span><span class="p">)</span>
+<span class="n">redis</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"mykey"</span><span class="p">)</span>
+<span class="c1"># "myvalue"</span></code></pre></figure>
+
+<p>The methods available to your instance of Redis are the same as those listed on the <a href="http://redis.io/commands">website</a>.</p>
+
+<p>Consider Redis when you need something much faster and more lightweight than a full on database. Again, this is why it makes a good candidate for caching (in my opinion better than Memcached). However, it can also be used as a message queue between services although apparently the maker of Redis is looking into creating a <a href="http://antirez.com/news/88">separate tool</a> to do just that.</p>
+

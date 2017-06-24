@@ -1,0 +1,50 @@
+<p>Recently I wanted to introduce an object store wrapper to my application with a simple, singleton interface like the one below:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">ObjectStore</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">object</span><span class="p">)</span>
+<span class="no">ObjectStore</span><span class="p">.</span><span class="nf">retrieve</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span></code></pre></figure>
+
+<p>This object would not be instantiated and thus I started out with a module defining the two methods on the singleton instance:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">ObjectStore</span>
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">object</span><span class="p">)</span>
+      <span class="c1"># write logic</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+      <span class="c1"># retrieve logic</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This allowed me to offer such an interface and for a while all seemed well. However, there soon became a need to ever-so-slightly configure this module. We wanted to be able to configure the connection to our object store service including the API keys required as part of that connection. Moreover, we wanted to be able to configure based on ENV variables and put the configuration code in our config.ru file that would be run upon booting up the app (this was a bare bones rack app that used rackup). We were picturing something like this:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># config.ru</span>
+<span class="no">ObjectStore</span><span class="p">.</span><span class="nf">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">username</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'SL_USERNAME'</span><span class="p">]</span>
+  <span class="n">config</span><span class="p">.</span><span class="nf">api_key</span>  <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s1">'API_KEY'</span><span class="p">]</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>How could we accommodate this? Well the first thing we had to do is provide a configure method that yielded self to this block:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">ObjectStore</span>
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+    <span class="k">def</span> <span class="nf">configure</span>
+      <span class="k">yield</span> <span class="nb">self</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The self of course is the ObjectStore singleton and by yielding it we can provide it to the given block (as we do with config in the example above) to do any configurations it deems necessary. Finally, we need to offer the configurable attributes as methods:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">module</span> <span class="nn">ObjectStore</span>
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+    <span class="kp">attr_accessor</span> <span class="ss">:username</span><span class="p">,</span> <span class="ss">:api_key</span>
+
+    <span class="k">def</span> <span class="nf">configure</span>
+      <span class="k">yield</span> <span class="nb">self</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This cleanly allows us to both provide a singleton interface to the rest of the app as well as a way to the configure this object from the outside.</p>

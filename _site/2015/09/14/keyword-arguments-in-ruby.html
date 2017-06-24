@@ -1,0 +1,46 @@
+<p>Beginning with Ruby 2.0 developers can take advantage of the new keyword argument syntax:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'friend'</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!!!"</span>
+<span class="k">end</span>
+
+<span class="n">greet</span><span class="p">(</span><span class="ss">name: </span><span class="s1">'Vance'</span><span class="p">)</span> <span class="c1"># =&gt; 'Hello Vance!!!'</span>
+<span class="n">greet</span> <span class="c1"># =&gt; 'Hello friend!!!'</span></code></pre></figure>
+
+<p>A few things of note:</p>
+
+<p>1) Unlike an options hash, we no longer have to pull out the variables from a hash early on in the method</p>
+
+<p>2) As you can see, the name keyword argument will default to friend when not supplied anything.</p>
+
+<p>If you wanted to use this syntax without making the argument optional simply don’t provide a default value:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="nb">name</span><span class="p">:)</span>
+  <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!!!"</span>
+<span class="k">end</span>
+
+<span class="n">greet</span> <span class="c1"># =&gt; ArgumentError: missing keyword: name</span></code></pre></figure>
+
+<p>As you would guess with Ruby, this syntax was introduced to provide yet another way to define and call a method in keeping with the language’s pattern of offering many ways of doing the same thing. Once more, as you might expect from such a pattern, choosing the right way to do something depends on tradeoffs and context.</p>
+
+<p>The previous example actually provides a better illustration to me of using the standard positional argument syntax because it only asks for a single argument:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">!!!"</span>
+<span class="k">end</span>
+
+<span class="n">greet</span><span class="p">(</span><span class="s1">'Vance'</span><span class="p">)</span> <span class="c1"># =&gt; 'Hello Vance!!!')</span></code></pre></figure>
+
+<p>If you were told that you would be supplied an interface for a method that will provide a greeting, this is almost exactly what you might image. And in keeping with my personal preference for having lots of small, simple methods many of which take a single argument, the positional argument syntax works fine.</p>
+
+<p>However, for cases where you might be tempted to use a hash parameter I find this syntax works much better:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Positional syntax</span>
+<span class="n">song_descriptor</span><span class="p">(</span><span class="s2">"Getting Better"</span><span class="p">,</span> <span class="s2">"Sgt. Pepper's Lonely Hearts Club Band"</span><span class="p">,</span> <span class="s2">"The Beatles"</span><span class="p">,</span> <span class="mi">1967</span><span class="p">)</span>
+
+<span class="c1"># Keyword syntax</span>
+<span class="n">song_descriptor</span><span class="p">(</span><span class="ss">song: </span><span class="s2">"Getting Better"</span><span class="p">,</span>
+                <span class="ss">album: </span><span class="s2">"Sgt. Pepper's Lonely Hearts Club Band"</span><span class="p">,</span>
+                <span class="ss">band: </span><span class="s2">"The Beatles"</span><span class="p">,</span>
+                <span class="ss">year: </span><span class="mi">1967</span><span class="p">)</span></code></pre></figure>
+

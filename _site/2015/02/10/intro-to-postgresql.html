@@ -1,0 +1,23 @@
+<p>If you are just getting started with Rails you might not realize it but the database you are using is <a href="https://www.sqlite.org/">SQLite</a>. SQLite. SQLite is perhaps the most widely-deployed database out there and will work well for many application needs. However, it does have some limitations with speed, particularly write operations, and not as full featured as other relational databases such as MySQL and PostgreSQL.</p>
+
+<p>PostgreSQL is worth a deeper look because of how popular it is with rails developers today. Without getting too much in the details, Postgres really lends itself to object-oriented, relational database interactions and is very efficient. It does well with concurrency without read locks and has a strong community if you have any questions or issues.</p>
+
+<p>To begin, make sure you have it installed on your computer:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">brew install postgresql</code></pre></figure>
+
+<p>I usually go with PostreSQL over SQLite from the beginning of any Rails project just because it is easier than migrating later:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rails new myapp -d postgresql</code></pre></figure>
+
+<p>You can confirm everything by looking at the newly created database.yml file:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">development:
+  adapter: postgresql
+  encoding: unicode
+  database: myapp_development
+  pool: 5
+  username: myapp
+  password:</code></pre></figure>
+
+<p>When needing to persist data there are a variety of different options from full featured DBs such as PostsgreSQL even to simple <a href="/2015/02/09/what-are-key-value-stores/">key-value stores</a> and sometimes just picking one and experimenting is the best path forward. Nevertheless, knowing a little bit more on what is going on under the hood of your current database and what other options you have out there is always worth the research.</p>

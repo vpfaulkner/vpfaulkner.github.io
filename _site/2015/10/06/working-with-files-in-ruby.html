@@ -1,0 +1,48 @@
+<p>If you are mostly in the Rails world you probably are not dealing with files on a day to day basis. And if you do, most likely you would use a Gem such as Paperclip or Carrierwave. I recently had to build an endpoint for storing image files and was challenged to do so without an external gem. Moreover, part of the requirements was to whitelist the acceptable file formats by looking for a file signature in the first few bytes of the file (rather than just looking at the file extension which can be easily faked) and furthermore send the file data to an external object store.</p>
+
+<p>This endpoint required files to be uploaded via a multipart-form post which, in Rails, would result in a tempfile. Tempfiles in Ruby are very similar to files:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Create a tempfile</span>
+<span class="nb">require</span> <span class="s1">'tempfile'</span>
+
+<span class="n">file</span> <span class="o">=</span> <span class="no">Tempfile</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">)</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"Bar"</span><span class="p">)</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">rewind</span>    <span class="c1"># moves the cursor back to the beginning of the file</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">read</span>      <span class="c1"># =&gt; "hello world"</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">close</span>     <span class="c1"># files need to be manually closed</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">unlink</span>    <span class="c1"># deletes the temp file</span>
+
+<span class="c1"># Create a file</span>
+<span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"new_file"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="s2">"new content"</span><span class="p">)</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">read</span>      <span class="c1"># =&gt; "new content"</span>
+<span class="n">file</span><span class="p">.</span><span class="nf">close</span></code></pre></figure>
+
+<p>Since the API required a multipart-form post, users were asked to use “media” as the key attached to the file. In Rails you could access this like so:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">uploaded_file</span>
+  <span class="n">params</span><span class="p">[</span><span class="s2">"media"</span><span class="p">].</span><span class="nf">tempfile</span>
+<span class="k">rescue</span>
+  <span class="k">raise</span> <span class="no">MediaAttachmentError</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The tempfile will only leave during the life of the request. To do some validation, let’s say we want to verify the type. To verify the type, I opted to look inside the file at its file signature or “magic number” for which I kept a whitelist:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">WHITE_LISTED_FORMATS</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"89504e470d0a1a0a"</span> <span class="o">=&gt;</span> <span class="s2">"png"</span> <span class="p">}</span>
+
+<span class="k">def</span> <span class="nf">detect_type</span>
+  <span class="c1"># detect returns the key-value pair as an array</span>
+  <span class="no">WHITE_LISTED_FORMATS</span><span class="p">.</span><span class="nf">detect</span> <span class="k">do</span> <span class="o">|</span><span class="n">format_sig</span><span class="p">,</span> <span class="n">_format_name</span><span class="o">|</span>
+    <span class="n">format_match?</span><span class="p">(</span><span class="n">format_sig</span><span class="p">)</span>
+  <span class="k">end</span><span class="p">.</span><span class="nf">try</span><span class="p">(</span><span class="ss">:last</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">format_match?</span><span class="p">(</span><span class="n">format_sig</span><span class="p">)</span>
+  <span class="vi">@file</span><span class="p">.</span><span class="nf">rewind</span>
+  <span class="n">bytes_to_read</span> <span class="o">=</span> <span class="n">format_sig</span><span class="p">.</span><span class="nf">length</span> <span class="o">/</span> <span class="mi">2</span>
+  <span class="vi">@file</span><span class="p">.</span><span class="nf">readpartial</span><span class="p">(</span><span class="n">bytes_to_read</span><span class="p">).</span><span class="nf">unpack</span><span class="p">(</span><span class="s2">"H</span><span class="se">\*</span><span class="s2">"</span><span class="p">).</span><span class="nf">first</span><span class="p">.</span><span class="nf">downcase</span> <span class="o">==</span> <span class="n">format_sig</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Let’s walk through this step by step: The WHITE_LISTED_FORMATS is a constant where these acceptable signatures and their corresponding file extension are kept. Running detect against them will return the first format key and value that returns true from the block. I run try(:last) to get the file extension unless nil is returned, meaning the filetype is unacceptable. To actually verify the format, you need to read the first few bytes of the file as determined by the hex signature divided by 2. To actually to the comparison, you need to unpack the data you read as hex and compare it to the hex signature denoting the file type. Note: I do the rewind before actually reading the file; this is to be safe and ensure we are reading from the beginning of the file.</p>
+
+<p>Hopefully this example gives you a sense of both how to deal with a file and why you might need to actually do so. Just be careful: some files can be very large and actually reading them can introduce a lot of latency into your response time. Handle with care.</p>

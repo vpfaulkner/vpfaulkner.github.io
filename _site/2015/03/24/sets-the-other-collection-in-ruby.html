@@ -1,0 +1,40 @@
+<p>Even if you’ve been using Ruby for a decent amount of time there is a good chance that you haven’t really played with Sets. We have embraced Arrays and Hashes so much that, when a use-case for Sets comes up, we often forget they are even an option and go straight to one of those two.</p>
+
+<p>Sets in Ruby are based on the concept of a <a href="http://en.wikipedia.org/wiki/Set_(mathematics)">set in math</a> and are appropriate when you want to store a list of items, similar to that of an array, but only want to store unique items, similar to keys in a hash.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'set'</span>
+
+<span class="n">set1</span> <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">]</span>
+<span class="c1">#=&gt; #&lt;Set: {"a", "b", "c"}&gt;</span>
+<span class="n">set1</span> <span class="o">&lt;&lt;</span> <span class="s1">'d'</span>
+<span class="c1">#=&gt; #&lt;Set: {"a", "b", "c", "d"}&gt;</span>
+<span class="n">set1</span> <span class="o">&lt;&lt;</span> <span class="s1">'a'</span>
+<span class="c1">#=&gt; #&lt;Set: {"a", "b", "c", "d"}&gt;</span></code></pre></figure>
+
+<p>As you can see, adding an item feels just like an Array but a Set will not create duplicate items.</p>
+
+<p>Sets also work well together allowing you to find the union, intersection, and more–just like you would in math class.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">set2</span> <span class="o">=</span> <span class="no">Set</span><span class="p">[</span><span class="s1">'y'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">]</span>
+<span class="c1">#=&gt; #&lt;Set: {"y", "z", "a"}&gt;</span>
+<span class="n">set1</span> <span class="o">||</span> <span class="n">set2</span>
+<span class="c1">#=&gt; #&lt;Set: {"a", "b", "c", "d"}&gt;</span>
+<span class="n">set1</span> <span class="o">&amp;</span> <span class="n">set2</span>
+<span class="c1">#=&gt; #&lt;Set: {"a"}&gt;</span>
+<span class="n">set1</span> <span class="o">-</span> <span class="n">set2</span>
+<span class="c1">#=&gt; #&lt;Set: {"b", "c", "d"}&gt;</span></code></pre></figure>
+
+<p>So when would you use a set? I would recommend considering sets when 1) you don’t want duplicates, 2) order doesn’t matter, and 3) you might want to compare two lists for equality (of items included–not order of items), intersections, etc.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'set'</span>
+
+<span class="n">participating_organizations</span> <span class="o">=</span> <span class="no">Set</span><span class="p">.</span><span class="nf">new</span>
+<span class="n">employees</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">employee</span><span class="o">|</span>
+  <span class="k">if</span> <span class="n">employee</span><span class="p">.</span><span class="nf">participating</span>
+    <span class="n">participating_organizations</span> <span class="o">&lt;&lt;</span> <span class="n">employee</span><span class="p">.</span><span class="nf">organization</span><span class="p">.</span><span class="nf">id</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Here we consider an organization as participating if at least one employee is participating but don’t want to create duplicate organizations. Moreover, if we were to decide to have multiple events that an organization could participate in, we could do so easily with just another Set and compare the two easily.</p>
+
+<p>As you can see, Sets have several handy use-cases in Ruby but often get overlooked for an Array or Hash. Next time you find yourself in one of these use-cases, ask yourself if a Set would be a better fit.</p>
