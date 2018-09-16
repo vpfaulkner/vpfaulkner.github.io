@@ -8,6 +8,17 @@ body {
 i {
   color: black;
 }
+ul {
+  padding-left: 20px;
+}
+#hero {
+  margin-top: 20vh;
+}
+#hero h1 {
+  font-size: 4.0em;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 #sidebar {
   position: fixed;
   display: flex;
@@ -39,99 +50,7 @@ i {
   display: flex;
   flex-direction: column;
 }
-/* #home { */
-/*   font-weight: 900; */
-/*   letter-spacing: 3.0px; */
-/*   line-height: 50px; */
-/*   color: #2ca82e; */
-/* } */
-/*  */
-/* #laptop-image { */
-/*   width: 650px; */
-/* } */
-/*  */
-/* #hero-header { */
-/*   font-size: 3.0em; */
-/* } */
-/*  */
-/* #hero-text { */
-/*   font-size: 1.4em; */
-/* } */
-/*  */
-/* .home-panel { */
-/*   height: 410px; */
-/*   margin-bottom: 200px !important; */
-/*   margin-top: 50px !important; */
-/* } */
-/*  */
-/* .panel { */
-/*   padding-top: 115px !important; */
-/*   padding-bottom: 150px !important; */
-/* } */
-/*  */
-/* .panel > .row { */
-/*   margin-bottom: 30px; */
-/* } */
-/*  */
-/* .panel h1 { */
-/*   margin-bottom: 30px; */
-/* } */
-/*  */
-/* .expertise-panel { */
-/*   background-color: #FFD700; */
-/* } */
-/*  */
-/* .technologies-panel img { */
-/*   width: 25px !important; */
-/*   max-height: 30px; */
-/*   margin-right: 10px; */
-/* } */
-/*  */
-/* .technologies-panel i { */
-/*   width: 25px !important; */
-/*   max-height: 30px; */
-/*   margin-right: 10px; */
-/* } */
-/*  */
-/* .icon-holder { */
-/*   display: flex; */
-/*   align-items: center; */
-/*   margin-bottom: 15px; */
-/* } */
-/*  */
-/* .technologies-panel p { */
-/*   height: 30px !important; */
-/* } */
-/*  */
-/* #playbook-links a { */
-/*   display: flex; */
-/*   font-size: 1.5em; */
-/* } */
-/*  */
-/* #todo-img { */
-/*   width: 500px; */
-/* } */
-/*  */
-/* h1 { */
-/*   font-size: 3.0em; */
-/* } */
-/*  */
-/* h2 { */
-/*   font-size: 2.0em; */
-/* } */
-/*  */
-/* h3 { */
-/*   font-size: 1.8em; */
-/* } */
-/*  */
-/* h3 { */
-/*   font-size: 1.5em; */
-/* } */
-/*  */
-/* li { */
-/*   font-size: 1.2em; */
-/* } */
-/*  */
-/* p { */
-/*   font-size: 1.2em; */
-/* } */
+#headshot {
+  width: 25vw;
+  margin-bottom: 10vh;
+}
