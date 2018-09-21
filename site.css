@@ -11,6 +11,8 @@ i {
 ul {
   padding-left: 20px;
 }
+a { color:black }
+
 #sidebar {
   position: fixed;
   display: flex;
@@ -36,6 +38,7 @@ ul {
 }
 #main {
   margin-left: 27vw;
+  margin-right: 2vw;
   display: flex;
   flex-direction: column;
 }
