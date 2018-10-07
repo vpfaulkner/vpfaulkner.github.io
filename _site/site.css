@@ -51,13 +51,20 @@ a { color:black }
 .no-dec {
   text-decoration: none;
 }
-#work div {
-  margin-bottom: 90px;
+#work > div {
+  margin-bottom: 60px;
 }
-#icon-container {
+.icon-container {
+  display: flex;
+  align-items: flex-end;
+}
+.icon-container a {
+  display: flex;
+  margin-right: 10px;
 }
 #work img {
-  height: 2em;
+  height: 48px;
+  bottom: 0;
 }
 #playbook-links {
   display: flex;
