@@ -2,313 +2,479 @@
 <html lang="en">
   {% include head.html %}
   <body>
-    <div id="sidebar">
-      <a href="#top">Top</a>
-      <a href="#work" >Work</a>
-      <a href="#technologies">Technologies</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+    <div id="above-fold">
+      <div id="hero">
+        <h1>Simple Objects</h1>
+      </div>
+      <div>
+        <div id="services">
+          <h3>Web Apps ∙ Mobile Apps ∙ CTO Consulting ∙
+            Project Management ∙ Technical Leadership ∙ API Design ∙ Analytics ∙
+            DevOps ∙ Accessibility ∙ Design ∙ Testing ∙ QA ∙ Lean Startup
+          ∙ Product Strategy ∙ Agile Marketing ∙ Backend ∙ Load Testing ∙ Security ∙
+          Roadmap Strategy</h3>
+        </div>
+        <div id="intro">
+          <p>Web and Mobile App Development + CTO Consulting</p>
+        </div>
+      </div>
     </div>
-    <div id="main">
-      <div id="top">
-       <div id="hero">
-        <h1>Web & Mobile Apps</h1>
-        <p>Hello! My name is Vance, and I build world-class <strong>web and mobile</strong> apps.</p>
-        <img src="/command.svg">
-       </div>
+    <div id="description">
+      <p><strong>Want to build an app?</strong><br>Leverage our deep technical expertise.</p>
+      <p><strong>Looking for technical guidance?</strong><br>We can help get a project off the
+      ground or back onto dry land.</p>
+      <p><strong>Need help growing your product?</strong><br>We can help get a project off the
+      ground or back onto dry land.</p>
+    </div>
+    <div>
+      <h2>Reach Out</h2>
+      <p><a href="mailto:hello@simpleobjects.io">hello@simpleobjects.io</a> or 423.645.2488</p>
+    </div>
+    <div id="work">
+      <h3>Work</h3>
+      <a href="https://blackbird.us">
+        <h4>Blackbird Studios</h4>
+      </a>
+      <div>
+        <h4>Web App for Restaurant Prediction</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://facebook.github.io/react/">
+            <i class="tech-icon fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://aws.amazon.com/">
+            <img class="tech-icon" src="/icons/aws.svg" />
+          </a>
+          <a class="no-dec" href="https://redis.io/">
+            <img class="tech-icon" src="/icons/redis.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Currently leading a team of 4 to build a web app to help
+            restaurant managers predict future sales.</li>
+          <li>Working with multiple data scientists to architect and implement
+            a machine learning pipeline in AWS.</li>
+          <li>Built and launched an Elastic Beanstalk web app using a Ruby on
+            Rails backend, a GraphQL API, and a TypeScript React app
+            frontend.</li>
+          <li>Built a data pipeline to injest data from external services
+            including Point of Sales data, weather data, event data, and
+            employee scheduling data</li>
+          <li>Used multiple AWS products to stand up the web
+            infrastructure including: ElasticBeanstalk, RDS, Lambda,
+            ElastiCache, Route 53, S3, CloudFront, VPC, etc.</li>
+        </ul>
       </div>
-      <div id="work">
-        <h2>Work</h2>
-        <a href="https://blackbird.us">
-          <h3>Blackbird Studios</h3>
-        </a>
-        <div>
-          <h4>Mobile App for Interacting with a Camping Lamp</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://developer.apple.com/ios/">
-              <i title="ios" class="fab fa-3x fa-apple"></i>
-            </a>
-            <a class="no-dec" href="https://www.android.com/">
-              <i class="fab fa-3x fa-android"></i>
-            </a>
-            <a class="no-dec" href="https://facebook.github.io/react-native/">
-              <i class="fab fa-3x fa-react"></i>
-            </a>
-            <a class="no-dec" href="https://www.bluetooth.com/">
-              <i class="fab fa-3x fa-bluetooth-b"></i>
-            </a>
-            <a class="no-dec" href="https://graphql.org">
-              <img class="tech-icon" src="/icons/graphql.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Led a team of 2 to build an iOS and Android app</li>
-            <li>Collaborated heavily with a world-class design firm to take
-              product requirements and design, refine, and implement the UI and UX</li>
-            <li>Using the product requirements, designed and implemented the Bluetooth Low Energy (BLE) interface</li>
-            <li>Collaborated with China-based manufacturer to ensure the hardware
-              adhered to Bluetooth interface</li>
-            <li>Due to limited hardware availability, wrote a separate software
-              "stand-in" to build against while developing the app. This worked
-              by using a computer's Bluetooth capabilities to advertise the
-              expected Bluetooth capabilities to the app</li>
-            <li>Managed firmware updates by building an over-the-air firmware
-              update feature into the app and designing a firmware
-              versioning strategy for the hardware team</li>
-            <li>QA'd the product against multiple iOS and Android targets</li>
-            <li>Played Project Lead role responsible for managing the project
-              budget, dictating what features get built when, leading
-              communications with the client, and managing fellow
-              developers.</li>
-            <li>Delivered the final product under a tight deadline and project budget</li>
-            <li>Released on iOS App Store and Google Play store in time for
-              Christmas retail launch</li>
-          </ul>
+      <div>
+        <h4>Web App for Municipal Housing Authority</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://facebook.github.io/react/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://heroku.com/">
+            <img class="tech-icon" src="/icons/heroku.svg" />
+          </a>
         </div>
-        <div>
-          <h4>Mobile App for Volleyball Event Series</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://developer.apple.com/ios/">
-              <i title="ios" class="fab fa-3x fa-apple"></i>
-            </a>
-            <a class="no-dec" href="https://www.android.com/">
-              <i class="fab fa-3x fa-android"></i>
-            </a>
-            <a class="no-dec" href="https://facebook.github.io/react-native/">
-              <i class="fab fa-3x fa-react"></i>
-            </a>
-            <a class="no-dec" href="https://graphql.org">
-              <img class="tech-icon" src="/icons/graphql.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Led a team of 3 to build an iOS and Android app</li>
-            <li>Collaborated with a backend developer to define necessary
-              schema</li>
-            <li>Integrated with backend via GraphQL</li>
-            <li>Integrated with Livestream video service</li>
-            <li>Played Project Lead role responsible for managing the project
-              budget, dictating what features get built when, leading
-              communications with the client, and managing fellow
-              developers.</li>
-            <li>Released on iOS App Store and Google Play store in time for
-              first major sporting event</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Mobile App to Improve your Work Commute</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://developer.apple.com/ios/">
-              <i title="ios" class="fab fa-3x fa-apple"></i>
-            </a>
-            <a class="no-dec" href="https://facebook.github.io/react-native/">
-              <i class="fab fa-3x fa-react"></i>
-            </a>
-            <a class="no-dec" href="https://graphql.org">
-              <img class="tech-icon" src="/icons/graphql.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Worked in a team of 5 to build a consumer facing mobile app for major Auto company</li>
-            <li>Integrated with backend via GraphQL</li>
-            <li>Played auxiliary role supporting project lead and collaborating
-              with backend engineers from client organization.</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Web App to Manage Meal Kit Menus</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://elixir-lang.org/">
-              <img class="tech-icon" src="/icons/elixir.svg" />
-            </a>
-            <a class="no-dec" href="https://facebook.github.io/react/">
-              <i class="fab fa-3x fa-react"></i>
-            </a>
-            <a class="no-dec" href="https://www.postgresql.org/">
-              <img class="tech-icon" src="/icons/postgres.svg" />
-            </a>
-            <a class="no-dec" href="https://heroku.com/">
-              <img class="tech-icon" src="/icons/heroku.svg" />
-            </a>
-            <a class="no-dec" href="https://en.wikipedia.org/wiki/SQL">
-              <img class="tech-icon" src="/icons/sql.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Acted as sole developer to build a new version of a web app for managing meal kit
-              menus</li>
-            <li>The app was designed for internal chefs of a popular meal kit
-              delivery service and integrated tool with other internal tools and spreadsheets</li>
-            <li>Collaborated with client to improve major features and add
-              additional workflows</li>
-            <li>Succesfully migrated to version 2 of the app including coordinating
-              the transition of workflows to coincide with the migration of
-              existing data schema</li>
-            <li>Played Project Lead role responsible for managing the project
-              budget, dictating what features get built when, leading
-              communications with the client, and managing fellow
-              developers.</li>
-            <li>Sole developer responsible for app maintenance for more than a
-              year and counting</li>
-          </ul>
-        </div>
-        <div>
-          <h4 href=>Web App for Internal Supply Chain Management</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://www.ruby-lang.org">
-              <img class="tech-icon" src="/icons/ruby.svg" />
-            </a>
-            <a class="no-dec" href="https://rubyonrails.org/">
-              <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
-            </a>
-            <a class="no-dec" href="https://facebook.github.io/react-native/">
-              <i class="fab fa-3x fa-react"></i>
-            </a>
-            <a class="no-dec" href="https://www.postgresql.org/">
-              <img class="tech-icon" src="/icons/postgres.svg" />
-            </a>
-            <a class="no-dec" href="https://docker.com/">
-              <img class="tech-icon" src="/icons/docker.svg" />
-            </a>
-            <a class="no-dec" href="https://redux.js.org/">
-              <img class="tech-icon" src="/icons/redux.svg" />
-            </a>
-            <a class="no-dec" href="https://redis.io/">
-              <img class="tech-icon" src="/icons/redis.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Worked in team of 2 to build an ingredient sourcing tool for major
-            meal kit supplier.</li>
-            <li>Helped turn product requirements into wireframes and ultimately
-              a finished app in time for a major internal deadline</li>
-            <li>Worked alongside client backend developers to integrate the app
-              with other backend services via JSON API</li>
-            <li>Helped deploy the app to the client's web infrastructure
-              including Dockerizing the app</li>
-            <li>Sole developer responsible for app maintenance for more than 18
-              months and counting</li>
-          </ul>
-        </div>
-        <a href="https://validic.com">
-          <h3>Validic</h3>
-        </a>
-        <div>
-          <h4>Validic Connect Partner API</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://www.ruby-lang.org">
-              <img class="tech-icon" src="/icons/ruby.svg" />
-            </a>
-            <a class="no-dec" href="https://rubyonrails.org/">
-              <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
-            </a>
-            <a class="no-dec" href="https://www.postgresql.org/">
-              <img class="tech-icon" src="/icons/postgres.svg" />
-            </a>
-            <a class="no-dec" href="https://docker.com/">
-              <img class="tech-icon" src="/icons/docker.svg" />
-            </a>
-            <a class="no-dec" href="https://redis.io/">
-              <img class="tech-icon" src="/icons/redis.svg" />
-            </a>
-            <a class="no-dec" href="https://aws.amazon.com/">
-              <img class="tech-icon" src="/icons/aws.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Spearheaded the development of the Validic Partner API to enable
-            dozens of healthcare partners to become part of the Validic healthcare
-            marketplace</li>
-            <li>Played lead developer for API support, documentation, maintenance,
-              and development including a migration to version 2 of the API</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Validic Mobile API</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://www.ruby-lang.org">
-              <img class="tech-icon" src="/icons/ruby.svg" />
-            </a>
-            <a class="no-dec" href="https://rubyonrails.org/">
-              <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
-            </a>
-            <a class="no-dec" href="https://www.postgresql.org/">
-              <img class="tech-icon" src="/icons/postgres.svg" />
-            </a>
-            <a class="no-dec" href="https://docker.com/">
-              <img class="tech-icon" src="/icons/docker.svg" />
-            </a>
-            <a class="no-dec" href="https://redis.io/">
-              <img class="tech-icon" src="/icons/redis.svg" />
-            </a>
-            <a class="no-dec" href="https://aws.amazon.com/">
-              <img class="tech-icon" src="/icons/aws.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Primary developer responsible for providing the private Mobile
-              API used by the Validic Mobile SDK and serving 6+ million
-              requests per day</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Validc Connect Developer Portal</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://www.ruby-lang.org">
-              <img class="tech-icon" src="/icons/ruby.svg" />
-            </a>
-            <a class="no-dec" href="https://rubyonrails.org/">
-              <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
-            </a>
-            <a class="no-dec" href="https://www.postgresql.org/">
-              <img class="tech-icon" src="/icons/postgres.svg" />
-            </a>
-            <a class="no-dec" href="https://docker.com/">
-              <img class="tech-icon" src="/icons/docker.svg" />
-            </a>
-            <a class="no-dec" href="https://aws.amazon.com/">
-              <img class="tech-icon" src="/icons/aws.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>Led development of an API developer portal that provided
-              centralized API keys, documentation, support, and playground
-              environment, and which decreased API implementation time by 70%</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Validc API</h4>
-          <div class="icon-container">
-            <a class="no-dec" href="https://www.ruby-lang.org">
-              <img class="tech-icon" src="/icons/ruby.svg" />
-            </a>
-            <a class="no-dec" href="https://rubyonrails.org/">
-              <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
-            </a>
-            <a class="no-dec" href="https://www.postgresql.org/">
-              <img class="tech-icon" src="/icons/postgres.svg" />
-            </a>
-            <a class="no-dec" href="https://docker.com/">
-              <img class="tech-icon" src="/icons/docker.svg" />
-            </a>
-            <a class="no-dec" href="https://redis.io/">
-              <img class="tech-icon" src="/icons/redis.svg" />
-            </a>
-            <a class="no-dec" href="https://aws.amazon.com/">
-              <img class="tech-icon" src="/icons/aws.svg" />
-            </a>
-          </div>
-          <ul>
-            <li>One of four engineers responsible for stabilizing core legacy
-              codebase</li>
-            <li>Doubled test-coverage and halved support tickets over an 8 month
-              period</li>
-          </ul>
-        </div>
+        <ul>
+          <li>Served as senior developer for a web app to help ready it for
+            launch</li>
+          <li>Used Flood.io for load testing and to assess current
+            scalability for various levels of traffic.</li>
+          <li>Created a series of scalability recommendations including the
+            recommended number of server instances, their specs, and their
+            concurrency via Puma workers for various traffic loads.</li>
+          <li>Performed an accessibily audit and made various accessibily
+            improvements before launch</li>
+        </ul>
       </div>
-      <div id="technologies">
-        <h2>Technologies</h2>
-        <h3>Front-End</h3>
+      <div>
+        <h4>Progressive Web App (PWA) for Healthcare Workers</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://facebook.github.io/react/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://developer.apple.com/ios/">
+            <i title="ios" class="fab fa-3x fa-apple"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+          <a class="no-dec" href="https://docs.microsoft.com/en-us/dotnet/csharp/">
+            <img class="tech-icon" src="/icons/c_sharp.svg" />
+          </a>
+          <a class="no-dec" href="https://dotnet.microsoft.com/">
+            <img class="tech-icon" src="/icons/dotnet.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Led a team of 4 building a Progressive Web App (PWA) providing
+            educational material to new mothers in a clinical setting</li>
+          <li>Helped guide the team through a highly challenging project, from
+            both a technical and non-technical perspective including: managing
+            feature expectations despite a limited budget; meeting a series of
+            non-negotiable deadlines; working
+            within non-negotiable technical constraints resulting from the
+            clinical nature of the app.</li>
+          <li>Pivoted the app to have a rhobust offline experience due to
+            inconsistant WiFi in hospital settings. This included caching
+            video files in Index DB, queuing server requests to be sent to the
+            backend, using the PWA Service Worker to manage updates to the
+            app, etc.</li>
+          <li>Enabled app-wide Text-To-Speech functionality using a touch-and-hold
+            gesture and native Web Speech APIs</li>
+          <li>Picked up C# and .NET during the project in order to build the
+            backend API</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Mobile App for Restaurant Managers</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://developer.apple.com/ios/">
+            <i title="ios" class="fab fa-3x fa-apple"></i>
+          </a>
+          <a class="no-dec" href="https://www.android.com/">
+            <i class="fab fa-3x fa-android"></i>
+          </a>
+          <a class="no-dec" href="https://facebook.github.io/react-native/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://heroku.com/">
+            <img class="tech-icon" src="/icons/heroku.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Led a team of 2 to build an iOS and Android app in React Native
+          to help restauranters manage employee shifts.</li>
+          <li>Enabled an agressive build-measure-learn process with
+            weekly releases of new features to a pilot customer, all requring
+            analytics-driven validation. The initial "Hello World" release went to
+            out via Test Flight and was on the phones of pilot users by the
+            end of the first week of development.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Mobile App for Interacting with a Camping Lamp</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://developer.apple.com/ios/">
+            <i title="ios" class="fab fa-3x fa-apple"></i>
+          </a>
+          <a class="no-dec" href="https://www.android.com/">
+            <i class="fab fa-3x fa-android"></i>
+          </a>
+          <a class="no-dec" href="https://facebook.github.io/react-native/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://www.bluetooth.com/">
+            <i class="fab fa-3x fa-bluetooth-b"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Led a team of 2 to build an iOS and Android app</li>
+          <li>Collaborated heavily with a world-class design firm to take
+            product requirements and design, refine, and implement the UI and UX</li>
+          <li>Using the product requirements, designed and implemented the Bluetooth Low Energy (BLE) interface</li>
+          <li>Collaborated with China-based manufacturer to ensure the hardware
+            adhered to Bluetooth interface</li>
+          <li>Due to limited hardware availability, wrote a separate software
+            "stand-in" to build against while developing the app. This worked
+            by using a computer's Bluetooth capabilities to advertise the
+            expected Bluetooth capabilities to the app</li>
+          <li>Managed firmware updates by building an over-the-air firmware
+            update feature into the app and designing a firmware
+            versioning strategy for the hardware team</li>
+          <li>QA'd the product against multiple iOS and Android targets</li>
+          <li>Played Project Lead role responsible for managing the project
+            budget, dictating what features get built when, leading
+            communications with the client, and managing fellow
+            developers.</li>
+          <li>Delivered the final product under a tight deadline and project budget</li>
+          <li>Released on iOS App Store and Google Play store in time for
+            Christmas retail launch</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Mobile App for Volleyball Event Series</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://developer.apple.com/ios/">
+            <i title="ios" class="fab fa-3x fa-apple"></i>
+          </a>
+          <a class="no-dec" href="https://www.android.com/">
+            <i class="fab fa-3x fa-android"></i>
+          </a>
+          <a class="no-dec" href="https://facebook.github.io/react-native/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Led a team of 3 to build an iOS and Android app</li>
+          <li>Collaborated with a backend developer to define necessary
+            schema</li>
+          <li>Integrated with backend via GraphQL</li>
+          <li>Integrated with Livestream video service</li>
+          <li>Played Project Lead role responsible for managing the project
+            budget, dictating what features get built when, leading
+            communications with the client, and managing fellow
+            developers.</li>
+          <li>Released on iOS App Store and Google Play store in time for
+            first major sporting event</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Mobile App to Improve your Work Commute</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://developer.apple.com/ios/">
+            <i title="ios" class="fab fa-3x fa-apple"></i>
+          </a>
+          <a class="no-dec" href="https://facebook.github.io/react-native/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://graphql.org">
+            <img class="tech-icon" src="/icons/graphql.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Worked in a team of 5 to build a consumer facing mobile app for major Auto company</li>
+          <li>Integrated with backend via GraphQL</li>
+          <li>Played auxiliary role supporting project lead and collaborating
+            with backend engineers from client organization.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Web App to Manage Meal Kit Menus</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://elixir-lang.org/">
+            <img class="tech-icon" src="/icons/elixir.svg" />
+          </a>
+          <a class="no-dec" href="https://facebook.github.io/react/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://heroku.com/">
+            <img class="tech-icon" src="/icons/heroku.svg" />
+          </a>
+          <a class="no-dec" href="https://en.wikipedia.org/wiki/SQL">
+            <img class="tech-icon" src="/icons/sql.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Acted as sole developer to build a new version of a web app for managing meal kit
+            menus</li>
+          <li>The app was designed for internal chefs of a popular meal kit
+            delivery service and integrated tool with other internal tools and spreadsheets</li>
+          <li>Collaborated with client to improve major features and add
+            additional workflows</li>
+          <li>Succesfully migrated to version 2 of the app including coordinating
+            the transition of workflows to coincide with the migration of
+            existing data schema</li>
+          <li>Played Project Lead role responsible for managing the project
+            budget, dictating what features get built when, leading
+            communications with the client, and managing fellow
+            developers.</li>
+          <li>Sole developer responsible for app maintenance for more than a
+            year and counting</li>
+        </ul>
+      </div>
+      <div>
+        <h4 href=>Web App for Internal Supply Chain Management</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://facebook.github.io/react-native/">
+            <i class="fab fa-3x fa-react"></i>
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://docker.com/">
+            <img class="tech-icon" src="/icons/docker.svg" />
+          </a>
+          <a class="no-dec" href="https://redux.js.org/">
+            <img class="tech-icon" src="/icons/redux.svg" />
+          </a>
+          <a class="no-dec" href="https://redis.io/">
+            <img class="tech-icon" src="/icons/redis.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Worked in team of 2 to build an ingredient sourcing tool for major
+          meal kit supplier.</li>
+          <li>Helped turn product requirements into wireframes and ultimately
+            a finished app in time for a major internal deadline</li>
+          <li>Worked alongside client backend developers to integrate the app
+            with other backend services via JSON API</li>
+          <li>Helped deploy the app to the client's web infrastructure
+            including Dockerizing the app</li>
+          <li>Sole developer responsible for app maintenance for more than 18
+            months and counting</li>
+        </ul>
+      </div>
+      <a href="https://validic.com">
+        <h3>Validic</h3>
+      </a>
+      <div>
+        <h4>Validic Connect Partner API</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://docker.com/">
+            <img class="tech-icon" src="/icons/docker.svg" />
+          </a>
+          <a class="no-dec" href="https://redis.io/">
+            <img class="tech-icon" src="/icons/redis.svg" />
+          </a>
+          <a class="no-dec" href="https://aws.amazon.com/">
+            <img class="tech-icon" src="/icons/aws.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Spearheaded the development of the Validic Partner API to enable
+          dozens of healthcare partners to become part of the Validic healthcare
+          marketplace</li>
+          <li>Played lead developer for API support, documentation, maintenance,
+            and development including a migration to version 2 of the API</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Validic Mobile API</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://docker.com/">
+            <img class="tech-icon" src="/icons/docker.svg" />
+          </a>
+          <a class="no-dec" href="https://redis.io/">
+            <img class="tech-icon" src="/icons/redis.svg" />
+          </a>
+          <a class="no-dec" href="https://aws.amazon.com/">
+            <img class="tech-icon" src="/icons/aws.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Primary developer responsible for providing the private Mobile
+            API used by the Validic Mobile SDK and serving 6+ million
+            requests per day</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Validc Connect Developer Portal</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://docker.com/">
+            <img class="tech-icon" src="/icons/docker.svg" />
+          </a>
+          <a class="no-dec" href="https://aws.amazon.com/">
+            <img class="tech-icon" src="/icons/aws.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>Led development of an API developer portal that provided
+            centralized API keys, documentation, support, and playground
+            environment, and which decreased API implementation time by 70%</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Validc API</h4>
+        <div class="icon-container">
+          <a class="no-dec" href="https://www.ruby-lang.org">
+            <img class="tech-icon" src="/icons/ruby.svg" />
+          </a>
+          <a class="no-dec" href="https://rubyonrails.org/">
+            <img class="tech-icon" src="/icons/ruby_on_rails.svg" />
+          </a>
+          <a class="no-dec" href="https://www.postgresql.org/">
+            <img class="tech-icon" src="/icons/postgres.svg" />
+          </a>
+          <a class="no-dec" href="https://docker.com/">
+            <img class="tech-icon" src="/icons/docker.svg" />
+          </a>
+          <a class="no-dec" href="https://redis.io/">
+            <img class="tech-icon" src="/icons/redis.svg" />
+          </a>
+          <a class="no-dec" href="https://aws.amazon.com/">
+            <img class="tech-icon" src="/icons/aws.svg" />
+          </a>
+        </div>
+        <ul>
+          <li>One of four engineers responsible for stabilizing core legacy
+            codebase</li>
+          <li>Doubled test-coverage and halved support tickets over an 8 month
+            period</li>
+        </ul>
+      </div>
+    </div>
+    <div id="technologies">
+      <h2>Technologies</h2>
+      <h3>Front-End</h3>
+      <div>
         <p>React</p>
         <p>HTML</p>
         <p>CSS</p>
@@ -323,82 +489,82 @@
         <p>NPM</p>
         <p>Prettier</p>
         <p>ESLint</p>
-        <h3>Back-End</h3>
-        <p>Ruby</p>
-        <p>Ruby on Rails</p>
-        <p>Elixir</p>
-        <p>Phoenix</p>
-        <p>Redis</p>
-        <p>PostgreSQL</p>
-        <p>MySQL</p>
-        <p>MongoDB</p>
-        <p>SQL</p>
-        <p>Sidekiq</p>
-        <h3>Mobile</h3>
-        <p>React Native</p>
-        <p>iOS App Store</p>
-        <p>iOS Test Flight</p>
-        <p>Android Play Store</p>
-        <p>XCode</p>
-        <p>Android Studio</p>
-        <p>Bluetooth Low Energy</p>
-        <p>App Center</p>
-        <p>Hockey App</p>
-        <p>Bugsnag</p>
-        <p>Instabug</p>
-        <p>AppSee</p>
-        <h3>DevOps</h3>
-        <p>Git</p>
-        <p>GitHub</p>
-        <p>Docker</p>
-        <p>Docker Machine</p>
-        <p>NGINX</p>
-        <p>AWS</p>
-        <p>Heroku</p>
-        <p>Digital Ocean</p>
-        <p>Nanobox</p>
-        <p>Linux</p>
-        <p>TravisCI</p>
-        <p>Jenkins</p>
-        <p>Codeship</p>
-        <p>CircleCI</p>
-        <p>Papertrail</p>
-        <p>Rollbar</p>
-        <p>Honeybadger</p>
-        <h3>Development</h3>
-        <p>Vim</p>
-        <p>TMUX</p>
-        <p>Zsh</p>
-        <p>asdf</p>
-        <h3>UI and UX</h3>
-        <p>Sketch</p>
-        <p>InVision</p>
-        <p>Zepplin</p>
-        <h3>Project Management</h3>
-        <p>Slack</p>
-        <p>Trello</p>
-        <p>Asana</p>
-        <p>JIRA</p>
-        <p>Google Docs</p>
-        <p>Zoom</p>
       </div>
-      <div id="about">
-        <h2>About</h2>
-        <p>I’m Vance, and I love to solve problems. I crave new challenges, new ideas, and obstacles that require me to grow as an engineer.</p>
-        <p>When not writing software, I am probably reading, with friends, or
-        out running. My lovely wife, my 1-year old son, and I reside in Winston-Salem, North Carolina.</p>
-        <img id="headshot" src="/headshot.jpg" />
-      </div>
-      <div id="contact">
-        <h2>Contact</h2>
-        <p>Interested in working with me? You can find me at <span id="c"></span> or on social media.</p>
-        <a class="no-dec" href="https://github.com/vpfaulkner">
-          <i class="fab fa-2x fa-github"></i>
-        </a>
-        <a class="no-dec" href="https://www.linkedin.com/in/vancefaulkner/">
-          <i class="fab fa-2x fa-linkedin"></i>
-        </a>
-      </div>
+      <h3>Back-End</h3>
+      <p>Ruby</p>
+      <p>Ruby on Rails</p>
+      <p>Elixir</p>
+      <p>Phoenix</p>
+      <p>Redis</p>
+      <p>PostgreSQL</p>
+      <p>MySQL</p>
+      <p>MongoDB</p>
+      <p>SQL</p>
+      <p>Sidekiq</p>
+      <h3>Mobile</h3>
+      <p>React Native</p>
+      <p>iOS App Store</p>
+      <p>iOS Test Flight</p>
+      <p>Android Play Store</p>
+      <p>XCode</p>
+      <p>Android Studio</p>
+      <p>Bluetooth Low Energy</p>
+      <p>App Center</p>
+      <p>Hockey App</p>
+      <p>Bugsnag</p>
+      <p>Instabug</p>
+      <p>AppSee</p>
+      <h3>DevOps</h3>
+      <p>Git</p>
+      <p>GitHub</p>
+      <p>Docker</p>
+      <p>Docker Machine</p>
+      <p>NGINX</p>
+      <p>AWS</p>
+      <p>Heroku</p>
+      <p>Digital Ocean</p>
+      <p>Nanobox</p>
+      <p>Linux</p>
+      <p>TravisCI</p>
+      <p>Jenkins</p>
+      <p>Codeship</p>
+      <p>CircleCI</p>
+      <p>Papertrail</p>
+      <p>Rollbar</p>
+      <p>Honeybadger</p>
+      <h3>Development</h3>
+      <p>Vim</p>
+      <p>TMUX</p>
+      <p>Zsh</p>
+      <p>asdf</p>
+      <h3>UI and UX</h3>
+      <p>Sketch</p>
+      <p>InVision</p>
+      <p>Zepplin</p>
+      <h3>Project Management</h3>
+      <p>Slack</p>
+      <p>Trello</p>
+      <p>Asana</p>
+      <p>JIRA</p>
+      <p>Google Docs</p>
+      <p>Zoom</p>
+    </div>
+    <div id="about">
+      <h2>About</h2>
+      <p>I’m Vance, and I love to solve problems. I crave new challenges, new ideas, and obstacles that require me to grow as an engineer.</p>
+      <p>When not writing software, I am probably reading, with friends, or
+      out running. My lovely wife, my 1-year old son, and I reside in Winston-Salem, North Carolina.</p>
+      <img id="headshot" src="/headshot.jpg" />
+    </div>
+    <div id="contact">
+      <h2>Contact</h2>
+      <p>Interested in working with me? You can find me at <span id="c"></span> or on social media.</p>
+      <a class="no-dec" href="https://github.com/vpfaulkner">
+        <i class="fab fa-2x fa-github"></i>
+      </a>
+      <a class="no-dec" href="https://www.linkedin.com/in/vancefaulkner/">
+        <i class="fab fa-2x fa-linkedin"></i>
+      </a>
     </div>
   </body>
 </html>

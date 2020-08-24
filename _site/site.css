@@ -1,40 +1,56 @@
 body {
-  font-family: 'IBM Plex Mono', monospace;
+  margin: 100px;
+  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 2vw;
 }
-i {
-  color: black;
+#above-fold {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
 }
+#hero {
+  color: #262b2d;
+  margin-bottom: 14vh;
+}
+#hero h1 {
+  margin: 0;
+  font-size: calc(5vh + 80px);
+}
+#services {
+  margin-bottom: 3vh;
+}
+#services h3 {
+  color: #6c757d;
+  text-align: justify;
+}
+#intro {
+}
+#intro p {
+  color: #343a40;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+#description {
+  background-color: #262b2d;
+  color: white;
+  margin-left: -100px;
+  margin-right: -100px;
+  padding: 100px;
+}
+#work h3 {
+  color: #262b2d;
+}
+#work h4 {
+  color: #262b2d;
+}
+
 ul {
   padding-left: 20px;
 }
 a { color:black }
 
-#sidebar {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 24vw;
-}
-#sidebar a {
-  color: black;
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-#hero {
-  margin-top: -10px !important;
-}
-#hero h1 {
-  font-size: 4.2em;
-  margin-top: 0px;
-  margin-bottom: -10px;
-}
-#hero p {
-  margin-bottom: 30px;
-}
 #main {
-  margin-left: 27vw;
-  margin-right: 2vw;
   display: flex;
   flex-direction: column;
 }
@@ -73,4 +89,13 @@ a { color:black }
 #headshot {
   width: 25vw;
   margin-bottom: 10vh;
+}
+#technologies div {
+  display: flex;
+  flex-wrap: wrap;
+}
+#technologies p {
+  font-size: 3rem;
+  margin-right: 1rem;
+  margin-top: 0;
 }
