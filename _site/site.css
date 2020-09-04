@@ -32,6 +32,7 @@ body {
   letter-spacing: 2px;
 }
 #description {
+  font-size: 2rem;
   background-color: #262b2d;
   color: white;
   margin-left: -100px;
