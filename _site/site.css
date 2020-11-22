@@ -1,102 +1,107 @@
-body {
-  margin: 100px;
-  font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  font-size: 2vw;
+body p {
+  font-size: 20px;
+  line-height: 1.5;
 }
-#above-fold {
-  min-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-#hero {
-  color: #262b2d;
-  margin-bottom: 14vh;
-}
-#hero h1 {
-  margin: 0;
-  font-size: calc(5vh + 80px);
-}
-#services {
-  margin-bottom: 3vh;
-}
-#services h3 {
-  color: #6c757d;
-  text-align: justify;
-}
-#intro {
-}
-#intro p {
-  color: #343a40;
-  font-size: 2rem;
-  font-weight: 400;
-  letter-spacing: 2px;
-}
-#description {
-  font-size: 2rem;
-  background-color: #262b2d;
-  color: white;
-  margin-left: -100px;
-  margin-right: -100px;
-  padding: 100px;
-}
-#work h3 {
-  color: #262b2d;
-}
-#work h4 {
-  color: #262b2d;
-}
-
-ul {
-  padding-left: 20px;
-}
-a { color:black }
-
-#main {
-  display: flex;
-  flex-direction: column;
-}
-#main > div {
-  margin-bottom: 8em;
-}
-#main h2 {
-  margin-top: 0px;
-  font-size: 4.0em;
-}
-#main h3 {
-  font-size: 2.0em;
-}
-.no-dec {
-  text-decoration: none;
-}
-#work > div {
-  margin-bottom: 60px;
+nav {
+  padding-left: 50px !important;
+  padding-right: 50px !important;
 }
 .icon-container {
-  display: flex;
-  align-items: flex-end;
+  margin-top: 15px;
+}
+.icon-container img {
+  height: 40px;
+  bottom: 0;
+  margin-right: 5px;
+  margin-bottom: 0px;
 }
 .icon-container a {
-  display: flex;
-  margin-right: 10px;
+  text-decoration: none !important;
 }
-#work img {
-  height: 48px;
-  bottom: 0;
-}
-#playbook-links {
-  display: flex;
-  flex-direction: column;
-}
-#headshot {
-  width: 25vw;
-  margin-bottom: 10vh;
-}
-#technologies div {
-  display: flex;
-  flex-wrap: wrap;
-}
-#technologies p {
-  font-size: 3rem;
-  margin-right: 1rem;
-  margin-top: 0;
-}
+/* .icon-container { */
+/*   display: flex; */
+/*   align-items: flex-end; */
+/* } */
+/* .icon-container a { */
+/*   display: flex; */
+/* } */
+/* #technologies div { */
+/*   display: flex; */
+/*   flex-wrap: wrap; */
+/* } */
+/* #technologies p { */
+/*   font-size: 1.5rem; */
+/*   margin-right: 1rem; */
+/*   margin-top: 0; */
+/* } */
+/* .technlogies-list { */
+/*   display: flex; */
+/* } */
+/* .technlogies-list div { */
+/*   margin-right: 1rem; */
+/*   margin-bottom: 1rem; */
+/*   align-items: center; */
+/* } */
+/* .technlogies-list a { */
+/*   margin-right: 0.75rem; */
+/* } */
+/* .technlogies-list p { */
+/*   margin: 0; */
+/* } */
+
+/* .content { */
+/*   margin: 50px; */
+/* } */
+/* .above-the-fold { */
+/*   min-height: 90vh; */
+/*   display: flex; */
+/*   flex-direction: column; */
+/* } */
+/* #description { */
+/*   font-size: 2rem; */
+/*   background-color: #262b2d; */
+/*   color: white; */
+/*   margin-left: -100px; */
+/*   margin-right: -100px; */
+/*   padding: 100px; */
+/* } */
+/* #work h3 { */
+/*   color: #262b2d; */
+/* } */
+/* #work h4 { */
+/*   color: #262b2d; */
+/* } */
+/*  */
+/* ul { */
+/*   padding-left: 20px; */
+/* } */
+/* a { color:black } */
+/*  */
+/* #main { */
+/*   display: flex; */
+/*   flex-direction: column; */
+/* } */
+/* #main > div { */
+/*   margin-bottom: 8em; */
+/* } */
+/* #main h2 { */
+/*   margin-top: 0px; */
+/*   font-size: 4.0em; */
+/* } */
+/* #main h3 { */
+/*   font-size: 2.0em; */
+/* } */
+/* .no-dec { */
+/*   text-decoration: none; */
+/* } */
+/* #work > div { */
+/*   margin-bottom: 60px; */
+/* } */
+/* #playbook-links { */
+/*   display: flex; */
+/*   flex-direction: column; */
+/* } */
+/* #headshot { */
+/*   width: 25vw; */
+/*   margin-bottom: 10vh; */
+/* } */
