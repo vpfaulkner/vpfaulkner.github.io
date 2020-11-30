@@ -1,22 +1,11 @@
 ---
 layout: default
+title: Simple Objects
 ---
-<title>Simple Objects | Blog</title>
-<h3>Software is Science + Art + Economics</h3>
-<br>
-<p>Science can be measured</p>
-<p>Art is human</p>
-<p>Software is both</p>
-<p>But it doesn't live in a vacuum</p>
-<p>Economics is the management of limited resources</p>
-<p>Most of us live in that world</p>
-<p>The definining battle is between an ideal and a pragmatic</p>
-<br>
-<h3>The Economics of Software Vary (Greatly)</h3>
-<br>
-<p>Recap</p>
-<p>The economics matter</p>
-<p>The economics vary</p>
-<p>That renders blanket solutions unrealistic</p>
-<p>The bigggest art is in knowing your economics</p>
-<br>
+<div class="blog">
+  {% for post in site.posts %}
+    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+    <br>
+    {{ post.content }}
+  {% endfor %}
+</div>
